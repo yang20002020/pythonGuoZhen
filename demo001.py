@@ -1,0 +1,5 @@
+print("hello  world!")
+s=input("请输入商品的价格")
+print(s)
+float(s)
+print(s)
