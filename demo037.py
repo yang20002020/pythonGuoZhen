@@ -1,6 +1,5 @@
 import time
 
-
 class DigitClock:
     """
     数字时钟  定义类
