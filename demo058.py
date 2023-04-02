@@ -31,8 +31,28 @@ my_page = '''<html>
 soup = BeautifulSoup(my_page, 'lxml')
 
 # 定位所有a标签
+# 方法一
 a_results = soup.find_all('a')
 print(a_results)
 print("-----------------------------------")
+# 方法二
 a_results2 = soup.select('a')
 print(a_results2)
+print("-----------------------------------")
+# 定位 所有带id的div标签
+id_divs = soup.select('div[id]')
+print(id_divs)
+print("-----------------------------------")
+# 定位id等于photos的div标签
+# 方法一
+photos_div = soup.find_all('div', attrs={'id': 'photos'})
+print(photos_div)
+print("-----------------------------------")
+# 方法二
+photos_div2 = soup.select("div[id='photos']")
+print(photos_div2)
+print("-----------------------------------")
+
+# 查找 所有 href 属性取值
+for item in soup.select('[href]'):
+    print(item['href'])
