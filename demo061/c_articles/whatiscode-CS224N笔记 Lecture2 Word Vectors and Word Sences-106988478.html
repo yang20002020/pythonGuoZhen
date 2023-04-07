@@ -1,0 +1,518 @@
+<head> <meta charset="utf-8" </head>
+                      <div id="content_views" class="markdown_views prism-atom-one-dark">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                        <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                    </svg>
+                    <h2><a id="0__0"></a>0 大纲</h2> 
+<ol><li>回顾词向量和word2vec</li><li>优化基础</li><li>基于统计的词向量</li><li>Glove模型和词向量</li></ol> 
+<h2><a id="1_word2vec_9"></a>1 回顾词向量和word2vec</h2> 
+<p>关于word2vec的更多细节</p> 
+<h4><a id="1__13"></a>1 为什么每个词要对应两个词向量？</h4> 
+<p>虽然一个词对应一个词向量也能够实现，但每个词对应两个词向量的平均优化时间更短。</p> 
+<h4><a id="2__17"></a>2 两个模型</h4> 
+<ol><li> <p>Skip-grams（SG）</p> <p>给出中心词（center word）预测上下文的词（outside）</p> </li><li> <p>Continuous Bag of Words（CBOW）</p> <p>从大量的上下文词汇中预测中心词。（朴素贝叶斯）</p> </li></ol> 
+<h4><a id="3__27"></a>3 训练技巧</h4> 
+<ol><li>Negative sampling（负采样）</li><li>Naive softmax（simple, but expensive, training method）</li></ol> 
+<h2><a id="2__34"></a>2 优化基础</h2> 
+<p>部分优化方法可以查看上节课笔记的第5部分：</p> 
+<p><a href="https://blog.csdn.net/whatiscode/article/details/106944218">https://blog.csdn.net/whatiscode/article/details/106944218</a></p> 
+<p>梯度下降（GD）、随机梯度下降（SGD）、小批量随机梯度下降法(Mini_Batch Gradient Densent)的区别可以查看这篇文章：</p> 
+<p><a href="https://blog.csdn.net/weixin_40769885/article/details/85776177">https://blog.csdn.net/weixin_40769885/article/details/85776177</a></p> 
+<h2><a id="3__46"></a>3 基于统计的词向量</h2> 
+<p>词向量目的：希望通过低维稠密向量来表示词的含义</p> 
+<h3><a id="31_cooccurrence_50"></a>3.1 基于窗口的co-occurrence矩阵</h3> 
+<p><img src="https://img-blog.csdnimg.cn/20200627211815875.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doYXRpc2NvZGU=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p> 
+<h3><a id="32_cooccurrence_54"></a>3.2 简单co-occurrence向量存在的问题</h3> 
+<ul><li>当词的数目是在不断增长，则词向量的维度也在不断增长</li><li>词汇很多时，矩阵很大，需要的存储空间也很大</li><li>矩阵很稀疏，即词向量很稀疏，会遇到稀疏计算的问题，从而导致模型不够鲁棒</li></ul> 
+<p>解决办法：Low dimension vectors</p> 
+<h3><a id="33_Low_dimension_vectors_62"></a>3.3 Low dimension vectors</h3> 
+<h4><a id="_64"></a>主要思想</h4> 
+<p>将大部分重要信息用固定的、比较小的维度来存储：使用稠密向量。</p> 
+<p>向量的维度通常在25～1000之间，与word2vec类似。</p> 
+<p>那怎么样降低维度呢？</p> 
+<ul><li>Singular Value Decomposition（SVD，奇异值分解）</li></ul> 
+<p><img src="https://img-blog.csdnimg.cn/20200627211834286.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doYXRpc2NvZGU=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p> 
+<h3><a id="34_Hacks_to_X_76"></a>3.4 Hacks to X</h3> 
+<p><a href="https://pdfs.semanticscholar.org/73e6/351a8fb61afc810a8bb3feaa44c41e5c5d7b.pdf">https://pdfs.semanticscholar.org/73e6/351a8fb61afc810a8bb3feaa44c41e5c5d7b.pdf</a></p> 
+<p>上述链接中的文章对例子中简单的计数方法进行了改进，包括去掉停用词、使用倾斜窗口、使用皮尔逊相关系数等，提出了COALS模型，该模型得到的词向量效果也不错，具有句法特征和语义特征。</p> 
+<h3><a id="35_vs_82"></a>3.5 基于统计vs直接预测</h3> 
+<p><img src="https://img-blog.csdnimg.cn/20200627213302677.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doYXRpc2NvZGU=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p> 
+<h2><a id="4_Glove_87"></a>4 Glove模型和词向量</h2> 
+<p>模型目标：词进行向量化表示，使得向量之间尽可能多地蕴含语义和语法的信息。</p> 
+<p>流程：输入语料库–&gt; 统计共现矩阵–&gt; 训练词向量–&gt;输出词向量。</p> 
+<h3><a id="41_X_93"></a>4.1 构建统计共现矩阵X</h3> 
+<p><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        
+         X
+        
+        
+         
+          i
+         
+         
+          j
+         
+        
+       
+      
+      
+       X_{i j}
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.969438em; vertical-align: -0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.07847em;">X</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.311664em;"><span class="" style="top: -2.55em; margin-left: -0.07847em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight" style="margin-right: 0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.286108em;"><span class=""></span></span></span></span></span></span></span></span></span></span>代表单词</p> 
+<p>i表示上下文单词</p> 
+<p>j表示在特定大小的上下文窗口（context window）内共同出现的次数。这个次数的最小单位是1，但是GloVe不这么认为：它根据两个单词在上下文窗口的距离dd.</p> 
+<p>提出了一个衰减函数（decreasing weighting）：用于计算权重，也就是说距离越远的两个单词所占总计数（total count）的权重越小。</p> 
+<h3><a id="42__103"></a>4.2 构建词向量和共现矩阵之间的关系</h3> 
+<p><span class="katex--display"><span class="katex-display"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         
+          w
+         
+         
+          i
+         
+         
+          T
+         
+        
+        
+         
+          w
+         
+         
+          ~
+         
+        
+        
+         ∗
+        
+        
+         j
+        
+        
+         +
+        
+        
+         b
+        
+        
+         ∗
+        
+        
+         i
+        
+        
+         +
+        
+        
+         
+          b
+         
+         
+          ~
+         
+        
+        
+         ∗
+        
+        
+         j
+        
+        
+         =
+        
+        
+         log
+        
+        
+         ⁡
+        
+        
+         
+          (
+         
+         
+          X
+         
+         
+          ∗
+         
+         
+          
+           i
+          
+          
+           j
+          
+         
+         
+          )
+         
+        
+       
+       
+         w_{i}^{T} \tilde{w}*{j}+b*{i}+\tilde{b}*{j}=\log \left(X*{i j}\right) 
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1.13833em; vertical-align: -0.247em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.891331em;"><span class="" style="top: -2.453em; margin-left: -0.02691em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="" style="top: -3.113em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right: 0.13889em;">T</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.247em;"><span class=""></span></span></span></span></span></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.66786em;"><span class="" style="top: -3em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.02691em;">w</span></span></span><span class="" style="top: -3.35em;"><span class="pstrut" style="height: 3em;"></span><span class="accent-body" style="left: -0.16666em;">~</span></span></span></span></span></span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 0.85396em; vertical-align: -0.19444em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.05724em;">j</span></span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 0.69444em; vertical-align: 0em;"></span><span class="mord mathdefault">b</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 0.74285em; vertical-align: -0.08333em;"></span><span class="mord"><span class="mord mathdefault">i</span></span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 0.9313em; vertical-align: 0em;"></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.9313em;"><span class="" style="top: -3em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathdefault">b</span></span></span><span class="" style="top: -3.61344em;"><span class="pstrut" style="height: 3em;"></span><span class="accent-body" style="left: -0.25em;">~</span></span></span></span></span></span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 0.85396em; vertical-align: -0.19444em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.05724em;">j</span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mop">lo<span style="margin-right: 0.01389em;">g</span></span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="minner"><span class="mopen delimcenter" style="top: 0em;">(</span><span class="mord mathdefault" style="margin-right: 0.07847em;">X</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mord"><span class="mord mathdefault">i</span><span class="mord mathdefault" style="margin-right: 0.05724em;">j</span></span><span class="mclose delimcenter" style="top: 0em;">)</span></span></span></span></span></span></span></p> 
+<p>其中，<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        
+         w
+        
+        
+         i
+        
+        
+         T
+        
+       
+      
+      
+       w_{i}^{T}
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1.09999em; vertical-align: -0.258664em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.841331em;"><span class="" style="top: -2.44134em; margin-left: -0.02691em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right: 0.13889em;">T</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.258664em;"><span class=""></span></span></span></span></span></span></span></span></span></span> 和 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        
+         w
+        
+        
+         ~
+        
+       
+       
+        ∗
+       
+       
+        j
+       
+      
+      
+       \tilde{w}*{j}
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.66786em; vertical-align: 0em;"></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.66786em;"><span class="" style="top: -3em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.02691em;">w</span></span></span><span class="" style="top: -3.35em;"><span class="pstrut" style="height: 3em;"></span><span class="accent-body" style="left: -0.16666em;">~</span></span></span></span></span></span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 0.85396em; vertical-align: -0.19444em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.05724em;">j</span></span></span></span></span></span>是我们最终要求解的词向量；<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        b
+       
+       
+        ∗
+       
+       
+        i
+       
+      
+      
+       b*{i}
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.69444em; vertical-align: 0em;"></span><span class="mord mathdefault">b</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 0.65952em; vertical-align: 0em;"></span><span class="mord"><span class="mord mathdefault">i</span></span></span></span></span></span>和<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        
+         b
+        
+        
+         ~
+        
+       
+       
+        ∗
+       
+       
+        j
+       
+      
+      
+       \tilde{b}*{j}
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.9313em; vertical-align: 0em;"></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.9313em;"><span class="" style="top: -3em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathdefault">b</span></span></span><span class="" style="top: -3.61344em;"><span class="pstrut" style="height: 3em;"></span><span class="accent-body" style="left: -0.25em;">~</span></span></span></span></span></span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 0.85396em; vertical-align: -0.19444em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.05724em;">j</span></span></span></span></span></span>分别是两个词向量的bias term 那它到底是怎么来的，为什么要使用这个公式？为什么要构造两个词向量<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        w
+       
+       
+        ∗
+       
+       
+        
+         i
+        
+        
+         T
+        
+       
+      
+      
+       w*{i}^{T}
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.46528em; vertical-align: 0em;"></span><span class="mord mathdefault" style="margin-right: 0.02691em;">w</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 0.841331em; vertical-align: 0em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault">i</span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.841331em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right: 0.13889em;">T</span></span></span></span></span></span></span></span></span></span></span></span></span> 和 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        
+         
+          w
+         
+         
+          ~
+         
+        
+        
+         j
+        
+       
+      
+      
+       \tilde{w}_{j}
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.953968em; vertical-align: -0.286108em;"></span><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.66786em;"><span class="" style="top: -3em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.02691em;">w</span></span></span><span class="" style="top: -3.35em;"><span class="pstrut" style="height: 3em;"></span><span class="accent-body" style="left: -0.16666em;">~</span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.311664em;"><span class="" style="top: -2.55em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right: 0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.286108em;"><span class=""></span></span></span></span></span></span></span></span></span></span>？</p> 
+<p>有了上述公式之后，我们可以构建Loss function: <span class="katex--display"><span class="katex-display"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         J
+        
+        
+         =
+        
+        
+         
+          ∑
+         
+         
+          
+           i
+          
+          
+           ,
+          
+          
+           j
+          
+          
+           =
+          
+          
+           1
+          
+         
+         
+          V
+         
+        
+        
+         f
+        
+        
+         
+          (
+         
+         
+          
+           X
+          
+          
+           
+            i
+           
+           
+            j
+           
+          
+         
+         
+          )
+         
+        
+        
+         
+          
+           (
+          
+          
+           
+            w
+           
+           
+            i
+           
+           
+            T
+           
+          
+          
+           
+            w
+           
+           
+            ~
+           
+          
+          
+           ∗
+          
+          
+           j
+          
+          
+           +
+          
+          
+           b
+          
+          
+           ∗
+          
+          
+           i
+          
+          
+           +
+          
+          
+           
+            b
+           
+           
+            ~
+           
+          
+          
+           ∗
+          
+          
+           j
+          
+          
+           −
+          
+          
+           log
+          
+          
+           ⁡
+          
+          
+           
+            (
+           
+           
+            X
+           
+           
+            ∗
+           
+           
+            
+             i
+            
+            
+             j
+            
+           
+           
+            )
+           
+          
+          
+           )
+          
+         
+         
+          2
+         
+        
+       
+       
+         J=\sum_{i, j=1}^{V} f\left(X_{i j}\right)\left(w_{i}^{T} \tilde{w}*{j}+b*{i}+\tilde{b}*{j}-\log \left(X*{i j}\right)\right)^{2} 
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.68333em; vertical-align: 0em;"></span><span class="mord mathdefault" style="margin-right: 0.09618em;">J</span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 3.24211em; vertical-align: -1.41378em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.82834em;"><span class="" style="top: -1.87233em; margin-left: 0em;"><span class="pstrut" style="height: 3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight" style="margin-right: 0.05724em;">j</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span class="" style="top: -3.05001em;"><span class="pstrut" style="height: 3.05em;"></span><span class=""><span class="mop op-symbol large-op">∑</span></span></span><span class="" style="top: -4.30001em; margin-left: 0em;"><span class="pstrut" style="height: 3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right: 0.22222em;">V</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 1.41378em;"><span class=""></span></span></span></span></span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord mathdefault" style="margin-right: 0.10764em;">f</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="minner"><span class="mopen delimcenter" style="top: 0em;">(</span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.07847em;">X</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.311664em;"><span class="" style="top: -2.55em; margin-left: -0.07847em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight" style="margin-right: 0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.286108em;"><span class=""></span></span></span></span></span></span><span class="mclose delimcenter" style="top: 0em;">)</span></span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="minner"><span class="minner"><span class="mopen delimcenter" style="top: 0em;"><span class="delimsizing size2">(</span></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.891331em;"><span class="" style="top: -2.453em; margin-left: -0.02691em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="" style="top: -3.113em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right: 0.13889em;">T</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.247em;"><span class=""></span></span></span></span></span></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.66786em;"><span class="" style="top: -3em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.02691em;">w</span></span></span><span class="" style="top: -3.35em;"><span class="pstrut" style="height: 3em;"></span><span class="accent-body" style="left: -0.16666em;">~</span></span></span></span></span></span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.05724em;">j</span></span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mord mathdefault">b</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mord"><span class="mord mathdefault">i</span></span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.9313em;"><span class="" style="top: -3em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathdefault">b</span></span></span><span class="" style="top: -3.61344em;"><span class="pstrut" style="height: 3em;"></span><span class="accent-body" style="left: -0.25em;">~</span></span></span></span></span></span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.05724em;">j</span></span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mop">lo<span style="margin-right: 0.01389em;">g</span></span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="minner"><span class="mopen delimcenter" style="top: 0em;">(</span><span class="mord mathdefault" style="margin-right: 0.07847em;">X</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mord"><span class="mord mathdefault">i</span><span class="mord mathdefault" style="margin-right: 0.05724em;">j</span></span><span class="mclose delimcenter" style="top: 0em;">)</span></span><span class="mclose delimcenter" style="top: 0em;"><span class="delimsizing size2">)</span></span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 1.35401em;"><span class="" style="top: -3.6029em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span></span></span> loss function的基本形式就是最简单的mean square loss，只不过在此基础上加了一个权重函数<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        f
+       
+       
+        
+         (
+        
+        
+         
+          X
+         
+         
+          
+           i
+          
+          
+           j
+          
+         
+        
+        
+         )
+        
+       
+      
+      
+       f\left(X_{i j}\right)
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1.03611em; vertical-align: -0.286108em;"></span><span class="mord mathdefault" style="margin-right: 0.10764em;">f</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="minner"><span class="mopen delimcenter" style="top: 0em;">(</span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.07847em;">X</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.311664em;"><span class="" style="top: -2.55em; margin-left: -0.07847em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight" style="margin-right: 0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.286108em;"><span class=""></span></span></span></span></span></span><span class="mclose delimcenter" style="top: 0em;">)</span></span></span></span></span></span>，那么这个函数起了什么作用，为什么要添加这个函数呢？我们知道在一个语料库中，肯定存在很多单词他们在一起出现的次数是很多的（frequent co-occurrences），那么我们希望：</p> 
+<ul><li>这些单词的权重要大于那些很少在一起出现的单词，因此这个函数要是非递减函数（non-decreasing）；</li><li>但这个权重也不能过大，当到达一定程度之后当不再增加；</li><li>如果两个单词没有在一起出现，也就是<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         
+          X
+         
+         
+          
+           i
+          
+          
+           j
+          
+         
+        
+       
+       
+        X_{i j}
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.969438em; vertical-align: -0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.07847em;">X</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.311664em;"><span class="" style="top: -2.55em; margin-left: -0.07847em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight" style="margin-right: 0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.286108em;"><span class=""></span></span></span></span></span></span></span></span></span></span>,那么他们应该不参与到loss function的计算当中去，也就是f(x)要满足f(x)=0</li></ul> 
+<p>为此，作者提出了以下权重函数：</p> 
+<p><img src="https://img-blog.csdnimg.cn/20200627213051156.png#pic_center" alt="在这里插入图片描述"></p>
+                </div>
+                

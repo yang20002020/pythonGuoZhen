@@ -1,0 +1,67 @@
+<head> <meta charset="utf-8" </head>
+                      <div id="content_views" class="markdown_views prism-atom-one-dark">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                        <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                    </svg>
+                    <blockquote> 
+ <p>环境：Ubuntu18.04、opencv3.2.0</p> 
+</blockquote> 
+<h1><a id="RoboRTS_1"></a>RoboRTS编译</h1> 
+<p>打开终端，依次输入</p> 
+<pre><code class="prism language-shell"><span class="token function">mkdir</span> -p RoboRTS_ws
+<span class="token function">cd</span> RoboRTS_ws/src
+<span class="token function">git</span> clone https://github.com/RoboMaster/RoboRTS
+<span class="token function">cd</span> <span class="token punctuation">..</span>
+catkin_make
+</code></pre> 
+<h1><a id="RoboRTS_11"></a>RoboRTS编译报错</h1> 
+<h2><a id="libg2o_12"></a>libg2o</h2> 
+<pre><code class="prism language-shell">-- Searching <span class="token keyword">for</span> g2o <span class="token punctuation">..</span>.
+CMake Error at RoboRTS/roborts_planning/cmake_module/FindG2O.cmake:85 <span class="token punctuation">(</span>message<span class="token punctuation">)</span>:
+  Could not <span class="token function">find</span> libg2o<span class="token operator">!</span>
+Call Stack <span class="token punctuation">(</span>most recent call first<span class="token punctuation">)</span>:
+  RoboRTS/roborts_planning/CMakeLists.txt:22 <span class="token punctuation">(</span>find_package<span class="token punctuation">)</span>
+
+
+-- Configuring incomplete, errors occurred<span class="token operator">!</span>
+See also <span class="token string">"/home/wade/RoboRTS_ws/build/CMakeFiles/CMakeOutput.log"</span><span class="token keyword">.</span>
+See also <span class="token string">"/home/wade/RoboRTS_ws/build/CMakeFiles/CMakeError.log"</span><span class="token keyword">.</span>
+Invoking <span class="token string">"cmake"</span> failed
+</code></pre> 
+<p>解决方法：<br> 安装libg20：</p> 
+<pre><code class="prism language-shell"><span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> ros-melodic-libg2o
+</code></pre> 
+<h2><a id="Glog_33"></a>Glog</h2> 
+<pre><code class="prism language-shell">-- <span class="token operator">==</span><span class="token operator">&gt;</span> add_subdirectory<span class="token punctuation">(</span>RoboRTS/roborts_base<span class="token punctuation">)</span>
+CMake Error at /usr/share/cmake-3.10/Modules/FindPackageHandleStandardArgs.cmake:137 <span class="token punctuation">(</span>message<span class="token punctuation">)</span>:
+  Could NOT <span class="token function">find</span> Glog <span class="token punctuation">(</span>missing: GLOG_INCLUDE_DIR GLOG_LIBRARY<span class="token punctuation">)</span>
+Call Stack <span class="token punctuation">(</span>most recent call first<span class="token punctuation">)</span>:
+  /usr/share/cmake-3.10/Modules/FindPackageHandleStandardArgs.cmake:378 <span class="token punctuation">(</span>_FPHSA_FAILURE_MESSAGE<span class="token punctuation">)</span>
+  RoboRTS/roborts_base/cmake_module/FindGlog.cmake:40 <span class="token punctuation">(</span>find_package_handle_standard_args<span class="token punctuation">)</span>
+  RoboRTS/roborts_base/CMakeLists.txt:7 <span class="token punctuation">(</span>find_package<span class="token punctuation">)</span>
+
+
+-- Configuring incomplete, errors occurred<span class="token operator">!</span>
+See also <span class="token string">"/home/wade/RoboRTS_ws/build/CMakeFiles/CMakeOutput.log"</span><span class="token keyword">.</span>
+See also <span class="token string">"/home/wade/RoboRTS_ws/build/CMakeFiles/CMakeError.log"</span><span class="token keyword">.</span>
+Invoking <span class="token string">"cmake"</span> failed
+</code></pre> 
+<p>解决方法：<br> 安装Glog：</p> 
+<pre><code class="prism language-shell"><span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> libgoogle-glog-dev
+</code></pre> 
+<h2><a id="GLOG_LIBRARY_55"></a>GLOG_LIBRARY</h2> 
+<pre><code class="prism language-shell">-- Found OpenCV: /usr/local <span class="token punctuation">(</span>found version <span class="token string">"3.4.0"</span><span class="token punctuation">)</span> 
+-- Using these message generators: gencpp<span class="token punctuation">;</span>geneus<span class="token punctuation">;</span>genlisp<span class="token punctuation">;</span>gennodejs<span class="token punctuation">;</span>genpy
+CMake Error: The following variables are used <span class="token keyword">in</span> this project, but they are <span class="token keyword">set</span> to NOTFOUND.
+Please <span class="token keyword">set</span> them or <span class="token function">make</span> sure they are <span class="token keyword">set</span> and tested correctly <span class="token keyword">in</span> the CMake files:
+GLOG_LIBRARY <span class="token punctuation">(</span>ADVANCED<span class="token punctuation">)</span>
+    linked by target <span class="token string">"global_planner_node"</span> <span class="token keyword">in</span> directory /home/wade/RoboRTS_ws/src/RoboRTS/roborts_planning/global_planner
+
+-- Configuring incomplete, errors occurred<span class="token operator">!</span>
+See also <span class="token string">"/home/wade/RoboRTS_ws/build/CMakeFiles/CMakeOutput.log"</span><span class="token keyword">.</span>
+See also <span class="token string">"/home/wade/RoboRTS_ws/build/CMakeFiles/CMakeError.log"</span><span class="token keyword">.</span>
+Invoking <span class="token string">"cmake"</span> failed
+</code></pre> 
+<p>解决办法：<br> 再catkin_make一次。</p>
+                </div>
+                

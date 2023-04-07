@@ -16,20 +16,21 @@ from lxml import etree
 import pdfkit
 
 author_name = input("请输入博主ID: ")
-MAX_PAGE_NUM = 200
-i = 1
+MAX_PAGE_NUM = 200  # 最多200页
+i = 1  # i代表第几篇博文
 
 sess = requests.Session()
 agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36'
 sess.headers['User-Agent'] = agent
 
-
+# 根据 用户名 文章id和文章名称 爬取文章内容
 def crawler_blog_by(author_name, article_id, title):
     #  article_request_url  是一篇博文的地址对应的字符串
+    #  例如 ：https://blog.csdn.net/m0_59485658/article/details/129720168
     article_request_url = f"https://blog.csdn.net/{author_name}/article/details/{article_id}"
-    response = sess.get(article_request_url)   # response: <Response [200]>
-    print(type(response))   # <class 'requests.models.Response'> 的对象类型就是 Response
-    # response.text 对应  上述网页的源代码  即 对应的网址右键查看源代码
+    response = sess.get(article_request_url)  # response: <Response [200]>
+    #   print(type(response))  # <class 'requests.models.Response'> 的对象类型就是 Response
+    # response.text 对应  上述网页的源代码  即 对应的网址右键 =》检查   查看源代码
     selector = etree.HTML(response.text)
     head_msg = selector.xpath(r"//head")[0]  # selector.xpath()返回的是列表
     #   上述网页的源代码  即 对应的网址右键查看源代码 <head>部分
@@ -66,6 +67,7 @@ def html_to_pdf(file_html_name):
 for page_no in range(MAX_PAGE_NUM):
     try:
         ## 前端 payload
+        #  例如 https://blog.csdn.net/m0_59485658  右键=》检查=》滚动鼠标滑轮=》载荷
         data = {"page": page_no,
                 "size": 20,
                 "businessType": "blog",
@@ -74,8 +76,11 @@ for page_no in range(MAX_PAGE_NUM):
                 "year": "",
                 "month": "",
                 "username": author_name}
+        # get参数 具体查询的步骤，按demo061.png图片介绍所示
+        #  pages_dict 每一页字典
         pages_dict = sess.get('https://blog.csdn.net/community/home-api/v1/get-business-list',
                               params=data).json()
+        # 参考demo061_1.png， 获取pages_dict['data']['list']
         for article in pages_dict['data']['list']:
             article_id = article['articleId']
             title = article['title']

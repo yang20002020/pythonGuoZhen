@@ -1,0 +1,84 @@
+<head> <meta charset="utf-8" </head>
+                      <div id="content_views" class="markdown_views prism-atom-one-dark">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                        <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                    </svg>
+                    <h2><a id="Const_0"></a>Const限定符</h2> 
+<p>const对象就是值不能被改变的“变量”，我们只能在const类型的对象上执行不改变其内容的操作。</p> 
+<h3><a id="1__4"></a>1 初始化</h3> 
+<p>const对象必须初始化，初始值可以是任意复杂的表达式。</p> 
+<pre><code class="prism language-c++">const int i = 512;
+const int j = get_size();
+</code></pre> 
+<p>我们可以用非const类型的对象去初始化const对象。</p> 
+<pre><code class="prism language-c++">int i = 512;
+cosnt int ci = i;
+</code></pre> 
+<p>默认情况下，const对象仅在文件内有效。如果想在多个文件间共享const对象，必须在变量的定义之前添加extern关键字。</p> 
+<h3><a id="2_const_24"></a>2 const和引用</h3> 
+<p>我们可以引用const对象，称之为对常量的引用（reference to const）。对常量的引用不能被用作修改它所绑定的对象。</p> 
+<pre><code class="prism language-c++">const int ci = 1024;
+const int &amp;r1 = ci;	//正确，引用及其对应的对象都是常量
+r1 = 42;			//错误，r1是对常量的引用，不能更改其所绑定的对象
+int &amp;r2 = ci;	//错误：试图让一个非常量引用指向一个常量对象
+</code></pre> 
+<h4><a id="_37"></a>对常量的引用的初始化</h4> 
+<p>在<strong>初始化</strong>对常量的引用时允许用任意表达式作为初始值（引用类型和被引用对象不一致的一个特例），只要该表达式的结果能够转化成引用的类型即可，如：非常量的对象、字面值，甚至是一般表达式。</p> 
+<pre><code class="prism language-c++">int i = 42;
+const int &amp;r1 = i;			//正确：允许将const int&amp;绑定到一个普通的int对象上（i可以被更改，r1不可以被更改）
+const int &amp;r2 = 42;			//正确：r2是一个常量引用
+const int &amp;r3 = r1 * 2;	//正确：r3是一个常量引用
+int &amp;r4 = r1 * 2;				//错误：r4是一个普通的非常量引用
+</code></pre> 
+<p>对常量的引用可能引用一个并非const的对象。</p> 
+<pre><code class="prism language-C++">int i = 42;
+const int &amp;r1 = i;
+</code></pre> 
+<p>如以上代码所示，我们虽然不能直接通过r1修改i 的值，但是我们可以直接给i赋值。</p> 
+<p>由于引用本身不是一个对象，所以就没有const引用。</p> 
+<h3><a id="3_const_62"></a>3 const和指针</h3> 
+<h4><a id="pointer_to_const_64"></a>指向常量的指针（pointer to const）</h4> 
+<p>与常量引用类似，指向常量的指针不能用于改变其所指对象的值。要想存放常量对象的地址，只能使用指向常量的指针。</p> 
+<pre><code class="prism language-c++">const double pi = 3.14;		//pi是个常量
+double *ptr = &amp;pi;				//错误，ptr是一个普通指针
+const double *cptr = &amp;pi;	//正确，cptr是指向常量的指针
+*cptr = 42；								//错误，指向常量的指针不能改变其所指对象的值
+</code></pre> 
+<p>和对常量的引用一样，指向常量的指针也没有规定其所指的对象必须是一个常量。所谓指向常量的指针仅仅要求不能通过该指针改变对象的值，而没有规定那个对象的值不能通过其他途径改变。</p> 
+<pre><code class="prism language-C++">double dval = 1.28;
+cptr = dval;
+</code></pre> 
+<p>我们可以这样理解，所谓指向常量的指针或者引用，不过是指针和引用“自以为是”，它们觉得它们指向了常量，所以自觉的不去改变所指对象的值。</p> 
+<h4><a id="const_pointer_86"></a>常量指针（const pointer）</h4> 
+<p>由于指针本身是对象，我们可以把指针本身定为常量，称为常量指针。常量指针必须初始化，而且一旦初始化完成，它的值（也就是存放在指针中的那个地址）就不能改变了。（注意，常量指针要从右往左读）</p> 
+<pre><code class="prism language-C++">int errNumb = 0;
+int *const curErr = &amp;errNumb;		//curErr将一直指向errNumb，curErr是一个指向int的常量指针
+const double pi = 3.1415;
+cosnt double *const pip = &amp;pi;	//pip是一个指向double常量的常量指针。
+</code></pre> 
+<p>指针本身是一个常量并不意味着不能通过指针修改其所指对象的值，能否这样做完全依赖于所指对象的类型。例如，上面代码中的pip是一个指向常量的常量指针，那么无论是pip所指的对象值还是pip自己存储的那个地址都不能改变；而curErr指向的是一个一般的非常量整数，那么就完全可以用curErr去改变errNumb的值。</p> 
+<pre><code class="prism language-c++">*pip = 2.72;	 //错误，pip所指的对象是常量，不能被改变
+*curErr = 2；	//正确：curErr所指对象不是常量，可以通过指针改变
+</code></pre> 
+<h3><a id="4_constconst_106"></a>4 顶层const和底层const</h3> 
+<p>顶层const表示对象（算术类型、类、指针）本身是一个const，其值不能被改变，而底层const则与指针和引用等复合类型的基本类型部分有关，表示指向或者引用的对象是const。比较特殊的是，指针类型既可以是顶层const，也可以是底层const，这一点和其他类型区别明显。</p> 
+<pre><code class="prism language-C++">int i = 0;
+int *const p1 = &amp;i; 			//不能改变p1的值，这是一个顶层const
+const int ci = 42;				//不能改变ci的值，这是一个顶层const
+const int *p2 = &amp;ci;			//允许改变p2的值，这是一个底层const
+const int *const p3 = p2;	//p3既是顶层const，又是底层const，右边带*的const是顶层const，左边不带*的const是底层const
+const int &amp;r = ci;				//用于声明引用的const都是底层const
+</code></pre> 
+<p>执行对象的拷贝操作时，常量是顶层const还是底层const区别明显，其中顶层const不受什么影响。（因为执行拷贝操作并不会改变被拷贝对象的值，因此，拷入拷出的对象是否是常量都没什么影响）</p> 
+<pre><code class="prism language-C++">i = ci;		//正确，拷贝ci的值，ci是一个顶层const，对此操作无影响
+p2 = p3;	//正确：p2和p3所指向的对象类型相同，p3顶层const的部分不影响
+</code></pre> 
+<p>但是底层const的限制却不能忽视。当执行对象的拷贝操作时，拷入和拷出的对象必须具有相同的底层const资格，或者两个对象的数据类型必须能够转换。一般来说，非常量可以转化为常量，反之则不行。</p> 
+<pre><code class="prism language-c++">int *p = p3;	//错误：p3包含底层const的定义，而p没有
+p2 = p3;			//正确：p2和p3都是底层const
+p2 = &amp;i;			//正确：int*能转换成const int*
+int &amp;r = ci;	//错误：普通的int&amp;不能绑定到int常量上
+const int &amp;r2 = i; 	//正确：const int&amp;可以绑定到一个普通int上
+</code></pre>
+                </div>
+                

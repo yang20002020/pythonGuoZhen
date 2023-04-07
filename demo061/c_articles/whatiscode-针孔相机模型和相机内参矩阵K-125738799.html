@@ -1,0 +1,1531 @@
+<head> <meta charset="utf-8" </head>
+                      <div id="content_views" class="markdown_views prism-atom-one-dark">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                        <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                    </svg>
+                    <p><img src="https://img-blog.csdnimg.cn/ea39603ec4064373b46ce170d7206a8c.png#pic_center" alt="在这里插入图片描述"></p> 
+<p>上图为针孔相机模型的成像原理图。</p> 
+<p>设 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        O
+       
+       
+        −
+       
+       
+        x
+       
+       
+        −
+       
+       
+        y
+       
+       
+        −
+       
+       
+        z
+       
+      
+      
+       O-x-y-z
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.76666em; vertical-align: -0.08333em;"></span><span class="mord mathdefault" style="margin-right: 0.02778em;">O</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 0.66666em; vertical-align: -0.08333em;"></span><span class="mord mathdefault">x</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 0.77777em; vertical-align: -0.19444em;"></span><span class="mord mathdefault" style="margin-right: 0.03588em;">y</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 0.43056em; vertical-align: 0em;"></span><span class="mord mathdefault" style="margin-right: 0.04398em;">z</span></span></span></span></span> 为相机坐标系，<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        O
+       
+      
+      
+       O
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.68333em; vertical-align: 0em;"></span><span class="mord mathdefault" style="margin-right: 0.02778em;">O</span></span></span></span></span> 为相机的光心（同样也是针孔模型中的针孔）。现实世界的空间点 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        P
+       
+      
+      
+       P
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.68333em; vertical-align: 0em;"></span><span class="mord mathdefault" style="margin-right: 0.13889em;">P</span></span></span></span></span> ，经过光心 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        O
+       
+      
+      
+       O
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.68333em; vertical-align: 0em;"></span><span class="mord mathdefault" style="margin-right: 0.02778em;">O</span></span></span></span></span> 投影之后，落在了物理成像平面 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        
+         O
+        
+        
+         ′
+        
+       
+       
+        −
+       
+       
+        
+         x
+        
+        
+         ′
+        
+       
+       
+        −
+       
+       
+        
+         y
+        
+        
+         ′
+        
+       
+      
+      
+       O^{\prime}-x^{\prime}-y^{\prime}
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.835222em; vertical-align: -0.08333em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.02778em;">O</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.751892em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 0.835222em; vertical-align: -0.08333em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.751892em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 0.946332em; vertical-align: -0.19444em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.03588em;">y</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.751892em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span> 上，成像点为 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        
+         P
+        
+        
+         ′
+        
+       
+      
+      
+       P'
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.751892em; vertical-align: 0em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.13889em;">P</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.751892em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span> 。</p> 
+<p>设空间点 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        P
+       
+      
+      
+       P
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.68333em; vertical-align: 0em;"></span><span class="mord mathdefault" style="margin-right: 0.13889em;">P</span></span></span></span></span> 的坐标为 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        [
+       
+       
+        X
+       
+       
+        ,
+       
+       
+        Y
+       
+       
+        ,
+       
+       
+        Z
+       
+       
+        
+         ]
+        
+        
+         T
+        
+       
+      
+      
+       [X, Y, Z]^{T}
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1.09133em; vertical-align: -0.25em;"></span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right: 0.07847em;">X</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord mathdefault" style="margin-right: 0.22222em;">Y</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord mathdefault" style="margin-right: 0.07153em;">Z</span><span class="mclose"><span class="mclose">]</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.841331em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right: 0.13889em;">T</span></span></span></span></span></span></span></span></span></span></span></span></span>，<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        
+         P
+        
+        
+         ′
+        
+       
+      
+      
+       P'
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.751892em; vertical-align: 0em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.13889em;">P</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.751892em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span> 的坐标为 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        [
+       
+       
+        
+         X
+        
+        
+         ′
+        
+       
+       
+        ,
+       
+       
+        
+         Y
+        
+        
+         ′
+        
+       
+       
+        ,
+       
+       
+        
+         Z
+        
+        
+         ′
+        
+       
+       
+        
+         ]
+        
+        
+         T
+        
+       
+      
+      
+       [X', Y', Z']^{T}
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1.09133em; vertical-align: -0.25em;"></span><span class="mopen">[</span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.07847em;">X</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.751892em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.22222em;">Y</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.751892em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.07153em;">Z</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.751892em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose"><span class="mclose">]</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.841331em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right: 0.13889em;">T</span></span></span></span></span></span></span></span></span></span></span></span></span>，并且设物理成像平面到光心的距离（即焦距）为 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        f
+       
+      
+      
+       f
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.88888em; vertical-align: -0.19444em;"></span><span class="mord mathdefault" style="margin-right: 0.10764em;">f</span></span></span></span></span> 。那么由三角形相似关系有：</p> 
+<p><span class="katex--display"><span class="katex-display"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         
+         
+          
+           
+            
+             Z
+            
+            
+             f
+            
+           
+           
+            =
+           
+           
+            −
+           
+           
+            
+             X
+            
+            
+             
+              X
+             
+             
+              ′
+             
+            
+           
+           
+            =
+           
+           
+            −
+           
+           
+            
+             Y
+            
+            
+             
+              Y
+             
+             
+              ′
+             
+            
+           
+          
+         
+         
+         
+          
+           (1)
+          
+         
+        
+       
+       
+         \frac{Z}{f}=-\frac{X}{X^{\prime}}=-\frac{Y}{Y^{\prime}} \tag{1} 
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 2.24077em; vertical-align: -0.88044em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.36033em;"><span class="" style="top: -2.314em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.10764em;">f</span></span></span><span class="" style="top: -3.23em;"><span class="pstrut" style="height: 3em;"></span><span class="frac-line" style="border-bottom-width: 0.04em;"></span></span><span class="" style="top: -3.677em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.07153em;">Z</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.88044em;"><span class=""></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 2.04633em; vertical-align: -0.686em;"></span><span class="mord">−</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.36033em;"><span class="" style="top: -2.314em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault" style="margin-right: 0.07847em;">X</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.677892em;"><span class="" style="top: -2.989em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span><span class="" style="top: -3.23em;"><span class="pstrut" style="height: 3em;"></span><span class="frac-line" style="border-bottom-width: 0.04em;"></span></span><span class="" style="top: -3.677em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.07847em;">X</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.686em;"><span class=""></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 2.04633em; vertical-align: -0.686em;"></span><span class="mord">−</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.36033em;"><span class="" style="top: -2.314em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault" style="margin-right: 0.22222em;">Y</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.677892em;"><span class="" style="top: -2.989em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span><span class="" style="top: -3.23em;"><span class="pstrut" style="height: 3em;"></span><span class="frac-line" style="border-bottom-width: 0.04em;"></span></span><span class="" style="top: -3.677em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.22222em;">Y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.686em;"><span class=""></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span><span class="tag"><span class="strut" style="height: 2.24077em; vertical-align: -0.88044em;"></span><span class="mord text"><span class="mord">(</span><span class="mord"><span class="mord">1</span></span><span class="mord">)</span></span></span></span></span></span></span></p> 
+<p>其中负号表示成的像是倒立的。为了简化模型，我们可以把成像平面对称到相机前方，和三维空间点一起放在摄像机坐标系的同一侧（如下图所示）。</p> 
+<p><img src="https://img-blog.csdnimg.cn/1a2bf39fd5e54a32b845dd2e28868c92.png#pic_center" alt="在这里插入图片描述"></p> 
+<p>简化之后去掉负号，便可以得到：</p> 
+<p><span class="katex--display"><span class="katex-display"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         
+         
+          
+           
+            
+             Z
+            
+            
+             f
+            
+           
+           
+            =
+           
+           
+            
+             X
+            
+            
+             
+              X
+             
+             
+              ′
+             
+            
+           
+           
+            =
+           
+           
+            
+             Y
+            
+            
+             
+              Y
+             
+             
+              ′
+             
+            
+           
+          
+         
+         
+         
+          
+           (2)
+          
+         
+        
+       
+       
+         \frac{Z}{f}=\frac{X}{X^{\prime}}=\frac{Y}{Y^{\prime}} \tag{2} 
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 2.24077em; vertical-align: -0.88044em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.36033em;"><span class="" style="top: -2.314em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.10764em;">f</span></span></span><span class="" style="top: -3.23em;"><span class="pstrut" style="height: 3em;"></span><span class="frac-line" style="border-bottom-width: 0.04em;"></span></span><span class="" style="top: -3.677em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.07153em;">Z</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.88044em;"><span class=""></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 2.04633em; vertical-align: -0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.36033em;"><span class="" style="top: -2.314em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault" style="margin-right: 0.07847em;">X</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.677892em;"><span class="" style="top: -2.989em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span><span class="" style="top: -3.23em;"><span class="pstrut" style="height: 3em;"></span><span class="frac-line" style="border-bottom-width: 0.04em;"></span></span><span class="" style="top: -3.677em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.07847em;">X</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.686em;"><span class=""></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 2.04633em; vertical-align: -0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.36033em;"><span class="" style="top: -2.314em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault" style="margin-right: 0.22222em;">Y</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.677892em;"><span class="" style="top: -2.989em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span><span class="" style="top: -3.23em;"><span class="pstrut" style="height: 3em;"></span><span class="frac-line" style="border-bottom-width: 0.04em;"></span></span><span class="" style="top: -3.677em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.22222em;">Y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.686em;"><span class=""></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span><span class="tag"><span class="strut" style="height: 2.24077em; vertical-align: -0.88044em;"></span><span class="mord text"><span class="mord">(</span><span class="mord"><span class="mord">2</span></span><span class="mord">)</span></span></span></span></span></span></span></p> 
+<p>整理之后，有：</p> 
+<p><span class="katex--display"><span class="katex-display"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         
+         
+          
+           
+            
+             
+              
+             
+            
+            
+             
+              
+               
+               
+                
+                 X
+                
+                
+                 ′
+                
+               
+               
+                =
+               
+               
+                f
+               
+               
+                
+                 X
+                
+                
+                 Z
+                
+               
+              
+             
+            
+           
+           
+            
+             
+              
+             
+            
+            
+             
+              
+               
+               
+                
+                 Y
+                
+                
+                 ′
+                
+               
+               
+                =
+               
+               
+                f
+               
+               
+                
+                 Y
+                
+                
+                 Z
+                
+               
+              
+             
+            
+           
+          
+         
+         
+         
+          
+           (3)
+          
+         
+        
+       
+       
+         \begin{aligned} &amp;X^{\prime}=f \frac{X}{Z} \\ &amp;Y^{\prime}=f \frac{Y}{Z} \end{aligned} \tag{3} 
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 4.69266em; vertical-align: -2.09633em;"></span><span class="mord"><span class="mtable"><span class="col-align-r"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 2.59633em;"><span class="" style="top: -4.59633em;"><span class="pstrut" style="height: 3.36033em;"></span><span class="mord"></span></span><span class="" style="top: -2.25em;"><span class="pstrut" style="height: 3.36033em;"></span><span class="mord"></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 2.09633em;"><span class=""></span></span></span></span></span><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 2.59633em;"><span class="" style="top: -4.59633em;"><span class="pstrut" style="height: 3.36033em;"></span><span class="mord"><span class="mord"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.07847em;">X</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.801892em;"><span class="" style="top: -3.113em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mord mathdefault" style="margin-right: 0.10764em;">f</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.36033em;"><span class="" style="top: -2.314em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.07153em;">Z</span></span></span><span class="" style="top: -3.23em;"><span class="pstrut" style="height: 3em;"></span><span class="frac-line" style="border-bottom-width: 0.04em;"></span></span><span class="" style="top: -3.677em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.07847em;">X</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.686em;"><span class=""></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span><span class="" style="top: -2.25em;"><span class="pstrut" style="height: 3.36033em;"></span><span class="mord"><span class="mord"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.22222em;">Y</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.801892em;"><span class="" style="top: -3.113em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mord mathdefault" style="margin-right: 0.10764em;">f</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.36033em;"><span class="" style="top: -2.314em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.07153em;">Z</span></span></span><span class="" style="top: -3.23em;"><span class="pstrut" style="height: 3em;"></span><span class="frac-line" style="border-bottom-width: 0.04em;"></span></span><span class="" style="top: -3.677em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.22222em;">Y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.686em;"><span class=""></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 2.09633em;"><span class=""></span></span></span></span></span></span></span></span><span class="tag"><span class="strut" style="height: 4.69266em; vertical-align: -2.09633em;"></span><span class="mord text"><span class="mord">(</span><span class="mord"><span class="mord">3</span></span><span class="mord">)</span></span></span></span></span></span></span></p> 
+<p>上面公式表示的是空间中的点 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        P
+       
+      
+      
+       P
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.68333em; vertical-align: 0em;"></span><span class="mord mathdefault" style="margin-right: 0.13889em;">P</span></span></span></span></span> 和它在成像平面对应的点 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        
+         P
+        
+        
+         ′
+        
+       
+      
+      
+       P'
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.751892em; vertical-align: 0em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.13889em;">P</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.751892em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span> 之间的几何关系。当时在相机中，图片是由一个个像素表示的，因此还需要在成像平面上进行采样和量化。下图是成像平面坐标系和像素平面坐标系的图示，两者有以下区别：</p> 
+<ul><li>单位不一样：成像平面坐标系的单位是米，像素坐标系的单位是像素</li><li>坐标系原点的位置不一样：成像平面坐标系的原点在中心，像素坐标系的原点在左上方</li></ul> 
+<p><img src="https://img-blog.csdnimg.cn/01a3c1d5351f49a59de8b07fe9facacf.png#pic_center" alt="在这里插入图片描述"></p> 
+<p>因此，为了将成像平面上的点转换到像素坐标系上，需要进行单位之间转换的缩放和原点的平移。</p> 
+<p>假设成像平面坐标系为 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        
+         O
+        
+        
+         ′
+        
+       
+       
+        −
+       
+       
+        
+         x
+        
+        
+         ′
+        
+       
+       
+        −
+       
+       
+        
+         y
+        
+        
+         ′
+        
+       
+      
+      
+       O^{\prime}-x^{\prime}-y^{\prime}
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.835222em; vertical-align: -0.08333em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.02778em;">O</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.751892em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 0.835222em; vertical-align: -0.08333em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.751892em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 0.946332em; vertical-align: -0.19444em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.03588em;">y</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.751892em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span> ，像素坐标系为 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        o
+       
+       
+        −
+       
+       
+        u
+       
+       
+        −
+       
+       
+        v
+       
+      
+      
+       o-u-v
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.66666em; vertical-align: -0.08333em;"></span><span class="mord mathdefault">o</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 0.66666em; vertical-align: -0.08333em;"></span><span class="mord mathdefault">u</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 0.43056em; vertical-align: 0em;"></span><span class="mord mathdefault" style="margin-right: 0.03588em;">v</span></span></span></span></span>。假设成像平面坐标系转换到像素坐标系 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        u
+       
+      
+      
+       u
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.43056em; vertical-align: 0em;"></span><span class="mord mathdefault">u</span></span></span></span></span> 轴上缩放了 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        α
+       
+      
+      
+       \alpha
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.43056em; vertical-align: 0em;"></span><span class="mord mathdefault" style="margin-right: 0.0037em;">α</span></span></span></span></span> 倍，转换到像素坐标系 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        v
+       
+      
+      
+       v
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.43056em; vertical-align: 0em;"></span><span class="mord mathdefault" style="margin-right: 0.03588em;">v</span></span></span></span></span> 轴上缩放了 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        β
+       
+      
+      
+       \beta
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.88888em; vertical-align: -0.19444em;"></span><span class="mord mathdefault" style="margin-right: 0.05278em;">β</span></span></span></span></span> 倍，原点平移了 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        
+         
+          [
+         
+         
+          
+           c
+          
+          
+           x
+          
+         
+         
+          ,
+         
+         
+          
+           c
+          
+          
+           y
+          
+         
+         
+          ]
+         
+        
+        
+         T
+        
+       
+      
+      
+       \left[c_{x}, c_{y}\right]^{T}
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1.26734em; vertical-align: -0.286108em;"></span><span class="minner"><span class="minner"><span class="mopen delimcenter" style="top: 0em;">[</span><span class="mord"><span class="mord mathdefault">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.151392em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord"><span class="mord mathdefault">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.151392em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right: 0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.286108em;"><span class=""></span></span></span></span></span></span><span class="mclose delimcenter" style="top: 0em;">]</span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.981231em;"><span class="" style="top: -3.2029em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right: 0.13889em;">T</span></span></span></span></span></span></span></span></span></span></span></span></span>（单位：像素）。那么 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        
+         P
+        
+        
+         ′
+        
+       
+      
+      
+       P'
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.751892em; vertical-align: 0em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.13889em;">P</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.751892em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span> 的坐标与像素坐标 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        [
+       
+       
+        u
+       
+       
+        ,
+       
+       
+        v
+       
+       
+        
+         ]
+        
+        
+         T
+        
+       
+      
+      
+       [u, v]^{T}
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1.09133em; vertical-align: -0.25em;"></span><span class="mopen">[</span><span class="mord mathdefault">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord mathdefault" style="margin-right: 0.03588em;">v</span><span class="mclose"><span class="mclose">]</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.841331em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right: 0.13889em;">T</span></span></span></span></span></span></span></span></span></span></span></span></span> 的关系为：</p> 
+<p><span class="katex--display"><span class="katex-display"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         
+         
+          
+           
+            {
+           
+           
+            
+             
+              
+               
+                
+                 u
+                
+                
+                 =
+                
+                
+                 α
+                
+                
+                 
+                  X
+                 
+                 
+                  ′
+                 
+                
+                
+                 +
+                
+                
+                 
+                  c
+                 
+                 
+                  x
+                 
+                
+               
+              
+             
+            
+            
+             
+              
+               
+                
+                 v
+                
+                
+                 =
+                
+                
+                 β
+                
+                
+                 
+                  Y
+                 
+                 
+                  ′
+                 
+                
+                
+                 +
+                
+                
+                 
+                  c
+                 
+                 
+                  y
+                 
+                
+               
+              
+             
+            
+           
+          
+         
+         
+         
+          
+           (4)
+          
+         
+        
+       
+       
+         \left\{\begin{array}{l} u=\alpha X^{\prime}+c_{x} \\ v=\beta Y^{\prime}+c_{y} \end{array}\right. \tag{4} 
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 2.40003em; vertical-align: -0.95003em;"></span><span class="minner"><span class="mopen delimcenter" style="top: 0em;"><span class="delimsizing size3">{<!-- --></span></span><span class="mord"><span class="mtable"><span class="arraycolsep" style="width: 0.5em;"></span><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.45em;"><span class="" style="top: -3.61em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathdefault">u</span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mord mathdefault" style="margin-right: 0.0037em;">α</span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.07847em;">X</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.751892em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mord"><span class="mord mathdefault">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.151392em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span><span class="" style="top: -2.41em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.03588em;">v</span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mord mathdefault" style="margin-right: 0.05278em;">β</span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.22222em;">Y</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.751892em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mord"><span class="mord mathdefault">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.151392em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right: 0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.286108em;"><span class=""></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.95em;"><span class=""></span></span></span></span></span><span class="arraycolsep" style="width: 0.5em;"></span></span></span><span class="mclose nulldelimiter"></span></span></span><span class="tag"><span class="strut" style="height: 2.40003em; vertical-align: -0.95003em;"></span><span class="mord text"><span class="mord">(</span><span class="mord"><span class="mord">4</span></span><span class="mord">)</span></span></span></span></span></span></span></p> 
+<p>将 (3) 式代入 (4) 中，并将 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        α
+       
+       
+        f
+       
+      
+      
+       \alpha f
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.88888em; vertical-align: -0.19444em;"></span><span class="mord mathdefault" style="margin-right: 0.0037em;">α</span><span class="mord mathdefault" style="margin-right: 0.10764em;">f</span></span></span></span></span> 记为 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        
+         f
+        
+        
+         x
+        
+       
+      
+      
+       f_x
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.88888em; vertical-align: -0.19444em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.151392em;"><span class="" style="top: -2.55em; margin-left: -0.10764em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">x</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span>，<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        β
+       
+       
+        f
+       
+      
+      
+       \beta f
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.88888em; vertical-align: -0.19444em;"></span><span class="mord mathdefault" style="margin-right: 0.05278em;">β</span><span class="mord mathdefault" style="margin-right: 0.10764em;">f</span></span></span></span></span> 记为 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        
+         f
+        
+        
+         y
+        
+       
+      
+      
+       f_y
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.980548em; vertical-align: -0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.151392em;"><span class="" style="top: -2.55em; margin-left: -0.10764em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right: 0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.286108em;"><span class=""></span></span></span></span></span></span></span></span></span></span>，可得：</p> 
+<p><span class="katex--display"><span class="katex-display"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         
+         
+          
+           
+            {
+           
+           
+            
+             
+              
+               
+                
+                 u
+                
+                
+                 =
+                
+                
+                 
+                  f
+                 
+                 
+                  x
+                 
+                
+                
+                 
+                  X
+                 
+                 
+                  Z
+                 
+                
+                
+                 +
+                
+                
+                 
+                  c
+                 
+                 
+                  x
+                 
+                
+               
+              
+             
+            
+            
+             
+              
+               
+                
+                 v
+                
+                
+                 =
+                
+                
+                 
+                  f
+                 
+                 
+                  y
+                 
+                
+                
+                 
+                  Y
+                 
+                 
+                  Z
+                 
+                
+                
+                 +
+                
+                
+                 
+                  c
+                 
+                 
+                  y
+                 
+                
+               
+              
+             
+            
+           
+          
+         
+         
+         
+          
+           (5)
+          
+         
+        
+       
+       
+         \left\{\begin{array}{l} u=f_{x} \frac{X}{Z}+c_{x} \\ v=f_{y} \frac{Y}{Z}+c_{y} \end{array}\right. \tag{5} 
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 2.46466em; vertical-align: -0.982331em;"></span><span class="minner"><span class="mopen delimcenter" style="top: 0em;"><span class="delimsizing size3">{<!-- --></span></span><span class="mord"><span class="mtable"><span class="arraycolsep" style="width: 0.5em;"></span><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.48233em;"><span class="" style="top: -3.61em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathdefault">u</span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.151392em;"><span class="" style="top: -2.55em; margin-left: -0.10764em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.872331em;"><span class="" style="top: -2.655em;"><span class="pstrut" style="height: 3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right: 0.07153em;">Z</span></span></span></span><span class="" style="top: -3.23em;"><span class="pstrut" style="height: 3em;"></span><span class="frac-line" style="border-bottom-width: 0.04em;"></span></span><span class="" style="top: -3.394em;"><span class="pstrut" style="height: 3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right: 0.07847em;">X</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.345em;"><span class=""></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mord"><span class="mord mathdefault">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.151392em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span><span class="" style="top: -2.37767em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.03588em;">v</span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.151392em;"><span class="" style="top: -2.55em; margin-left: -0.10764em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right: 0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.286108em;"><span class=""></span></span></span></span></span></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.872331em;"><span class="" style="top: -2.655em;"><span class="pstrut" style="height: 3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right: 0.07153em;">Z</span></span></span></span><span class="" style="top: -3.23em;"><span class="pstrut" style="height: 3em;"></span><span class="frac-line" style="border-bottom-width: 0.04em;"></span></span><span class="" style="top: -3.394em;"><span class="pstrut" style="height: 3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right: 0.22222em;">Y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.345em;"><span class=""></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mord"><span class="mord mathdefault">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.151392em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right: 0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.286108em;"><span class=""></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.982331em;"><span class=""></span></span></span></span></span><span class="arraycolsep" style="width: 0.5em;"></span></span></span><span class="mclose nulldelimiter"></span></span></span><span class="tag"><span class="strut" style="height: 2.46466em; vertical-align: -0.982331em;"></span><span class="mord text"><span class="mord">(</span><span class="mord"><span class="mord">5</span></span><span class="mord">)</span></span></span></span></span></span></span></p> 
+<p>其中，<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        f
+       
+      
+      
+       f
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.88888em; vertical-align: -0.19444em;"></span><span class="mord mathdefault" style="margin-right: 0.10764em;">f</span></span></span></span></span> 的单位是米， <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        α
+       
+      
+      
+       \alpha
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.43056em; vertical-align: 0em;"></span><span class="mord mathdefault" style="margin-right: 0.0037em;">α</span></span></span></span></span> 、 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        β
+       
+      
+      
+       \beta
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.88888em; vertical-align: -0.19444em;"></span><span class="mord mathdefault" style="margin-right: 0.05278em;">β</span></span></span></span></span> 的单位是像素/米，所以 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        
+         f
+        
+        
+         x
+        
+       
+      
+      
+       f_x
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.88888em; vertical-align: -0.19444em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.151392em;"><span class="" style="top: -2.55em; margin-left: -0.10764em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">x</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span> 和 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        
+         f
+        
+        
+         y
+        
+       
+      
+      
+       f_y
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.980548em; vertical-align: -0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.151392em;"><span class="" style="top: -2.55em; margin-left: -0.10764em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right: 0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.286108em;"><span class=""></span></span></span></span></span></span></span></span></span></span> 的单位为像素。</p> 
+<p>为了使得公式更加简洁，可以将该式写成矩阵形式，不过左侧需要用到齐次坐标：</p> 
+<p><span class="katex--display"><span class="katex-display"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         
+         
+          
+           
+            
+             (
+            
+            
+             
+              
+               
+                
+                 u
+                
+               
+              
+             
+             
+              
+               
+                
+                 v
+                
+               
+              
+             
+             
+              
+               
+                
+                 1
+                
+               
+              
+             
+            
+            
+             )
+            
+           
+           
+            =
+           
+           
+            
+             1
+            
+            
+             Z
+            
+           
+           
+            
+             (
+            
+            
+             
+              
+               
+                
+                 
+                  f
+                 
+                 
+                  x
+                 
+                
+               
+              
+              
+               
+                
+                 0
+                
+               
+              
+              
+               
+                
+                 
+                  c
+                 
+                 
+                  x
+                 
+                
+               
+              
+             
+             
+              
+               
+                
+                 0
+                
+               
+              
+              
+               
+                
+                 
+                  f
+                 
+                 
+                  y
+                 
+                
+               
+              
+              
+               
+                
+                 
+                  c
+                 
+                 
+                  y
+                 
+                
+               
+              
+             
+             
+              
+               
+                
+                 0
+                
+               
+              
+              
+               
+                
+                 0
+                
+               
+              
+              
+               
+                
+                 1
+                
+               
+              
+             
+            
+            
+             )
+            
+           
+           
+            
+             (
+            
+            
+             
+              
+               
+                
+                 X
+                
+               
+              
+             
+             
+              
+               
+                
+                 Y
+                
+               
+              
+             
+             
+              
+               
+                
+                 Z
+                
+               
+              
+             
+            
+            
+             )
+            
+           
+           
+            ≜
+           
+           
+            
+             1
+            
+            
+             Z
+            
+           
+           
+            K
+           
+           
+            P
+           
+          
+         
+         
+         
+          
+           (6)
+          
+         
+        
+       
+       
+         \left(\begin{array}{l} u \\ v \\ 1 \end{array}\right)=\frac{1}{Z}\left(\begin{array}{ccc} f_{x} &amp; 0 &amp; c_{x} \\ 0 &amp; f_{y} &amp; c_{y} \\ 0 &amp; 0 &amp; 1 \end{array}\right)\left(\begin{array}{c} X \\ Y \\ Z \end{array}\right) \triangleq \frac{1}{Z} \boldsymbol{K} \boldsymbol{P} \tag{6} 
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 3.60004em; vertical-align: -1.55002em;"></span><span class="minner"><span class="mopen"><span class="delimsizing mult"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 2.05002em;"><span class="" style="top: -2.25em;"><span class="pstrut" style="height: 3.155em;"></span><span class="delimsizinginner delim-size4"><span class="">⎝</span></span></span><span class="" style="top: -4.05002em;"><span class="pstrut" style="height: 3.155em;"></span><span class="delimsizinginner delim-size4"><span class="">⎛</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 1.55002em;"><span class=""></span></span></span></span></span></span><span class="mord"><span class="mtable"><span class="arraycolsep" style="width: 0.5em;"></span><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 2.05em;"><span class="" style="top: -4.21em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathdefault">u</span></span></span><span class="" style="top: -3.01em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.03588em;">v</span></span></span><span class="" style="top: -1.81em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 1.55em;"><span class=""></span></span></span></span></span><span class="arraycolsep" style="width: 0.5em;"></span></span></span><span class="mclose"><span class="delimsizing mult"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 2.05002em;"><span class="" style="top: -2.25em;"><span class="pstrut" style="height: 3.155em;"></span><span class="delimsizinginner delim-size4"><span class="">⎠</span></span></span><span class="" style="top: -4.05002em;"><span class="pstrut" style="height: 3.155em;"></span><span class="delimsizinginner delim-size4"><span class="">⎞</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 1.55002em;"><span class=""></span></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 3.60004em; vertical-align: -1.55002em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.32144em;"><span class="" style="top: -2.314em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.07153em;">Z</span></span></span><span class="" style="top: -3.23em;"><span class="pstrut" style="height: 3em;"></span><span class="frac-line" style="border-bottom-width: 0.04em;"></span></span><span class="" style="top: -3.677em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.686em;"><span class=""></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="minner"><span class="mopen"><span class="delimsizing mult"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 2.05002em;"><span class="" style="top: -2.25em;"><span class="pstrut" style="height: 3.155em;"></span><span class="delimsizinginner delim-size4"><span class="">⎝</span></span></span><span class="" style="top: -4.05002em;"><span class="pstrut" style="height: 3.155em;"></span><span class="delimsizinginner delim-size4"><span class="">⎛</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 1.55002em;"><span class=""></span></span></span></span></span></span><span class="mord"><span class="mtable"><span class="arraycolsep" style="width: 0.5em;"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 2.05em;"><span class="" style="top: -4.21em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault" style="margin-right: 0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.151392em;"><span class="" style="top: -2.55em; margin-left: -0.10764em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span><span class="" style="top: -3.01em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord">0</span></span></span><span class="" style="top: -1.81em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 1.55em;"><span class=""></span></span></span></span></span><span class="arraycolsep" style="width: 0.5em;"></span><span class="arraycolsep" style="width: 0.5em;"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 2.05em;"><span class="" style="top: -4.21em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord">0</span></span></span><span class="" style="top: -3.01em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault" style="margin-right: 0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.151392em;"><span class="" style="top: -2.55em; margin-left: -0.10764em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right: 0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.286108em;"><span class=""></span></span></span></span></span></span></span></span><span class="" style="top: -1.81em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 1.55em;"><span class=""></span></span></span></span></span><span class="arraycolsep" style="width: 0.5em;"></span><span class="arraycolsep" style="width: 0.5em;"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 2.05em;"><span class="" style="top: -4.21em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.151392em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span><span class="" style="top: -3.01em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.151392em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right: 0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.286108em;"><span class=""></span></span></span></span></span></span></span></span><span class="" style="top: -1.81em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 1.55em;"><span class=""></span></span></span></span></span><span class="arraycolsep" style="width: 0.5em;"></span></span></span><span class="mclose"><span class="delimsizing mult"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 2.05002em;"><span class="" style="top: -2.25em;"><span class="pstrut" style="height: 3.155em;"></span><span class="delimsizinginner delim-size4"><span class="">⎠</span></span></span><span class="" style="top: -4.05002em;"><span class="pstrut" style="height: 3.155em;"></span><span class="delimsizinginner delim-size4"><span class="">⎞</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 1.55002em;"><span class=""></span></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="minner"><span class="mopen"><span class="delimsizing mult"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 2.05002em;"><span class="" style="top: -2.25em;"><span class="pstrut" style="height: 3.155em;"></span><span class="delimsizinginner delim-size4"><span class="">⎝</span></span></span><span class="" style="top: -4.05002em;"><span class="pstrut" style="height: 3.155em;"></span><span class="delimsizinginner delim-size4"><span class="">⎛</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 1.55002em;"><span class=""></span></span></span></span></span></span><span class="mord"><span class="mtable"><span class="arraycolsep" style="width: 0.5em;"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 2.05em;"><span class="" style="top: -4.21em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.07847em;">X</span></span></span><span class="" style="top: -3.01em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.22222em;">Y</span></span></span><span class="" style="top: -1.81em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.07153em;">Z</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 1.55em;"><span class=""></span></span></span></span></span><span class="arraycolsep" style="width: 0.5em;"></span></span></span><span class="mclose"><span class="delimsizing mult"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 2.05002em;"><span class="" style="top: -2.25em;"><span class="pstrut" style="height: 3.155em;"></span><span class="delimsizinginner delim-size4"><span class="">⎠</span></span></span><span class="" style="top: -4.05002em;"><span class="pstrut" style="height: 3.155em;"></span><span class="delimsizinginner delim-size4"><span class="">⎞</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 1.55002em;"><span class=""></span></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel amsrm">≜</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 2.00744em; vertical-align: -0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.32144em;"><span class="" style="top: -2.314em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.07153em;">Z</span></span></span><span class="" style="top: -3.23em;"><span class="pstrut" style="height: 3em;"></span><span class="frac-line" style="border-bottom-width: 0.04em;"></span></span><span class="" style="top: -3.677em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.686em;"><span class=""></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord"><span class="mord"><span class="mord boldsymbol" style="margin-right: 0.06979em;">K</span></span></span><span class="mord"><span class="mord"><span class="mord boldsymbol" style="margin-right: 0.15972em;">P</span></span></span></span><span class="tag"><span class="strut" style="height: 3.60004em; vertical-align: -1.55002em;"></span><span class="mord text"><span class="mord">(</span><span class="mord"><span class="mord">6</span></span><span class="mord">)</span></span></span></span></span></span></span></p> 
+<p>按照传统习惯，可以将 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        Z
+       
+      
+      
+       Z
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.68333em; vertical-align: 0em;"></span><span class="mord mathdefault" style="margin-right: 0.07153em;">Z</span></span></span></span></span> 移到等式左边，则有：</p> 
+<p><span class="katex--display"><span class="katex-display"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         
+         
+          
+           
+            Z
+           
+           
+            
+             (
+            
+            
+             
+              
+               
+                
+                 u
+                
+               
+              
+             
+             
+              
+               
+                
+                 v
+                
+               
+              
+             
+             
+              
+               
+                
+                 1
+                
+               
+              
+             
+            
+            
+             )
+            
+           
+           
+            =
+           
+           
+            
+             (
+            
+            
+             
+              
+               
+                
+                 
+                  f
+                 
+                 
+                  x
+                 
+                
+               
+              
+              
+               
+                
+                 0
+                
+               
+              
+              
+               
+                
+                 
+                  c
+                 
+                 
+                  x
+                 
+                
+               
+              
+             
+             
+              
+               
+                
+                 0
+                
+               
+              
+              
+               
+                
+                 
+                  f
+                 
+                 
+                  y
+                 
+                
+               
+              
+              
+               
+                
+                 
+                  c
+                 
+                 
+                  y
+                 
+                
+               
+              
+             
+             
+              
+               
+                
+                 0
+                
+               
+              
+              
+               
+                
+                 0
+                
+               
+              
+              
+               
+                
+                 1
+                
+               
+              
+             
+            
+            
+             )
+            
+           
+           
+            
+             (
+            
+            
+             
+              
+               
+                
+                 X
+                
+               
+              
+             
+             
+              
+               
+                
+                 Y
+                
+               
+              
+             
+             
+              
+               
+                
+                 Z
+                
+               
+              
+             
+            
+            
+             )
+            
+           
+           
+            ≜
+           
+           
+            K
+           
+           
+            P
+           
+          
+         
+         
+         
+          
+           (7)
+          
+         
+        
+       
+       
+         Z\left(\begin{array}{l} u \\ v \\ 1 \end{array}\right)=\left(\begin{array}{ccc} f_{x} &amp; 0 &amp; c_{x} \\ 0 &amp; f_{y} &amp; c_{y} \\ 0 &amp; 0 &amp; 1 \end{array}\right)\left(\begin{array}{l} X \\ Y \\ Z \end{array}\right) \triangleq \boldsymbol{K} \boldsymbol{P} \tag{7} 
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 3.60004em; vertical-align: -1.55002em;"></span><span class="mord mathdefault" style="margin-right: 0.07153em;">Z</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="minner"><span class="mopen"><span class="delimsizing mult"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 2.05002em;"><span class="" style="top: -2.25em;"><span class="pstrut" style="height: 3.155em;"></span><span class="delimsizinginner delim-size4"><span class="">⎝</span></span></span><span class="" style="top: -4.05002em;"><span class="pstrut" style="height: 3.155em;"></span><span class="delimsizinginner delim-size4"><span class="">⎛</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 1.55002em;"><span class=""></span></span></span></span></span></span><span class="mord"><span class="mtable"><span class="arraycolsep" style="width: 0.5em;"></span><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 2.05em;"><span class="" style="top: -4.21em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathdefault">u</span></span></span><span class="" style="top: -3.01em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.03588em;">v</span></span></span><span class="" style="top: -1.81em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 1.55em;"><span class=""></span></span></span></span></span><span class="arraycolsep" style="width: 0.5em;"></span></span></span><span class="mclose"><span class="delimsizing mult"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 2.05002em;"><span class="" style="top: -2.25em;"><span class="pstrut" style="height: 3.155em;"></span><span class="delimsizinginner delim-size4"><span class="">⎠</span></span></span><span class="" style="top: -4.05002em;"><span class="pstrut" style="height: 3.155em;"></span><span class="delimsizinginner delim-size4"><span class="">⎞</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 1.55002em;"><span class=""></span></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 3.60004em; vertical-align: -1.55002em;"></span><span class="minner"><span class="mopen"><span class="delimsizing mult"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 2.05002em;"><span class="" style="top: -2.25em;"><span class="pstrut" style="height: 3.155em;"></span><span class="delimsizinginner delim-size4"><span class="">⎝</span></span></span><span class="" style="top: -4.05002em;"><span class="pstrut" style="height: 3.155em;"></span><span class="delimsizinginner delim-size4"><span class="">⎛</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 1.55002em;"><span class=""></span></span></span></span></span></span><span class="mord"><span class="mtable"><span class="arraycolsep" style="width: 0.5em;"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 2.05em;"><span class="" style="top: -4.21em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault" style="margin-right: 0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.151392em;"><span class="" style="top: -2.55em; margin-left: -0.10764em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span><span class="" style="top: -3.01em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord">0</span></span></span><span class="" style="top: -1.81em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 1.55em;"><span class=""></span></span></span></span></span><span class="arraycolsep" style="width: 0.5em;"></span><span class="arraycolsep" style="width: 0.5em;"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 2.05em;"><span class="" style="top: -4.21em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord">0</span></span></span><span class="" style="top: -3.01em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault" style="margin-right: 0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.151392em;"><span class="" style="top: -2.55em; margin-left: -0.10764em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right: 0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.286108em;"><span class=""></span></span></span></span></span></span></span></span><span class="" style="top: -1.81em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 1.55em;"><span class=""></span></span></span></span></span><span class="arraycolsep" style="width: 0.5em;"></span><span class="arraycolsep" style="width: 0.5em;"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 2.05em;"><span class="" style="top: -4.21em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.151392em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span><span class="" style="top: -3.01em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.151392em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right: 0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.286108em;"><span class=""></span></span></span></span></span></span></span></span><span class="" style="top: -1.81em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 1.55em;"><span class=""></span></span></span></span></span><span class="arraycolsep" style="width: 0.5em;"></span></span></span><span class="mclose"><span class="delimsizing mult"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 2.05002em;"><span class="" style="top: -2.25em;"><span class="pstrut" style="height: 3.155em;"></span><span class="delimsizinginner delim-size4"><span class="">⎠</span></span></span><span class="" style="top: -4.05002em;"><span class="pstrut" style="height: 3.155em;"></span><span class="delimsizinginner delim-size4"><span class="">⎞</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 1.55002em;"><span class=""></span></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="minner"><span class="mopen"><span class="delimsizing mult"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 2.05002em;"><span class="" style="top: -2.25em;"><span class="pstrut" style="height: 3.155em;"></span><span class="delimsizinginner delim-size4"><span class="">⎝</span></span></span><span class="" style="top: -4.05002em;"><span class="pstrut" style="height: 3.155em;"></span><span class="delimsizinginner delim-size4"><span class="">⎛</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 1.55002em;"><span class=""></span></span></span></span></span></span><span class="mord"><span class="mtable"><span class="arraycolsep" style="width: 0.5em;"></span><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 2.05em;"><span class="" style="top: -4.21em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.07847em;">X</span></span></span><span class="" style="top: -3.01em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.22222em;">Y</span></span></span><span class="" style="top: -1.81em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right: 0.07153em;">Z</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 1.55em;"><span class=""></span></span></span></span></span><span class="arraycolsep" style="width: 0.5em;"></span></span></span><span class="mclose"><span class="delimsizing mult"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 2.05002em;"><span class="" style="top: -2.25em;"><span class="pstrut" style="height: 3.155em;"></span><span class="delimsizinginner delim-size4"><span class="">⎠</span></span></span><span class="" style="top: -4.05002em;"><span class="pstrut" style="height: 3.155em;"></span><span class="delimsizinginner delim-size4"><span class="">⎞</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 1.55002em;"><span class=""></span></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel amsrm">≜</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 0.68611em; vertical-align: 0em;"></span><span class="mord"><span class="mord"><span class="mord boldsymbol" style="margin-right: 0.06979em;">K</span></span></span><span class="mord"><span class="mord"><span class="mord boldsymbol" style="margin-right: 0.15972em;">P</span></span></span></span><span class="tag"><span class="strut" style="height: 3.60004em; vertical-align: -1.55002em;"></span><span class="mord text"><span class="mord">(</span><span class="mord"><span class="mord">7</span></span><span class="mord">)</span></span></span></span></span></span></span></p> 
+<p>上式中，中间的量组成的矩阵 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        K
+       
+      
+      
+       \boldsymbol{K}
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.68611em; vertical-align: 0em;"></span><span class="mord"><span class="mord"><span class="mord boldsymbol" style="margin-right: 0.06979em;">K</span></span></span></span></span></span></span> 被称为相机的内参矩阵（Camera Intrinsics）。</p> 
+<p>参考文献：视觉SLAM十四讲</p>
+                </div>
+                

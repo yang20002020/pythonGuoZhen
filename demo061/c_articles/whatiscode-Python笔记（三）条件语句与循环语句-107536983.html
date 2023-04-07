@@ -1,0 +1,271 @@
+<head> <meta charset="utf-8" </head>
+                      <div id="content_views" class="markdown_views prism-atom-one-dark">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                        <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                    </svg>
+                    <h2><a id="1__0"></a>1 条件语句</h2> 
+<h3><a id="11_if_2"></a>1.1 if语句</h3> 
+<pre><code class="prism language-python"><span class="token keyword">if</span> expression<span class="token punctuation">:</span>
+  expr_true_suite
+</code></pre> 
+<ol><li>if语句的 <code>expr_true_suite</code> 代码块只有当条件表达式 <code>expression</code> 结果为真时才执行，否则将继续执行紧跟在该代码块后面的语句。</li><li>单个if语句中的 <code>expression</code> 条件表达式可以通过布尔操作符 <code>and</code> ，<code>or</code> 和 <code>not</code> 实现多重条件判断</li></ol> 
+<p>【例子】</p> 
+<pre><code class="prism language-python"><span class="token keyword">if</span> <span class="token number">2</span> <span class="token operator">&gt;</span> <span class="token number">1</span> <span class="token operator">and</span> <span class="token operator">not</span> <span class="token number">2</span> <span class="token operator">&gt;</span> <span class="token number">3</span><span class="token punctuation">:</span>
+  <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Correct Judgement!'</span><span class="token punctuation">)</span>
+  
+<span class="token comment"># Correct Judgement!</span>
+</code></pre> 
+<h3><a id="12_ifelse_23"></a>1.2 if-else语句</h3> 
+<pre><code class="prism language-python"><span class="token keyword">if</span> expression<span class="token punctuation">:</span>
+  expr_true_suite 
+<span class="token keyword">else</span>
+  expr_false_suite
+</code></pre> 
+<p>Python提供与if搭配使用的else，如果if语句的条件表达式结果布尔值为假，那么程序将执行else语句后的代码。</p> 
+<p>【例子】</p> 
+<pre><code class="prism language-python">temp <span class="token operator">=</span> <span class="token builtin">input</span><span class="token punctuation">(</span><span class="token string">"猜⼀猜⼩姐姐想的是哪个数字？"</span><span class="token punctuation">)</span>
+guess <span class="token operator">=</span> <span class="token builtin">int</span><span class="token punctuation">(</span>temp<span class="token punctuation">)</span> <span class="token comment"># input 函数将接收的任何数据类型都默认为 str。 </span>
+<span class="token keyword">if</span> guess <span class="token operator">==</span> <span class="token number">666</span><span class="token punctuation">:</span>
+  <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"你太了解⼩姐姐的⼼思了！"</span><span class="token punctuation">)</span>
+  <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"哼，猜对也没有奖励！"</span><span class="token punctuation">)</span>
+<span class="token keyword">else</span><span class="token punctuation">:</span>
+  <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"猜错了，⼩姐姐现在⼼⾥想的是666！"</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"游戏结束，不玩⼉啦！"</span><span class="token punctuation">)</span>
+</code></pre> 
+<p>if语句支持嵌套，即在一个if语句中嵌入另一个if语句，从而构成不同层次的选择结构。</p> 
+<p>Python使用<strong>缩进</strong>而不是大括号来标记代码块边界，因此要特别注意else的悬挂问题。</p> 
+<h3><a id="13_ifelifelse_53"></a>1.3 if-elif-else语句</h3> 
+<p>elif语句即为else if，用来检查多个表达式是否为真，并在为真时执行特定代码块中的代码。</p> 
+<p>【例子】</p> 
+<pre><code class="prism language-python">temp <span class="token operator">=</span> <span class="token builtin">input</span><span class="token punctuation">(</span><span class="token string">'请输⼊成绩:'</span><span class="token punctuation">)</span>
+source <span class="token operator">=</span> <span class="token builtin">int</span><span class="token punctuation">(</span>temp<span class="token punctuation">)</span>
+<span class="token keyword">if</span> <span class="token number">100</span> <span class="token operator">&gt;=</span> source <span class="token operator">&gt;=</span> <span class="token number">90</span><span class="token punctuation">:</span>
+  <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'A'</span><span class="token punctuation">)</span>
+<span class="token keyword">elif</span> <span class="token number">90</span> <span class="token operator">&gt;</span> source <span class="token operator">&gt;=</span> <span class="token number">80</span><span class="token punctuation">:</span>
+  <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'B'</span><span class="token punctuation">)</span>
+<span class="token keyword">elif</span> <span class="token number">80</span> <span class="token operator">&gt;</span> source <span class="token operator">&gt;=</span> <span class="token number">60</span><span class="token punctuation">:</span>
+  <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'C'</span><span class="token punctuation">)</span>
+<span class="token keyword">elif</span> <span class="token number">60</span> <span class="token operator">&gt;</span> source <span class="token operator">&gt;=</span> <span class="token number">0</span><span class="token punctuation">:</span>
+  <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'D'</span><span class="token punctuation">)</span>
+<span class="token keyword">else</span><span class="token punctuation">:</span>
+  <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'输⼊错误！'</span><span class="token punctuation">)</span>
+</code></pre> 
+<h3><a id="14_assert_76"></a>1.4 assert关键词</h3> 
+<p>当关键词 <code>assert</code> （断言）后面的条件为False时，程序自动崩溃并抛出 <code>Assertion Error</code> 的异常。</p> 
+<p>【例子】</p> 
+<pre><code class="prism language-python">my_list <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'lsgogroup'</span><span class="token punctuation">]</span>
+my_list<span class="token punctuation">.</span>pop<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
+<span class="token keyword">assert</span> <span class="token builtin">len</span><span class="token punctuation">(</span>my_list<span class="token punctuation">)</span> <span class="token operator">&gt;</span> <span class="token number">0</span>
+
+<span class="token comment"># AssertionError</span>
+</code></pre> 
+<p>在进行单元测试时，可以用来在程序中置入检查点，只有条件为True才能让程序正常工作。</p> 
+<h2><a id="2__94"></a>2 循环语句</h2> 
+<h3><a id="21_while_96"></a>2.1 while循环</h3> 
+<pre><code class="prism language-python"><span class="token keyword">while</span> 布尔表达式<span class="token punctuation">:</span>
+  代码块
+</code></pre> 
+<p>布尔表达式为真或非零非空时执行代码块，假或0或空时不执行。</p> 
+<h3><a id="22_whileelse_105"></a>2.2 while-else循环</h3> 
+<pre><code class="prism language-python"><span class="token keyword">while</span> 布尔表达式<span class="token punctuation">:</span>
+  代码块
+<span class="token keyword">else</span><span class="token punctuation">:</span>
+  代码块
+</code></pre> 
+<p>当while循环正常执行完的情况下，执行else输出，如果while循环中执行了跳出循环的语句，比如说break，将不执行else代码块的内容。</p> 
+<p>【例1】</p> 
+<pre><code class="prism language-python">count <span class="token operator">=</span> <span class="token number">0</span>
+<span class="token keyword">while</span> count <span class="token operator">&lt;</span> <span class="token number">5</span><span class="token punctuation">:</span>
+  <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"%d is less than 5"</span> <span class="token operator">%</span> count<span class="token punctuation">)</span>
+  count <span class="token operator">=</span> count <span class="token operator">+</span> <span class="token number">1</span>
+<span class="token keyword">else</span><span class="token punctuation">:</span>
+  <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"%d is not less than 5"</span> <span class="token operator">%</span> count<span class="token punctuation">)</span>
+
+<span class="token comment"># 0 is less than 5 </span>
+<span class="token comment"># 1 is less than 5 </span>
+<span class="token comment"># 2 is less than 5 </span>
+<span class="token comment"># 3 is less than 5 </span>
+<span class="token comment"># 4 is less than 5 </span>
+<span class="token comment"># 5 is not less than 5</span>
+</code></pre> 
+<p>【例2】</p> 
+<pre><code class="prism language-python">count <span class="token operator">=</span> <span class="token number">0</span>
+<span class="token keyword">while</span> count <span class="token operator">&lt;</span> <span class="token number">5</span><span class="token punctuation">:</span>
+  <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"%d is count = 6 less than 5"</span> <span class="token operator">%</span> count<span class="token punctuation">)</span>
+  <span class="token keyword">break</span>
+<span class="token keyword">else</span><span class="token punctuation">:</span>
+  <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"%d is not less than 5"</span> <span class="token operator">%</span> count<span class="token punctuation">)</span>
+
+<span class="token comment"># 0 is less than 5</span>
+</code></pre> 
+<h3><a id="23_for_147"></a>2.3 for循环</h3> 
+<p>for循环是迭代循环，在Python中相当于一个通用的序列迭代器，可以遍历任何有序</p> 
+<pre><code class="prism language-python"><span class="token keyword">for</span> 迭代变量 <span class="token keyword">in</span> 可迭代对象<span class="token punctuation">:</span>
+  代码块
+</code></pre> 
+<p>每次循环，迭代变量被设置为可迭代对象的当前元素，提供给代码块使用。</p> 
+<p>【例子】</p> 
+<pre><code class="prism language-python"><span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token string">'ILoveLSGO'</span><span class="token punctuation">:</span>
+  <span class="token keyword">print</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> end<span class="token operator">=</span><span class="token string">' '</span><span class="token punctuation">)</span> <span class="token comment"># 不换⾏输出</span>
+
+<span class="token comment"># I L o v e L S G O</span>
+</code></pre> 
+<h3><a id="24_forelse_167"></a>2.4 for-else循环</h3> 
+<p>当for循环正常执行完的情况下，执行else输出，如果for循环中执行了跳出循环的语句，比如说break，将不执行else代码块的内容，和while-else一样。</p> 
+<h3><a id="25_range__171"></a>2.5 range() 函数</h3> 
+<pre><code class="prism language-python"><span class="token builtin">range</span><span class="token punctuation">(</span><span class="token punctuation">[</span>start<span class="token punctuation">,</span><span class="token punctuation">]</span> stop<span class="token punctuation">[</span><span class="token punctuation">,</span> step<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+</code></pre> 
+<ol><li>这个BIF（Built-in function）有三个参数，其中用中括号括起来的两个表示这两个参数是可选的。</li><li>step = 1 表示第三个参数的默认值是1。</li><li>range() 这个BIF的作用是生成一个从start参数的值开始到stop参数到值结束的数字序列，该序列包含start的值但不包含stop的值。（左闭右开）</li></ol> 
+<p>【例1】</p> 
+<pre><code class="prism language-python"><span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token comment"># 不包含9</span>
+  <span class="token keyword">print</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span>
+
+<span class="token comment"># 2 </span>
+<span class="token comment"># 3 </span>
+<span class="token comment"># 4 </span>
+<span class="token comment"># 5 </span>
+<span class="token comment"># 6 </span>
+<span class="token comment"># 7 </span>
+<span class="token comment"># 8</span>
+</code></pre> 
+<p>【例2】</p> 
+<pre><code class="prism language-python"><span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+  <span class="token keyword">print</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span>
+
+<span class="token comment"># 1 </span>
+<span class="token comment"># 3 </span>
+<span class="token comment"># 5 </span>
+<span class="token comment"># 7 </span>
+<span class="token comment"># 9</span>
+</code></pre> 
+<h3><a id="26_enumerate_209"></a>2.6 enumerate()函数</h3> 
+<pre><code class="prism language-python"><span class="token builtin">enumerate</span><span class="token punctuation">(</span>sequence<span class="token punctuation">,</span> <span class="token punctuation">[</span>start<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+</code></pre> 
+<ol><li>sequence – 一个序列、迭代器或其他支持迭代对象。</li><li>start – 下标起始位置</li><li>返回enumerate(枚举)对象</li></ol> 
+<p>【例1】</p> 
+<pre><code class="prism language-python">seasons <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'Spring'</span><span class="token punctuation">,</span> <span class="token string">'Summer'</span><span class="token punctuation">,</span> <span class="token string">'Fall'</span><span class="token punctuation">,</span> <span class="token string">'Winter'</span><span class="token punctuation">]</span>
+lst <span class="token operator">=</span> <span class="token builtin">list</span><span class="token punctuation">(</span><span class="token builtin">enumerate</span><span class="token punctuation">(</span>seasons<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>lst<span class="token punctuation">)</span>
+<span class="token comment"># [(0, 'Spring'), (1, 'Summer'), (2, 'Fall'), (3, 'Winter')]</span>
+lst <span class="token operator">=</span> <span class="token builtin">list</span><span class="token punctuation">(</span><span class="token builtin">enumerate</span><span class="token punctuation">(</span>seasons<span class="token punctuation">,</span> start<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment"># 下标从 1 开始</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>lst<span class="token punctuation">)</span> 
+<span class="token comment"># [(1, 'Spring'), (2, 'Summer'), (3, 'Fall'), (4, 'Winter')]</span>
+</code></pre> 
+<p>【例2】enumerate() 与for循环的结合使用</p> 
+<pre><code class="prism language-python"><span class="token keyword">for</span> i<span class="token punctuation">,</span> a <span class="token keyword">in</span> <span class="token builtin">enumerate</span><span class="token punctuation">(</span>A<span class="token punctuation">)</span><span class="token punctuation">:</span>
+  do something <span class="token keyword">with</span> a
+</code></pre> 
+<p>用enumerate(A) 不仅返回了A中的元素，还顺便给该元素一个索引值（默认从0开始）。此外，用enumerate(A, j)还可以确定索引起始值为j。</p> 
+<pre><code class="prism language-python">languages <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'Python'</span><span class="token punctuation">,</span> <span class="token string">'R'</span><span class="token punctuation">,</span> <span class="token string">'Matlab'</span><span class="token punctuation">,</span> <span class="token string">'C++'</span><span class="token punctuation">]</span>
+<span class="token keyword">for</span> language <span class="token keyword">in</span> languages<span class="token punctuation">:</span>
+  <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'I love'</span><span class="token punctuation">,</span> language<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Done!'</span><span class="token punctuation">)</span>
+
+<span class="token comment"># I love Python</span>
+<span class="token comment"># I love R</span>
+<span class="token comment"># I love Matlab</span>
+<span class="token comment"># I love C++</span>
+<span class="token comment"># Done!</span>
+
+<span class="token keyword">for</span> i<span class="token punctuation">,</span> language <span class="token keyword">in</span> <span class="token builtin">enumerate</span><span class="token punctuation">(</span>languages<span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+  <span class="token keyword">print</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> <span class="token string">'I love'</span><span class="token punctuation">,</span> language<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Done!'</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 2 I love Python</span>
+<span class="token comment"># 3 I love R</span>
+<span class="token comment"># 4 I love Matlab</span>
+<span class="token comment"># 5 I love C++</span>
+<span class="token comment"># Done!</span>
+</code></pre> 
+<h3><a id="27_break_265"></a>2.7 break语句</h3> 
+<p>break语句可以跳出当前所在层的循环。</p> 
+<h3><a id="28_continue_271"></a>2.8 continue语句</h3> 
+<p>continue语句终止本轮循环并开始下一轮循环。</p> 
+<h3><a id="29_pass_277"></a>2.9 pass语句</h3> 
+<p>pass语句的意思就是“不做任何事”，如果你在需要有语句的地方不写任何语句，那么解释器会提示出错，而pass语句就是用来解决这些问题的。</p> 
+<p>pass是空语句，不做任何操作，只起到占位的作用，目的是为了保持程序结构的完整性。</p> 
+<h2><a id="3__285"></a>3 推导式</h2> 
+<h3><a id="31__287"></a>3.1 列表推导式</h3> 
+<pre><code class="prism language-python"><span class="token punctuation">[</span> expr <span class="token keyword">for</span> value <span class="token keyword">in</span> collection <span class="token punctuation">[</span><span class="token keyword">if</span> condition<span class="token punctuation">]</span> <span class="token punctuation">]</span>
+</code></pre> 
+<p>【例子】</p> 
+<pre><code class="prism language-python">x <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">4</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">]</span>
+y <span class="token operator">=</span> <span class="token punctuation">[</span>a <span class="token operator">*</span> <span class="token number">2</span> <span class="token keyword">for</span> a <span class="token keyword">in</span> x<span class="token punctuation">]</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>y<span class="token punctuation">)</span>
+<span class="token comment"># [-8, -4, 0, 4, 8]</span>
+
+a <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> j<span class="token punctuation">)</span> <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span> <span class="token keyword">for</span> j <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">]</span> 
+<span class="token keyword">print</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span>
+<span class="token comment"># [(0, 0), (0, 1), (0, 2), (1, 0), (1, 1), (1, 2), (2, 0), (2, 1), (2, 2)]</span>
+
+a <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> j<span class="token punctuation">)</span> <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span> <span class="token keyword">if</span> i <span class="token operator">&lt;</span> <span class="token number">1</span> <span class="token keyword">for</span> j <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span> <span class="token keyword">if</span> j <span class="token operator">&gt;</span> <span class="token number">1</span><span class="token punctuation">]</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span>
+<span class="token comment"># [(0, 2)]</span>
+</code></pre> 
+<h3><a id="32__310"></a>3.2 元组推导式</h3> 
+<pre><code class="prism language-python"><span class="token punctuation">(</span> expr <span class="token keyword">for</span> value <span class="token keyword">in</span> collection <span class="token punctuation">[</span><span class="token keyword">if</span> condition<span class="token punctuation">]</span> <span class="token punctuation">)</span>
+</code></pre> 
+<p>【例子】</p> 
+<pre><code class="prism language-python">a <span class="token operator">=</span> <span class="token punctuation">(</span>x <span class="token keyword">for</span> x <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span>
+
+<span class="token comment"># &lt;generator object &lt;genexpr&gt; at 0x0000025BE511CC48&gt;</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">tuple</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token comment"># (0, 1, 2, 3, 4, 5, 6, 7, 8, 9)</span>
+</code></pre> 
+<h3><a id="33__329"></a>3.3 字典推导式</h3> 
+<pre><code class="prism language-python"><span class="token punctuation">{<!-- --></span> key_expr<span class="token punctuation">:</span> value_expr <span class="token keyword">for</span> value <span class="token keyword">in</span> collection <span class="token punctuation">[</span><span class="token keyword">if</span> condition<span class="token punctuation">]</span> <span class="token punctuation">}</span>
+</code></pre> 
+<p>【例子】</p> 
+<pre><code class="prism language-python">b <span class="token operator">=</span> <span class="token punctuation">{<!-- --></span>i<span class="token punctuation">:</span> i <span class="token operator">%</span> <span class="token number">2</span> <span class="token operator">==</span> <span class="token number">0</span> <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span> <span class="token keyword">if</span> i <span class="token operator">%</span> <span class="token number">3</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">}</span> 
+<span class="token keyword">print</span><span class="token punctuation">(</span>b<span class="token punctuation">)</span>
+<span class="token comment"># {0: True, 3: False, 6: True, 9: False}</span>
+</code></pre> 
+<h3><a id="34__343"></a>3.4 集合推导式</h3> 
+<pre><code class="prism language-python"><span class="token punctuation">{<!-- --></span> expr <span class="token keyword">for</span> value <span class="token keyword">in</span> collection <span class="token punctuation">[</span><span class="token keyword">if</span> condition<span class="token punctuation">]</span> <span class="token punctuation">}</span>
+</code></pre> 
+<pre><code class="prism language-python">c <span class="token operator">=</span> <span class="token punctuation">{<!-- --></span>i <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">}</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span>
+<span class="token comment"># {1, 2, 3, 4, 5, 6}</span>
+</code></pre> 
+<h2><a id="4__357"></a>4 练习题</h2> 
+<p>1、编写一个Python程序来查找那些既可以被7整除又可以被5整除的数字，介于1500和2700之间。</p> 
+<pre><code class="prism language-python"><span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">1500</span><span class="token punctuation">,</span> <span class="token number">2701</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+  <span class="token keyword">if</span> i <span class="token operator">%</span> <span class="token number">7</span> <span class="token operator">==</span> <span class="token number">0</span> <span class="token operator">and</span> i <span class="token operator">%</span> <span class="token number">5</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span>
+</code></pre> 
+<p>2、龟兔赛跑游戏</p> 
+<p>题目描述：</p> 
+<p>话说这个世界上有各种各样的兔子和乌龟，但是研究发现，所有的兔子和乌龟都有一个共同的特点——喜欢赛跑。于是世界上各个角落都不断在发生着乌龟和兔子的比赛，小华对此很感兴趣，于是决定研究不同兔 子和乌龟的赛跑。他发现，兔子虽然跑比乌龟快，但它们有众所周知的毛病——骄傲且懒惰，于是在与乌龟的比赛中，一旦任一秒结束后兔子发现自己领先t米或以 上，它们就会停下来休息s秒。对于不同的兔子，t，s的数值是不同的，但是所有的乌龟却是一致——它们不到终点决不停止。</p> 
+<p>然而有些比赛相当漫长，全程观看会耗费大量时间，而小华发现只要在每场比赛开始后记录下兔子和乌龟的数据——兔子的速度v1（表示每秒兔子能跑v1 米），乌龟的速度v2，以及兔子对应的t，s值，以及赛道的长度l——就能预测出比赛的结果。但是小华很懒，不想通过手工计算推测出比赛的结果，于是他找 到了你——清华大学计算机系的高才生——请求帮助，请你写一个程序，对于输入的一场比赛的数据v1，v2，t，s，l，预测该场比赛的结果。</p> 
+<p>输入:</p> 
+<p>输入只有一行，包含用空格隔开的五个正整数v1，v2，t，s，l，其中(v1,v2&lt; =100;t&lt; =300;s&lt; =10;l&lt; =10000且为v1,v2的公倍数)</p> 
+<p>输出:</p> 
+<p>输出包含两行，第一行输出比赛结果——一个大写字母“T”或“R”或“D”，分别表示乌龟获胜，兔子获胜，或者两者同时到达终点。</p> 
+<p>第二行输出一个正整数，表示获胜者（或者双方同时）到达终点所耗费的时间（秒数）。</p> 
+<hr> 
+<p>样例输入：</p> 
+<p>10 5 5 2 20</p> 
+<p>样例输出</p> 
+<p>D<br> 4</p> 
+<pre><code class="prism language-python">v1<span class="token punctuation">,</span>v2<span class="token punctuation">,</span>t<span class="token punctuation">,</span>s<span class="token punctuation">,</span>l <span class="token operator">=</span> <span class="token builtin">map</span><span class="token punctuation">(</span><span class="token builtin">int</span><span class="token punctuation">,</span> <span class="token builtin">input</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">if</span> v1<span class="token operator">&lt;=</span><span class="token number">100</span> <span class="token operator">and</span> v2<span class="token operator">&lt;=</span><span class="token number">100</span> <span class="token operator">and</span> t<span class="token operator">&lt;=</span><span class="token number">300</span> <span class="token operator">and</span> s<span class="token operator">&lt;=</span><span class="token number">10</span> <span class="token operator">and</span> l<span class="token operator">&lt;=</span><span class="token number">10000</span> <span class="token operator">and</span> l<span class="token operator">%</span>v1<span class="token operator">==</span><span class="token number">0</span> <span class="token operator">and</span> l<span class="token operator">%</span>v2<span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">:</span>
+    s1<span class="token punctuation">,</span>s2<span class="token punctuation">,</span>i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span>
+    <span class="token keyword">while</span> s1<span class="token operator">&lt;</span>l <span class="token operator">and</span> s2<span class="token operator">&lt;</span>l<span class="token punctuation">:</span>
+        s1<span class="token punctuation">,</span>s2<span class="token punctuation">,</span>i<span class="token operator">=</span>v1<span class="token operator">+</span>s1<span class="token punctuation">,</span>v2<span class="token operator">+</span>s2<span class="token punctuation">,</span>i<span class="token operator">+</span><span class="token number">1</span>
+        <span class="token keyword">if</span> s1<span class="token operator">==</span>l <span class="token operator">or</span> s2<span class="token operator">==</span>l<span class="token punctuation">:</span>
+            <span class="token keyword">break</span>
+        <span class="token keyword">elif</span> s1<span class="token operator">-</span>s2<span class="token operator">&gt;=</span>t<span class="token punctuation">:</span>
+            s2<span class="token punctuation">,</span>i<span class="token operator">=</span>s2<span class="token operator">+</span>v2<span class="token operator">*</span>s<span class="token punctuation">,</span>i<span class="token operator">+</span>s
+    <span class="token keyword">if</span> s1<span class="token operator">&gt;</span>s2<span class="token punctuation">:</span>
+      <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'R'</span><span class="token punctuation">)</span>
+    <span class="token keyword">if</span> s1<span class="token operator">==</span>s2<span class="token punctuation">:</span>
+      <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'D'</span><span class="token punctuation">)</span>
+    <span class="token keyword">if</span> s1<span class="token operator">&lt;</span>s2<span class="token punctuation">:</span>
+      <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'T'</span><span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span>
+</code></pre>
+                </div>
+                

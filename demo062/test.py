@@ -7,7 +7,8 @@ import os
 
 file_html_name = 'c_articles\\m0_59485658-Python画爱心——谁能拒绝用代码敲出来会跳动的爱心呢~-127748894.html'
 pre_file_name = os.path.splitext(file_html_name)[0]
-pre1=os.path.splitext(file_html_name)[1]
-print(pre1)
+pre1 = os.path.splitext(file_html_name)[1]  # .html
+print(pre1)  # <class 'str'>
 print(type(pre_file_name))
 print(pre_file_name)
+#  c_articles\m0_59485658-Python画爱心——谁能拒绝用代码敲出来会跳动的爱心呢~-127748894

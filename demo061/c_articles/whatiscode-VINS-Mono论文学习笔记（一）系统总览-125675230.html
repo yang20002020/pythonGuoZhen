@@ -1,0 +1,273 @@
+<head> <meta charset="utf-8" </head>
+                      <div id="content_views" class="markdown_views prism-atom-one-dark">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                        <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                    </svg>
+                    <h1><a id="1__0"></a>1 系统简介</h1> 
+<p>VINS-Mono: A Robust and Versatile Monocular Visual-Inertial State Estimator，是香港科技大学沈劭劼团队在2017年开源的VIO系统，也是视觉SLAM中非常经典的一个开源框架。一作是华为的天才少年秦通。</p> 
+<p>文章主要提出了一个紧耦合、基于非线性优化的单目惯导里程计。主要工作包括：</p> 
+<ul><li><strong>鲁棒初始化</strong>：能够从未知的初始状态引导系统。</li><li><strong>视觉惯导里程计</strong>：完成了一个紧耦合、基于非线性优化的VIO，包括视觉惯导外参标定和IMU bias估计</li><li><strong>在线的回环检测和紧耦合的重定位</strong></li><li><strong>四自由度全局位姿图优化</strong></li></ul> 
+<p>整个系统完整且易于使用。它已经被成功应用于小规模AR场景、中型无人机导航和大规模状态估计任务。</p> 
+<h1><a id="2__13"></a>2 系统框架</h1> 
+<p>[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-tEkN7mbO-1657263379202)(https://s3-us-west-2.amazonaws.com/secure.notion-static.com/2507a708-5437-4e94-ad41-e75fe9bc7d6b/截屏2022-07-07_下午5.57.54.png)]</p> 
+<p>由上面的系统框架图并结合论文来看，整个系统主要包括五个模块：</p> 
+<ol><li>Measuremen Preprocessing（数据预处理模块）</li><li>Initialization（初始化模块）</li><li>Local Visual-Inertial Odometry（局部VIO里程计模块）</li><li>Relocalization（重定位模块）</li><li>Global Pose Graph Optimization（全局位姿图优化模块）</li></ol> 
+<h1><a id="3__25"></a>3 坐标系和符号定义</h1> 
+<p>坐标系定义：</p> 
+<ul><li><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         (
+        
+        
+         ⋅
+        
+        
+         
+          )
+         
+         
+          w
+         
+        
+       
+       
+        (\cdot)^{w}
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mopen">(</span><span class="mord">⋅</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.664392em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right: 0.02691em;">w</span></span></span></span></span></span></span></span></span></span></span></span></span>——世界坐标系</li><li><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         (
+        
+        
+         ⋅
+        
+        
+         
+          )
+         
+         
+          b
+         
+        
+       
+       
+        (\cdot)^{b}
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1.09911em; vertical-align: -0.25em;"></span><span class="mopen">(</span><span class="mord">⋅</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.849108em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">b</span></span></span></span></span></span></span></span></span></span></span></span></span>——body坐标系（也称作IMU坐标系）</li><li><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         (
+        
+        
+         ⋅
+        
+        
+         
+          )
+         
+         
+          c
+         
+        
+       
+       
+        (\cdot)^{c}
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mopen">(</span><span class="mord">⋅</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.664392em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">c</span></span></span></span></span></span></span></span></span></span></span></span></span>——相机坐标系</li></ul> 
+<p>旋转由两种方式表示：</p> 
+<ul><li>旋转矩阵 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         R
+        
+       
+       
+        \mathbf{R}
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.68611em; vertical-align: 0em;"></span><span class="mord"><span class="mord mathbf">R</span></span></span></span></span></span></li><li>Hamilton 四元数 <span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         q
+        
+       
+       
+        \mathbf{q}
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.63888em; vertical-align: -0.19444em;"></span><span class="mord"><span class="mord mathbf">q</span></span></span></span></span></span></li></ul> 
+<p>符号说明：</p> 
+<ul><li><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         
+          q
+         
+         
+          b
+         
+         
+          w
+         
+        
+       
+       
+        \mathbf{q}_{b}^{w}
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.9475em; vertical-align: -0.283108em;"></span><span class="mord"><span class="mord"><span class="mord mathbf">q</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.664392em;"><span class="" style="top: -2.41689em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">b</span></span></span></span><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right: 0.02691em;">w</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.283108em;"><span class=""></span></span></span></span></span></span></span></span></span></span>——表示从IMU坐标系到世界坐标系的旋转</li><li><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         
+          p
+         
+         
+          b
+         
+         
+          w
+         
+        
+       
+       
+        \mathbf{p}_{b}^{w}
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.9475em; vertical-align: -0.283108em;"></span><span class="mord"><span class="mord"><span class="mord mathbf">p</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.664392em;"><span class="" style="top: -2.41689em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">b</span></span></span></span><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right: 0.02691em;">w</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.283108em;"><span class=""></span></span></span></span></span></span></span></span></span></span>——表示从IMU坐标系到世界坐标系的平移</li><li><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         
+          b
+         
+         
+          k
+         
+        
+       
+       
+        b_{k}
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.84444em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.336108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right: 0.03148em;">k</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span>——表示在拍摄第k张图片时刻下的IMU坐标系</li><li><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         
+          c
+         
+         
+          k
+         
+        
+       
+       
+        c_{k}
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.58056em; vertical-align: -0.15em;"></span><span class="mord"><span class="mord mathdefault">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.336108em;"><span class="" style="top: -2.55em; margin-left: 0em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right: 0.03148em;">k</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.15em;"><span class=""></span></span></span></span></span></span></span></span></span></span>——表示在拍摄第k张图片时刻下的相机坐标系</li><li><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         ⊗
+        
+       
+       
+        \otimes
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.66666em; vertical-align: -0.08333em;"></span><span class="mord">⊗</span></span></span></span></span>——表示两个四元数的乘法操作</li><li><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         
+          g
+         
+         
+          w
+         
+        
+        
+         =
+        
+        
+         [
+        
+        
+         0
+        
+        
+         ,
+        
+        
+         0
+        
+        
+         ,
+        
+        
+         g
+        
+        
+         
+          ]
+         
+         
+          T
+         
+        
+       
+       
+        \mathbf{g}^{w}=[0,0, g]^{T}
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.858832em; vertical-align: -0.19444em;"></span><span class="mord"><span class="mord"><span class="mord mathbf" style="margin-right: 0.01597em;">g</span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.664392em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right: 0.02691em;">w</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right: 0.277778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right: 0.277778em;"></span></span><span class="base"><span class="strut" style="height: 1.09133em; vertical-align: -0.25em;"></span><span class="mopen">[</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord mathdefault" style="margin-right: 0.03588em;">g</span><span class="mclose"><span class="mclose">]</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.841331em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right: 0.13889em;">T</span></span></span></span></span></span></span></span></span></span></span></span></span>——表示世界坐标系下的重力向量</li><li><span class="katex--inline"><span class="katex"><span class="katex-mathml">
+     
+      
+       
+        
+         
+          
+           (
+          
+          
+           ⋅
+          
+          
+           )
+          
+         
+         
+          ^
+         
+        
+       
+       
+        \hat{(\cdot)}
+       
+      
+     </span><span class="katex-html"><span class="base"><span class="strut" style="height: 1.26344em; vertical-align: -0.25em;"></span><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 1.01344em;"><span class="" style="top: -3em;"><span class="pstrut" style="height: 3em;"></span><span class="mord"><span class="mopen">(</span><span class="mord">⋅</span><span class="mclose">)</span></span></span><span class="" style="top: -3.319em;"><span class="pstrut" style="height: 3em;"></span><span class="accent-body" style="left: -0.25em;">^</span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.25em;"><span class=""></span></span></span></span></span></span></span></span></span>——表示某个特定量的包含噪声的测量或者估计</li></ul>
+                </div>
+                

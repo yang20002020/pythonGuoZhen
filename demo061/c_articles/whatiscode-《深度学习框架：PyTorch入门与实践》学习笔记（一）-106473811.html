@@ -1,0 +1,336 @@
+<head> <meta charset="utf-8" </head>
+                      <div id="content_views" class="markdown_views prism-atom-one-dark">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                        <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                    </svg>
+                    <blockquote> 
+ <p>最近在学习PyTorch，用的是《深度学习框架PyTorch：入门与实战》这本书，然后做些笔记来加深印象。</p> 
+</blockquote> 
+<p>书籍开源地址：<a href="https://github.com/chenyuntc/pytorch-book">https://github.com/chenyuntc/pytorch-book</a></p> 
+<h2><a id="PyTorch_3"></a>PyTorch第一步</h2> 
+<h3><a id="1_Tensor_5"></a>1 Tensor</h3> 
+<p>Tensor是PyTorch中重要的数据结构，可认为是一个高维数组。它可以是一个数（标量）、一维数组（向量）、二维数组（矩阵）以及更高维的数组。Tensor和Numpy的ndarrays类似，但Tensor可以使用GPU进行加速。Tensor的使用和Numpy及Matlab的接口十分相似，下面通过几个例子来看看Tensor的基本使用。</p> 
+<h4><a id="11__9"></a>1.1 构建矩阵和加法运算</h4> 
+<p>注意：函数名后面带下划线_ 的函数会修改Tensor本身。</p> 
+<pre><code class="prism language-python"><span class="token keyword">from</span> __future__ <span class="token keyword">import</span> print_function
+<span class="token keyword">import</span> torch <span class="token keyword">as</span> t
+t<span class="token punctuation">.</span>__version__
+
+<span class="token comment"># 构建 5x3 矩阵，只是分配了空间，未初始化</span>
+x <span class="token operator">=</span> t<span class="token punctuation">.</span>Tensor<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 使用[0,1]均匀分布随机初始化二维数组</span>
+x <span class="token operator">=</span> t<span class="token punctuation">.</span>rand<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span>  
+
+<span class="token comment"># 查看x的形状</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>x<span class="token punctuation">.</span>size<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 查看列的个数, 两种写法等价</span>
+x<span class="token punctuation">.</span>size<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>
+x<span class="token punctuation">.</span>size<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> 
+
+<span class="token comment"># 加法</span>
+x <span class="token operator">=</span> t<span class="token punctuation">.</span>rand<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span>
+y <span class="token operator">=</span> t<span class="token punctuation">.</span>rand<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span>
+<span class="token comment"># 加法的第一种写法</span>
+x <span class="token operator">+</span> y
+<span class="token comment"># 加法的第二种写法</span>
+t<span class="token punctuation">.</span>add<span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">)</span>
+<span class="token comment"># 加法的第三种写法：指定加法结果的输出目标为result</span>
+result <span class="token operator">=</span> t<span class="token punctuation">.</span>Tensor<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span> <span class="token comment"># 预先分配空间</span>
+t<span class="token punctuation">.</span>add<span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">,</span> out<span class="token operator">=</span>result<span class="token punctuation">)</span> <span class="token comment"># 输入到result</span>
+
+<span class="token comment"># 加法的另外一种表示形式：将一个数加到另一个数上面</span>
+<span class="token comment"># 注意，函数名后面带下划线_ 的函数会修改Tensor本身。</span>
+y<span class="token punctuation">.</span>add<span class="token punctuation">(</span>x<span class="token punctuation">)</span> <span class="token comment"># 普通加法，不改变y的内容</span>
+y<span class="token punctuation">.</span>add_<span class="token punctuation">(</span>x<span class="token punctuation">)</span> <span class="token comment"># inplace 加法，y变了</span>
+</code></pre> 
+<h4><a id="12_TensorNumpy_48"></a>1.2 Tensor和Numpy中的数组</h4> 
+<p>Tensor还支持很多操作，包括数学运算、线性代数、选择、切片等等，其接口设计与Numpy极为相似。</p> 
+<p>Tensor和Numpy的数组之间的互操作非常容易且快速。对于Tensor不支持的操作，可以先转为Numpy数组处理，之后再转回Tensor。</p> 
+<p>Tensor和numpy对象共享内存，所以他们之间的转换很快，而且几乎不会消耗什么资源。但这也意味着，如果其中一个变了，另外一个也会随之改变。</p> 
+<pre><code class="prism language-python"><span class="token comment"># Tensor的选取操作与Numpy类似</span>
+<span class="token comment"># 选取第二列</span>
+x<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">]</span>
+
+<span class="token comment"># 新建一个全1的Tensor</span>
+a <span class="token operator">=</span> t<span class="token punctuation">.</span>ones<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span> 
+<span class="token comment"># Tensor -&gt; Numpy</span>
+b <span class="token operator">=</span> a<span class="token punctuation">.</span>numpy<span class="token punctuation">(</span><span class="token punctuation">)</span> 
+
+<span class="token keyword">import</span> numpy <span class="token keyword">as</span> np
+<span class="token comment"># 新建一个全1的numpy数组</span>
+a <span class="token operator">=</span> np<span class="token punctuation">.</span>ones<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span>
+<span class="token comment"># Numpy-&gt;Tensor</span>
+b <span class="token operator">=</span> t<span class="token punctuation">.</span>from_numpy<span class="token punctuation">(</span>a<span class="token punctuation">)</span>
+</code></pre> 
+<h4><a id="13_scalar_73"></a>1.3 scalar</h4> 
+<p>如果你想获取某一个元素的值，可以使用<code>scalar.item</code>。 直接<code>tensor[idx]</code>得到的还是一个tensor: 一个0维的tensor，一般称为scalar.</p> 
+<pre><code class="prism language-python">a <span class="token operator">=</span> t<span class="token punctuation">.</span>ones<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span>
+scalar <span class="token operator">=</span> a<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+scalar
+scalar<span class="token punctuation">.</span>size<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">#0-dim</span>
+scalar<span class="token punctuation">.</span>item<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment"># 使用scalar.item()能从中取出python对象的数值</span>
+
+<span class="token comment"># 注意tensor和scalar的区别</span>
+tensor <span class="token operator">=</span> t<span class="token punctuation">.</span>tensor<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span> 
+tensor
+tensor<span class="token punctuation">.</span>size<span class="token punctuation">(</span><span class="token punctuation">)</span>
+tensor<span class="token punctuation">.</span>item<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment"># 只有一个元素的tensor也可以调用`tensor.item()`</span>
+</code></pre> 
+<h4><a id="14__91"></a>1.4 内存共享</h4> 
+<p>需要注意的是，<code>t.tensor()</code>或者<code>tensor.clone()</code>总是会进行数据拷贝，新tensor和原来的数据不再共享内存。所以如果你想共享内存的话，建议使用<code>torch.from_numpy()</code>或者<code>tensor.detach()</code>来新建一个tensor, 二者共享内存。</p> 
+<pre><code class="prism language-python"><span class="token comment"># 拷贝不共享内存的数据</span>
+old_tensor <span class="token operator">=</span> tensor
+new_tensor <span class="token operator">=</span> old_tensor<span class="token punctuation">.</span>clone<span class="token punctuation">(</span><span class="token punctuation">)</span>
+new_tensor<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">1111</span>
+old_tensor<span class="token punctuation">,</span> new_tensor
+
+<span class="token comment"># 共享内存</span>
+new_tensor <span class="token operator">=</span> old_tensor<span class="token punctuation">.</span>detach<span class="token punctuation">(</span><span class="token punctuation">)</span>
+new_tensor<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">1111</span>
+old_tensor<span class="token punctuation">,</span> new_tensor
+</code></pre> 
+<h4><a id="15_GPU_108"></a>1.5 GPU加速</h4> 
+<p>Tensor可通过<code>.cuda</code> 方法转为GPU的Tensor，从而享受GPU带来的加速运算。</p> 
+<pre><code class="prism language-python"><span class="token comment"># 在不支持CUDA的机器下，下一步还是在CPU上运行</span>
+device <span class="token operator">=</span> t<span class="token punctuation">.</span>device<span class="token punctuation">(</span><span class="token string">"cuda:0"</span> <span class="token keyword">if</span> t<span class="token punctuation">.</span>cuda<span class="token punctuation">.</span>is_available<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">else</span> <span class="token string">"cpu"</span><span class="token punctuation">)</span>
+x <span class="token operator">=</span> x<span class="token punctuation">.</span>to<span class="token punctuation">(</span>device<span class="token punctuation">)</span>
+y <span class="token operator">=</span> y<span class="token punctuation">.</span>to<span class="token punctuation">(</span>x<span class="token punctuation">.</span>device<span class="token punctuation">)</span>
+z <span class="token operator">=</span> x <span class="token operator">+</span> y
+</code></pre> 
+<h3><a id="2_autograd__122"></a>2 autograd: 自动微分</h3> 
+<p>深度学习的算法本质上是通过反向传播求导数，而PyTorch的**<code>autograd</code>**模块则实现了此功能。在Tensor上的所有操作，autograd都能为它们自动提供微分，避免了手动计算导数的复杂过程。</p> 
+<p>要想使得Tensor使用autograd功能，只需要设置<code>tensor.requries_grad=True</code>.</p> 
+<pre><code class="prism language-python"><span class="token comment"># 为tensor设置 requires_grad 标识，代表着需要求导数</span>
+<span class="token comment"># pytorch 会自动调用autograd 记录操作</span>
+x <span class="token operator">=</span> t<span class="token punctuation">.</span>ones<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> requires_grad<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+
+y <span class="token operator">=</span> x<span class="token punctuation">.</span><span class="token builtin">sum</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+y<span class="token punctuation">.</span>grad_fn
+y<span class="token punctuation">.</span>backward<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment"># 反向传播,计算梯度</span>
+<span class="token comment"># y = x.sum() = (x[0][0] + x[0][1] + x[1][0] + x[1][1])</span>
+<span class="token comment"># 每个值的梯度都为1</span>
+x<span class="token punctuation">.</span>grad
+</code></pre> 
+<p>注意：<code>grad</code>在反向传播过程中是累加的(accumulated)，这意味着每一次运行反向传播，梯度都会累加之前的梯度，所以反向传播之前需把梯度清零。</p> 
+<pre><code class="prism language-python"><span class="token comment"># 梯度清零</span>
+x<span class="token punctuation">.</span>grad<span class="token punctuation">.</span>data<span class="token punctuation">.</span>zero_<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre> 
+<h3><a id="3__150"></a>3 神经网络</h3> 
+<p>Autograd实现了反向传播功能，但是直接用来写深度学习的代码在很多情况下还是稍显复杂，torch.nn是专门为神经网络设计的模块化接口。nn构建于 Autograd之上，可用来定义和运行神经网络。</p> 
+<p>nn.Module是nn中最重要的类，可把它看成是一个网络的封装，包含网络各层定义以及forward方法，调用forward(input)方法，可返回前向传播的结果。</p> 
+<p>下面就以最早的卷积神经网络：LeNet为例，来看看如何用<code>nn.Module</code>实现。LeNet的网络结构如下图所示。这是一个基础的前向传播(feed-forward)网络: 接收输入，经过层层传递运算，得到输出。</p> 
+<p><img src="https://img-blog.csdnimg.cn/2020060115462795.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doYXRpc2NvZGU=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p> 
+<h4><a id="31__160"></a>3.1 定义一个神经网络</h4> 
+<p>定义网络时，需要继承<code>nn.Module</code>，并实现它的forward方法，把网络中具有可学习参数的层放在构造函数<code>__init__</code>中。如果某一层(如ReLU)不具有可学习的参数，则既可以放在构造函数中，也可以不放，但建议不放在其中，而在forward中使用<code>nn.functional</code>代替。</p> 
+<pre><code class="prism language-python"><span class="token keyword">import</span> torch<span class="token punctuation">.</span>nn <span class="token keyword">as</span> nn
+<span class="token keyword">import</span> torch<span class="token punctuation">.</span>nn<span class="token punctuation">.</span>functional <span class="token keyword">as</span> F
+
+<span class="token keyword">class</span> <span class="token class-name">Net</span><span class="token punctuation">(</span>nn<span class="token punctuation">.</span>Module<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token comment"># nn.Module子类的函数必须在构造函数中执行父类的构造函数</span>
+        <span class="token comment"># 下式等价于nn.Module.__init__(self)</span>
+        <span class="token builtin">super</span><span class="token punctuation">(</span>Net<span class="token punctuation">,</span> self<span class="token punctuation">)</span><span class="token punctuation">.</span>__init__<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        
+        <span class="token comment"># 第一个卷积层 '1'表示输入图片为单通道, '6'表示输出通道数（即卷积核的个数），'5'表示卷积核大小为5*5</span>
+        self<span class="token punctuation">.</span>conv1 <span class="token operator">=</span> nn<span class="token punctuation">.</span>Conv2d<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">)</span> 
+        <span class="token comment"># 第二个卷积层</span>
+        self<span class="token punctuation">.</span>conv2 <span class="token operator">=</span> nn<span class="token punctuation">.</span>Conv2d<span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">16</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">)</span> 
+        <span class="token comment"># 仿射层/全连接层，y = Wx + b</span>
+        <span class="token comment"># 第一个参数表示前面一层神经元的个数，第二个参数表示后面一层神经元的个数</span>
+        self<span class="token punctuation">.</span>fc1   <span class="token operator">=</span> nn<span class="token punctuation">.</span>Linear<span class="token punctuation">(</span><span class="token number">16</span><span class="token operator">*</span><span class="token number">5</span><span class="token operator">*</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">120</span><span class="token punctuation">)</span> 
+        self<span class="token punctuation">.</span>fc2   <span class="token operator">=</span> nn<span class="token punctuation">.</span>Linear<span class="token punctuation">(</span><span class="token number">120</span><span class="token punctuation">,</span> <span class="token number">84</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>fc3   <span class="token operator">=</span> nn<span class="token punctuation">.</span>Linear<span class="token punctuation">(</span><span class="token number">84</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">forward</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> x<span class="token punctuation">)</span><span class="token punctuation">:</span> 
+        <span class="token comment"># 卷积 -&gt; 激活 -&gt; 池化 </span>
+        x <span class="token operator">=</span> F<span class="token punctuation">.</span>max_pool2d<span class="token punctuation">(</span>F<span class="token punctuation">.</span>relu<span class="token punctuation">(</span>self<span class="token punctuation">.</span>conv1<span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        x <span class="token operator">=</span> F<span class="token punctuation">.</span>max_pool2d<span class="token punctuation">(</span>F<span class="token punctuation">.</span>relu<span class="token punctuation">(</span>self<span class="token punctuation">.</span>conv2<span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span> 
+        <span class="token comment"># 在torch里面，view函数相当于numpy的reshape，‘-1’表示自适应</span>
+        x <span class="token operator">=</span> x<span class="token punctuation">.</span>view<span class="token punctuation">(</span>x<span class="token punctuation">.</span>size<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> 
+        x <span class="token operator">=</span> F<span class="token punctuation">.</span>relu<span class="token punctuation">(</span>self<span class="token punctuation">.</span>fc1<span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        x <span class="token operator">=</span> F<span class="token punctuation">.</span>relu<span class="token punctuation">(</span>self<span class="token punctuation">.</span>fc2<span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        x <span class="token operator">=</span> self<span class="token punctuation">.</span>fc3<span class="token punctuation">(</span>x<span class="token punctuation">)</span>        
+        <span class="token keyword">return</span> x
+
+net <span class="token operator">=</span> Net<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>net<span class="token punctuation">)</span>
+</code></pre> 
+<p>只要在nn.Module的子类中定义了forward函数，backward函数就会自动被实现(利用<code>autograd</code>)。在<code>forward</code> 函数中可使用任何tensor支持的函数，还可以使用if、for循环、print、log等Python语法，写法和标准的Python写法一致。</p> 
+<h4><a id="32__201"></a>3.2 神经网络的网络参数</h4> 
+<p>网络的可学习参数通过<code>net.parameters()</code>返回，<code>net.named_parameters</code>可同时返回可学习的参数及名称。</p> 
+<pre><code class="prism language-python">params <span class="token operator">=</span> <span class="token builtin">list</span><span class="token punctuation">(</span>net<span class="token punctuation">.</span>parameters<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>params<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 打印所有参数的名字和大小，都是用Tensor表示</span>
+<span class="token keyword">for</span> name<span class="token punctuation">,</span>parameters <span class="token keyword">in</span> net<span class="token punctuation">.</span>named_parameters<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>name<span class="token punctuation">,</span><span class="token string">':'</span><span class="token punctuation">,</span>parameters<span class="token punctuation">.</span>size<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    
+</code></pre> 
+<h4><a id="33__215"></a>3.3 神经网络的输入和输出</h4> 
+<p>forward函数的输入和输出都是Tensor。</p> 
+<pre><code class="prism language-python"><span class="token comment"># 随机输入并输出</span>
+<span class="token builtin">input</span> <span class="token operator">=</span> t<span class="token punctuation">.</span>randn<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">32</span><span class="token punctuation">,</span> <span class="token number">32</span><span class="token punctuation">)</span>
+out <span class="token operator">=</span> net<span class="token punctuation">(</span><span class="token builtin">input</span><span class="token punctuation">)</span>
+out<span class="token punctuation">.</span>size<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+net<span class="token punctuation">.</span>zero_grad<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment"># 所有参数的梯度清零</span>
+out<span class="token punctuation">.</span>backward<span class="token punctuation">(</span>t<span class="token punctuation">.</span>ones<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment"># 反向传播</span>
+</code></pre> 
+<p>需要注意的是，torch.nn只支持mini-batches，不支持一次只输入一个样本，即一次必须是一个batch。但如果只想输入一个样本，则用 <code>input.unsqueeze(0)</code>将batch_size设为１。例如 <code>nn.Conv2d</code> 输入必须是4维的，形如<span class="katex--inline"><span class="katex"><span class="katex-mathml">
+    
+     
+      
+       
+        n
+       
+       
+        S
+       
+       
+        a
+       
+       
+        m
+       
+       
+        p
+       
+       
+        l
+       
+       
+        e
+       
+       
+        s
+       
+       
+        ×
+       
+       
+        n
+       
+       
+        C
+       
+       
+        h
+       
+       
+        a
+       
+       
+        n
+       
+       
+        n
+       
+       
+        e
+       
+       
+        l
+       
+       
+        s
+       
+       
+        ×
+       
+       
+        H
+       
+       
+        e
+       
+       
+        i
+       
+       
+        g
+       
+       
+        h
+       
+       
+        t
+       
+       
+        ×
+       
+       
+        W
+       
+       
+        i
+       
+       
+        d
+       
+       
+        t
+       
+       
+        h
+       
+      
+      
+       nSamples \times nChannels \times Height \times Width
+      
+     
+    </span><span class="katex-html"><span class="base"><span class="strut" style="height: 0.88888em; vertical-align: -0.19444em;"></span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right: 0.05764em;">S</span><span class="mord mathdefault">a</span><span class="mord mathdefault">m</span><span class="mord mathdefault">p</span><span class="mord mathdefault" style="margin-right: 0.01968em;">l</span><span class="mord mathdefault">e</span><span class="mord mathdefault">s</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 0.77777em; vertical-align: -0.08333em;"></span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right: 0.07153em;">C</span><span class="mord mathdefault">h</span><span class="mord mathdefault">a</span><span class="mord mathdefault">n</span><span class="mord mathdefault">n</span><span class="mord mathdefault">e</span><span class="mord mathdefault" style="margin-right: 0.01968em;">l</span><span class="mord mathdefault">s</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 0.88888em; vertical-align: -0.19444em;"></span><span class="mord mathdefault" style="margin-right: 0.08125em;">H</span><span class="mord mathdefault">e</span><span class="mord mathdefault">i</span><span class="mord mathdefault" style="margin-right: 0.03588em;">g</span><span class="mord mathdefault">h</span><span class="mord mathdefault">t</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 0.69444em; vertical-align: 0em;"></span><span class="mord mathdefault" style="margin-right: 0.13889em;">W</span><span class="mord mathdefault">i</span><span class="mord mathdefault">d</span><span class="mord mathdefault">t</span><span class="mord mathdefault">h</span></span></span></span></span>。可将nSample设为1，即1$ \times nChannels \times Height \times Width$。</p> 
+<h4><a id="34__231"></a>3.4 损失函数</h4> 
+<p>nn实现了神经网络中大多数的损失函数，例如nn.MSELoss用来计算均方误差，nn.CrossEntropyLoss用来计算交叉熵损失。</p> 
+<pre><code class="prism language-python">output <span class="token operator">=</span> net<span class="token punctuation">(</span><span class="token builtin">input</span><span class="token punctuation">)</span>
+target <span class="token operator">=</span> t<span class="token punctuation">.</span>arange<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">.</span>view<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token builtin">float</span><span class="token punctuation">(</span><span class="token punctuation">)</span> 
+criterion <span class="token operator">=</span> nn<span class="token punctuation">.</span>MSELoss<span class="token punctuation">(</span><span class="token punctuation">)</span>
+loss <span class="token operator">=</span> criterion<span class="token punctuation">(</span>output<span class="token punctuation">,</span> target<span class="token punctuation">)</span>
+loss <span class="token comment"># loss是个scalar</span>
+</code></pre> 
+<p>如果对loss进行反向传播溯源(使用<code>gradfn</code>属性)，可看到它的计算图如下：</p> 
+<pre><code>input -&gt; conv2d -&gt; relu -&gt; maxpool2d -&gt; conv2d -&gt; relu -&gt; maxpool2d  
+      -&gt; view -&gt; linear -&gt; relu -&gt; linear -&gt; relu -&gt; linear 
+      -&gt; MSELoss
+      -&gt; loss
+</code></pre> 
+<p>当调用<code>loss.backward()</code>时，该图会动态生成并自动微分，也即会自动计算图中参数(Parameter)的导数。</p> 
+<pre><code class="prism language-python"><span class="token comment"># 运行.backward，观察调用之前和调用之后的grad</span>
+net<span class="token punctuation">.</span>zero_grad<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment"># 把net中所有可学习参数的梯度清零</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'反向传播之前 conv1.bias的梯度'</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>net<span class="token punctuation">.</span>conv1<span class="token punctuation">.</span>bias<span class="token punctuation">.</span>grad<span class="token punctuation">)</span>
+loss<span class="token punctuation">.</span>backward<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'反向传播之后 conv1.bias的梯度'</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>net<span class="token punctuation">.</span>conv1<span class="token punctuation">.</span>bias<span class="token punctuation">.</span>grad<span class="token punctuation">)</span>
+</code></pre> 
+<h4><a id="35__264"></a>3.5 优化器</h4> 
+<p>在反向传播计算完所有参数的梯度后，还需要使用优化方法来更新网络的权重和参数，例如随机梯度下降法(SGD)的更新策略为：weight = weight - learning_rate * gradient</p> 
+<p>手动实现为：</p> 
+<pre><code class="prism language-python"><span class="token keyword">for</span> f <span class="token keyword">in</span> net<span class="token punctuation">.</span>parameters<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    f<span class="token punctuation">.</span>data<span class="token punctuation">.</span>sub_<span class="token punctuation">(</span>f<span class="token punctuation">.</span>grad<span class="token punctuation">.</span>data <span class="token operator">*</span> learning_rate<span class="token punctuation">)</span><span class="token comment"># inplace 减法</span>
+</code></pre> 
+<p><code>torch.optim</code>中实现了深度学习中绝大多数的优化方法，例如RMSProp、Adam、SGD等，更便于使用，因此大多数时候并不需要手动写上述代码。</p> 
+<pre><code class="prism language-python"><span class="token keyword">import</span> torch<span class="token punctuation">.</span>optim <span class="token keyword">as</span> optim
+<span class="token comment">#新建一个优化器，指定要调整的参数和学习率</span>
+optimizer <span class="token operator">=</span> optim<span class="token punctuation">.</span>SGD<span class="token punctuation">(</span>net<span class="token punctuation">.</span>parameters<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> lr <span class="token operator">=</span> <span class="token number">0.01</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 在训练过程中</span>
+<span class="token comment"># 先梯度清零(与net.zero_grad()效果一样)</span>
+optimizer<span class="token punctuation">.</span>zero_grad<span class="token punctuation">(</span><span class="token punctuation">)</span> 
+
+<span class="token comment"># 计算损失</span>
+output <span class="token operator">=</span> net<span class="token punctuation">(</span><span class="token builtin">input</span><span class="token punctuation">)</span>
+loss <span class="token operator">=</span> criterion<span class="token punctuation">(</span>output<span class="token punctuation">,</span> target<span class="token punctuation">)</span>
+
+<span class="token comment">#反向传播</span>
+loss<span class="token punctuation">.</span>backward<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment">#更新参数</span>
+optimizer<span class="token punctuation">.</span>step<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre> 
+<h4><a id="36__297"></a>3.6 数据加载与预处理</h4> 
+<p>在深度学习中数据加载及预处理是非常复杂繁琐的，但PyTorch提供了一些可极大简化和加快数据处理流程的工具。同时，对于常用的数据集，PyTorch也提供了封装好的接口供用户快速调用，这些数据集主要保存在torchvison中。</p> 
+<p><code>torchvision</code>实现了常用的图像数据加载功能，例如Imagenet、CIFAR10、MNIST等，以及常用的数据转换操作，这极大地方便了数据加载，并且代码具有可重用性。</p>
+                </div>
+                

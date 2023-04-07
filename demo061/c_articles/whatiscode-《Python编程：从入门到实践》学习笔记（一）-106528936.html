@@ -1,0 +1,275 @@
+<head> <meta charset="utf-8" </head>
+                      <div id="content_views" class="markdown_views prism-atom-one-dark">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                        <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                    </svg>
+                    <p>本次笔记包含四个章节：</p> 
+<ol><li>入门</li><li>变量和简单数据类型</li><li>列表简介</li><li>列表的操作（以及元组）</li></ol> 
+<h2><a id="1__7"></a>1 入门</h2> 
+<p>python主页：<a href="https://www.python.org/">https://www.python.org/</a></p> 
+<p>MAC从终端输入python即可进入python编程界面。</p> 
+<p>从终端运行python程序：</p> 
+<pre><code class="prism language-shell">python helloworld.py
+</code></pre> 
+<p>第一个python程序：</p> 
+<pre><code class="prism language-python"><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Hello World"</span><span class="token punctuation">)</span>
+</code></pre> 
+<p>查询python函数的用法：</p> 
+<pre><code class="prism language-python"><span class="token comment"># 使用help()，例查询sum函数的用法</span>
+<span class="token builtin">help</span><span class="token punctuation">(</span><span class="token builtin">sum</span><span class="token punctuation">)</span>
+</code></pre> 
+<h2><a id="2__34"></a>2 变量和简单数据类型</h2> 
+<h3><a id="21__36"></a>2.1 变量的命名和使用规则</h3> 
+<ul><li> <p>变量名只能包含字母、数字和下划线。变量名可以字母或下划线开头，但不能以数字开头。如：num_1。</p> </li><li> <p>变量名不能包含空格，但可以使用下划线来分割其中的单词。如：hello_word。</p> </li><li> <p>变量名应既简短又有描述性。如：student_name。</p> </li><li> <p>慎用小写字母l和大写字母O，因为他们可能被人错看成数字1和0。</p> </li><li> <p>最好使用小写的Python变量名</p> </li><li> <p>不要将Python关键字和函数名作为变量名</p> </li><li> <p><strong>Python关键字</strong></p> 
+  <table><thead><tr><th><strong>False</strong></th><th><strong>class</strong></th><th><strong>finally</strong></th><th><strong>is</strong></th><th><strong>return</strong></th></tr></thead><tbody><tr><td><strong>None</strong></td><td><strong>continue</strong></td><td><strong>for</strong></td><td><strong>lamda</strong></td><td><strong>try</strong></td></tr><tr><td><strong>True</strong></td><td><strong>def</strong></td><td><strong>from</strong></td><td><strong>nonlocal</strong></td><td><strong>while</strong></td></tr><tr><td><strong>and</strong></td><td><strong>del</strong></td><td><strong>global</strong></td><td><strong>not</strong></td><td><strong>with</strong></td></tr><tr><td><strong>as</strong></td><td><strong>elif</strong></td><td><strong>if</strong></td><td><strong>or</strong></td><td><strong>yield</strong></td></tr><tr><td><strong>assert</strong></td><td><strong>else</strong></td><td><strong>import</strong></td><td><strong>pass</strong></td><td></td></tr><tr><td><strong>break</strong></td><td><strong>except</strong></td><td><strong>in</strong></td><td><strong>raise</strong></td><td></td></tr></tbody></table></li><li> <p><strong>Python内置函数名</strong></p> 
+  <table><thead><tr><th><strong>abs()</strong></th><th><strong>divmod()</strong></th><th><strong>input()</strong></th><th><strong>open()</strong></th><th><strong>staticmethod()</strong></th></tr></thead><tbody><tr><td><strong>all()</strong></td><td><strong>enumerate()</strong></td><td><strong>int()</strong></td><td><strong>ord()</strong></td><td><strong>str()</strong></td></tr><tr><td><strong>any()</strong></td><td><strong>eval()</strong></td><td><strong>isinstance()</strong></td><td><strong>pow()</strong></td><td><strong>sum()</strong></td></tr><tr><td><strong>basestring()</strong></td><td><strong>execfile()</strong></td><td><strong>issubclass()</strong></td><td><strong>print()</strong></td><td><strong>super()</strong></td></tr><tr><td><strong>bin()</strong></td><td><strong>file()</strong></td><td><strong>iter()</strong></td><td><strong>property()</strong></td><td><strong>tuple()</strong></td></tr><tr><td><strong>bool()</strong></td><td><strong>filter()</strong></td><td><strong>len()</strong></td><td><strong>range()</strong></td><td><strong>type()</strong></td></tr><tr><td><strong>bytearray()</strong></td><td><strong>float()</strong></td><td><strong>list()</strong></td><td><strong>raw_input()</strong></td><td><strong>unichr()</strong></td></tr><tr><td><strong>callable()</strong></td><td><strong>format()</strong></td><td><strong>locals()</strong></td><td><strong>reduce()</strong></td><td><strong>unicode()</strong></td></tr><tr><td><strong>chr()</strong></td><td><strong>frozenset()</strong></td><td><strong>long()</strong></td><td><strong>reload()</strong></td><td><strong>vars()</strong></td></tr><tr><td><strong>classmethod()</strong></td><td><strong>getattr()</strong></td><td><strong>map()</strong></td><td><strong>repr()</strong></td><td><strong>xrange()</strong></td></tr><tr><td><strong>cmp()</strong></td><td><strong>globals()</strong></td><td><strong>max()</strong></td><td><strong>reversed()zip()</strong></td><td><strong>Zip()</strong></td></tr><tr><td><strong>compile()</strong></td><td><strong>hasattr()</strong></td><td><strong>memoryview()</strong></td><td><strong>round()</strong></td><td><strong>_<em>import</em>_()</strong></td></tr><tr><td><strong>complex()</strong></td><td><strong>hash()</strong></td><td><strong>min()</strong></td><td><strong>set()</strong></td><td><strong>apply()</strong></td></tr><tr><td><strong>delattr()</strong></td><td><strong>help()</strong></td><td><strong>next()</strong></td><td><strong>setattr()</strong></td><td><strong>buffer()</strong></td></tr><tr><td><strong>dict()</strong></td><td><strong>hex()</strong></td><td><strong>object()</strong></td><td><strong>slice()</strong></td><td><strong>corece()</strong></td></tr><tr><td><strong>dir()</strong></td><td><strong>id()</strong></td><td><strong>otc()</strong></td><td><strong>sorted()</strong></td><td><strong>interm()</strong></td></tr></tbody></table></li></ul> 
+<h3><a id="22__83"></a>2.2 字符串</h3> 
+<p>字符串就是一系列字符。在Python中，用引号括起的都是字符串，其中的引号可以是单引号也可以是双引号。</p> 
+<pre><code class="prism language-python"><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'I told my friend, "Python is my favorite language!"'</span><span class="token punctuation">)</span> <span class="token comment">#字符串中有双引号要用单引号表示字符串</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"It's beautiful!"</span><span class="token punctuation">)</span> <span class="token comment">#字符串中有单引号要用双引号表示字符串</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token triple-quoted-string string">'''"It's beautiful!"'''</span><span class="token punctuation">)</span>	<span class="token comment">#字符串中既有双引号又有单引号</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token triple-quoted-string string">"""one	#三引号用于多行输出
+two
+three
+"""</span><span class="token punctuation">)</span>
+</code></pre> 
+<h4><a id="221__97"></a>2.2.1 使用方法修改字符串的大小写</h4> 
+<pre><code class="prism language-python">name <span class="token operator">=</span> <span class="token string">"wade frank"</span>
+<span class="token comment">#title()</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>name<span class="token punctuation">.</span>title<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>	<span class="token comment">#以首字母大写的方式显示每个单词</span>
+<span class="token comment">#upper()</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>name<span class="token punctuation">.</span>upper<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">#将字符串改为全部大写</span>
+<span class="token comment">#lower()</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>name<span class="token punctuation">.</span>lower<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">#将字符串改为全部小写</span>
+</code></pre> 
+<h4><a id="222__109"></a>2.2.2 合并字符串</h4> 
+<pre><code class="prism language-python">first_name <span class="token operator">=</span> <span class="token string">"Wade"</span>
+last_name <span class="token operator">=</span> <span class="token string">"Frank"</span>
+<span class="token comment">#使用"+"合并字符串</span>
+full_name <span class="token operator">=</span> first_name <span class="token operator">+</span> <span class="token string">" "</span> <span class="token operator">+</span> last_name
+<span class="token keyword">print</span><span class="token punctuation">(</span>full_name<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Hello, "</span> <span class="token operator">+</span> full_name <span class="token operator">+</span> <span class="token string">"!"</span><span class="token punctuation">)</span>
+</code></pre> 
+<h4><a id="223__120"></a>2.2.3 使用制表符或换行符来添加空白</h4> 
+<p>在编程中，空白泛指任何非打印字符，如空格、制表符和换行符。你可以使用空白来组织输出，使其更易读。</p> 
+<pre><code class="prism language-python"><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"\tPython"</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Python\nC\nJavaScript"</span><span class="token punctuation">)</span>
+</code></pre> 
+<h4><a id="224__129"></a>2.2.4 删除空白</h4> 
+<pre><code class="prism language-python">string <span class="token operator">=</span> <span class="token string">" hello "</span>
+<span class="token comment">#rstrip()</span>
+string<span class="token punctuation">.</span>rstrip<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">#暂时删除字符串结尾的空白</span>
+string <span class="token operator">=</span> string<span class="token punctuation">.</span>rstrip<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">#永久删除字符串结尾的空白</span>
+<span class="token comment">#lstrip()</span>
+string<span class="token punctuation">.</span>lstrip<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">#暂时删除字符串开头的空白</span>
+string <span class="token operator">=</span> string<span class="token punctuation">.</span>lstrip<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">#永久删除字符串开头的空白</span>
+<span class="token comment">#strip()</span>
+string<span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">#暂时删除字符串两端的空白</span>
+string <span class="token operator">=</span> string<span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">#永久删除字符串两端的空白</span>
+</code></pre> 
+<h3><a id="23__146"></a>2.3 数字</h3> 
+<h4><a id="231__148"></a>2.3.1 整数</h4> 
+<pre><code class="prism language-python"><span class="token number">2</span> <span class="token operator">+</span> <span class="token number">3</span>	<span class="token comment">#加，结果为5</span>
+<span class="token number">3</span> <span class="token operator">-</span> <span class="token number">2</span> <span class="token comment">#减，结果为1</span>
+<span class="token number">2</span> <span class="token operator">*</span> <span class="token number">3</span> <span class="token comment">#乘，结果为6</span>
+<span class="token number">6</span> <span class="token operator">/</span> <span class="token number">2</span> <span class="token comment">#除，结果为3</span>
+<span class="token number">3</span> <span class="token operator">**</span> <span class="token number">2</span> <span class="token comment">#乘方，结果为9</span>
+</code></pre> 
+<h4><a id="232__158"></a>2.3.2 浮点数</h4> 
+<p>带小数点的数，需要注意的是，结果包含的小数点可能是不确定的。</p> 
+<pre><code class="prism language-shell"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> 3/2
+1.5
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> 0.2 + 0.1
+0.30000000000000004
+</code></pre> 
+<h4><a id="233_str_169"></a>2.3.3 使用str()函数避免类型错误</h4> 
+<pre><code class="prism language-python">age <span class="token operator">=</span> <span class="token number">23</span>
+message <span class="token operator">=</span> <span class="token string">"Happy "</span> <span class="token operator">+</span> <span class="token builtin">str</span><span class="token punctuation">(</span>age<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"rd Birthday!"</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>message<span class="token punctuation">)</span>
+</code></pre> 
+<h3><a id="24_Python_179"></a>2.4 Python之禅</h3> 
+<pre><code class="prism language-txt">&gt;&gt;&gt; import this
+The Zen of Python, by Tim Peters
+
+Beautiful is better than ugly.
+Explicit is better than implicit.
+Simple is better than complex.
+Complex is better than complicated.
+Flat is better than nested.
+Sparse is better than dense.
+Readability counts.
+Special cases aren't special enough to break the rules.
+Although practicality beats purity.
+Errors should never pass silently.
+Unless explicitly silenced.
+In the face of ambiguity, refuse the temptation to guess.
+There should be one-- and preferably only one --obvious way to do it.
+Although that way may not be obvious at first unless you're Dutch.
+Now is better than never.
+Although never is often better than *right* now.
+If the implementation is hard to explain, it's a bad idea.
+If the implementation is easy to explain, it may be a good idea.
+Namespaces are one honking great idea -- let's do more of those!
+</code></pre> 
+<h2><a id="3__208"></a>3 列表简介</h2> 
+<h3><a id="31__210"></a>3.1 列表的定义</h3> 
+<p>列表是由一系列按特定顺序排列的元素组成。<strong>列表中的元素可以是不同的类型</strong>。</p> 
+<pre><code class="prism language-python">subjects <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"Math"</span><span class="token punctuation">,</span> <span class="token string">"Chinese"</span><span class="token punctuation">,</span> <span class="token string">"English"</span><span class="token punctuation">]</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>subjects<span class="token punctuation">)</span> <span class="token comment">#输出整个列表，带方括号</span>
+</code></pre> 
+<h3><a id="32__219"></a>3.2 访问列表元素</h3> 
+<pre><code class="prism language-python">subjects <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"Math"</span><span class="token punctuation">,</span> <span class="token string">"Chinese"</span><span class="token punctuation">,</span> <span class="token string">"English"</span><span class="token punctuation">,</span> <span class="token string">"Computer Science"</span><span class="token punctuation">]</span>
+<span class="token comment">#使用下标访问元素</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>subjects<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment">#访问第一个元素，下标从0开始</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>subjects<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>	<span class="token comment">#访问最后一个元素</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>subjects<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span>	<span class="token comment">#访问倒数第二个元素</span>
+</code></pre> 
+<h3><a id="33__229"></a>3.3 修改、添加和删除元素</h3> 
+<h4><a id="331__231"></a>3.3.1 修改列表元素</h4> 
+<pre><code class="prism language-python">names <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"Tom"</span><span class="token punctuation">,</span> <span class="token string">"Jack"</span><span class="token punctuation">,</span> <span class="token string">"John"</span><span class="token punctuation">]</span>
+names<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">"KiKi"</span>
+</code></pre> 
+<h4><a id="332__238"></a>3.3.2 在列表中添加元素</h4> 
+<pre><code class="prism language-python">names <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"Tom"</span><span class="token punctuation">,</span> <span class="token string">"Jack"</span><span class="token punctuation">,</span> <span class="token string">"John"</span><span class="token punctuation">]</span>
+<span class="token comment">#append()</span>
+names<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token string">"Frank"</span><span class="token punctuation">)</span>	<span class="token comment">#在末尾添加元素</span>
+<span class="token comment">#insert()</span>
+names<span class="token punctuation">.</span>insert<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">"Jordan"</span><span class="token punctuation">)</span> <span class="token comment">#在第三个位置插入元素（下标从0开始）</span>
+</code></pre> 
+<h4><a id="333__248"></a>3.3.3 在列表中删除元素</h4> 
+<pre><code class="prism language-python">names <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"Tom"</span><span class="token punctuation">,</span> <span class="token string">"Jack"</span><span class="token punctuation">,</span> <span class="token string">"John"</span><span class="token punctuation">]</span>
+<span class="token comment">#del</span>
+<span class="token keyword">del</span> names<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token comment">#删除第一个元素，可以删除任何一个元素</span>
+<span class="token comment">#pop()</span>
+names<span class="token punctuation">.</span>pop<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">#删除末尾的元素</span>
+names<span class="token punctuation">.</span>pop<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token comment">#删除第二个元素，可以删除任何一个元素</span>
+name <span class="token operator">=</span> names<span class="token punctuation">.</span>pop<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token comment">#删除第二个元素,并返回给name</span>
+<span class="token comment">#remove()</span>
+<span class="token comment">#根据值删除，只删除第一个指定的值，后面的有重复的元素需要用循环来判断</span>
+names<span class="token punctuation">.</span>remove<span class="token punctuation">(</span><span class="token string">"Jack"</span><span class="token punctuation">)</span> <span class="token comment">#删除"Jack"</span>
+</code></pre> 
+<h3><a id="34__263"></a>3.4 组织列表</h3> 
+<h4><a id="341_sort_265"></a>3.4.1 永久性排序方法sort()</h4> 
+<pre><code class="prism language-python">cars <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'bmw'</span><span class="token punctuation">,</span> <span class="token string">'audi'</span><span class="token punctuation">,</span> <span class="token string">'toyata'</span><span class="token punctuation">,</span> <span class="token string">'subaru'</span><span class="token punctuation">]</span>
+cars<span class="token punctuation">.</span>sort<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">#顺序排序</span>
+cars<span class="token punctuation">.</span>sort<span class="token punctuation">(</span>reverse <span class="token operator">=</span> <span class="token boolean">True</span><span class="token punctuation">)</span> <span class="token comment">#逆序排序</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>cars<span class="token punctuation">)</span>
+</code></pre> 
+<h4><a id="342_sorted_274"></a>3.4.2 临时性排序函数sorted()</h4> 
+<pre><code class="prism language-python">cars <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'bmw'</span><span class="token punctuation">,</span> <span class="token string">'audi'</span><span class="token punctuation">,</span> <span class="token string">'toyata'</span><span class="token punctuation">,</span> <span class="token string">'subaru'</span><span class="token punctuation">]</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">sorted</span><span class="token punctuation">(</span>cars<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">#输出顺序排序</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">sorted</span><span class="token punctuation">(</span>cars<span class="token punctuation">,</span> reverse <span class="token operator">=</span> <span class="token boolean">True</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">#输出逆序排序</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>cars<span class="token punctuation">)</span>
+</code></pre> 
+<h4><a id="343_reverse_283"></a>3.4.3 永久性反转列表方法reverse()</h4> 
+<pre><code class="prism language-python">cars <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'bmw'</span><span class="token punctuation">,</span> <span class="token string">'audi'</span><span class="token punctuation">,</span> <span class="token string">'toyata'</span><span class="token punctuation">,</span> <span class="token string">'subaru'</span><span class="token punctuation">]</span>
+cars<span class="token punctuation">.</span>reverse<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">#反转列表</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>cars<span class="token punctuation">)</span>
+</code></pre> 
+<h4><a id="344_len_291"></a>3.4.4 确定列表的长度函数len()</h4> 
+<pre><code class="prism language-python">cars <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'bmw'</span><span class="token punctuation">,</span> <span class="token string">'audi'</span><span class="token punctuation">,</span> <span class="token string">'toyata'</span><span class="token punctuation">,</span> <span class="token string">'subaru'</span><span class="token punctuation">]</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>cars<span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre> 
+<h2><a id="4__300"></a>4 列表的操作（以及元组）</h2> 
+<h3><a id="41_for_302"></a>4.1 使用for循环遍历列表</h3> 
+<p>Python根据<strong>缩进</strong>来判断代码行与前一个代码行的关系。</p> 
+<pre><code class="prism language-python">nba_teams <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'Bulls'</span><span class="token punctuation">,</span> <span class="token string">'Heat'</span><span class="token punctuation">,</span> <span class="token string">'Lakers'</span><span class="token punctuation">,</span> <span class="token string">'76ers'</span><span class="token punctuation">,</span> <span class="token string">'Celtics'</span><span class="token punctuation">]</span>
+<span class="token keyword">for</span> team <span class="token keyword">in</span> nba_teams<span class="token punctuation">:</span>
+  <span class="token keyword">print</span><span class="token punctuation">(</span>team<span class="token punctuation">)</span> <span class="token comment">#自动换行，注意缩进</span>
+</code></pre> 
+<h3><a id="42__312"></a>4.2 创建数字列表</h3> 
+<h4><a id="421_range_314"></a>4.2.1 使用函数range()</h4> 
+<pre><code class="prism language-python"><span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token comment"># 从0开始，打印0，1，2，3，4，自动换行</span>
+	<span class="token keyword">print</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span>
+<span class="token keyword">for</span> value <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">:</span>	<span class="token comment">#左闭右开，所以只能打印1，2，3，4，自动换行</span>
+  <span class="token keyword">print</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span>
+</code></pre> 
+<h4><a id="422_listrange_323"></a>4.2.2 使用函数list()将range()的结果直接转换为列表</h4> 
+<pre><code class="prism language-python">numbers <span class="token operator">=</span> <span class="token builtin">list</span><span class="token punctuation">(</span><span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>numbers<span class="token punctuation">)</span>
+</code></pre> 
+<p>使用函数range()时，还可指定步长。例如，下面的代码打印1～10以内的偶数：</p> 
+<pre><code class="prism language-python">even_numbers <span class="token operator">=</span> <span class="token builtin">list</span><span class="token punctuation">(</span><span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">11</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>even_numbers<span class="token punctuation">)</span>
+</code></pre> 
+<h4><a id="423_forrange_337"></a>4.2.3 使用for()+range()来创建任何想要的数字集</h4> 
+<pre><code class="prism language-python">squares <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+<span class="token keyword">for</span> value <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">11</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+  square <span class="token operator">=</span> value<span class="token operator">**</span><span class="token number">2</span>
+  squares<span class="token punctuation">.</span>append<span class="token punctuation">(</span>square<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>squares<span class="token punctuation">)</span>
+</code></pre> 
+<h4><a id="424__347"></a>4.2.4 对数字列表执行简单的统计计算</h4> 
+<pre><code class="prism language-python">digits <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span>
+<span class="token comment">#min()</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">min</span><span class="token punctuation">(</span>digits<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment">#max()</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">max</span><span class="token punctuation">(</span>digits<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment">#sum()</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">sum</span><span class="token punctuation">(</span>digits<span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre> 
+<h4><a id="425__359"></a>4.2.5 列表解析</h4> 
+<p>列表解析将for循环和创建新元素的代码合并成一行，并自动附加新元素。(可以减少代码量）</p> 
+<pre><code class="prism language-python">squares <span class="token operator">=</span> <span class="token punctuation">[</span>value<span class="token operator">**</span><span class="token number">2</span> <span class="token keyword">for</span> value <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">11</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>squares<span class="token punctuation">)</span>
+</code></pre> 
+<h3><a id="43__368"></a>4.3 使用列表的一部分</h3> 
+<h4><a id="431__370"></a>4.3.1 切片</h4> 
+<p>使用切片可以生成列表的任何子集。</p> 
+<pre><code class="prism language-python">nba_teams <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'Bulls'</span><span class="token punctuation">,</span> <span class="token string">'Heat'</span><span class="token punctuation">,</span> <span class="token string">'Lakers'</span><span class="token punctuation">,</span> <span class="token string">'76ers'</span><span class="token punctuation">,</span> <span class="token string">'Celtics'</span><span class="token punctuation">]</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>nba_teams<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">:</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment"># 输出前三只球队'Bulls', 'Heat', 'Lakers'</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>nba_teams<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment">#输出中间三只球队'Heat', 'Lakers', '76ers'</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>nba_teams<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment">#从头开始输出到第4只球队</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>nba_teams<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment">#从第二只球队开始输出到结尾</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>nba_teams<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">3</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment">#输出倒数三只球队</span>
+</code></pre> 
+<h4><a id="432__383"></a>4.3.2 遍历切片</h4> 
+<pre><code class="prism language-python">nba_teams <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'Bulls'</span><span class="token punctuation">,</span> <span class="token string">'Heat'</span><span class="token punctuation">,</span> <span class="token string">'Lakers'</span><span class="token punctuation">,</span> <span class="token string">'76ers'</span><span class="token punctuation">,</span> <span class="token string">'Celtics'</span><span class="token punctuation">]</span>
+<span class="token keyword">for</span> team <span class="token keyword">in</span> nba_teams<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token comment"># 输出前三只球队</span>
+  <span class="token keyword">print</span><span class="token punctuation">(</span>team<span class="token punctuation">)</span>
+</code></pre> 
+<h3><a id="44__391"></a>4.4 复制列表</h3> 
+<h4><a id="441__393"></a>4.4.1 共享内存的复制</h4> 
+<p>以下代码只是简单的将my_foods赋给friend_foods，所以他们共享内存，内存中只存在一个列表。对my_foods的改变也会改变friend_foods，反过来一样。</p> 
+<pre><code class="prism language-python">my_foods <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'pizza'</span><span class="token punctuation">,</span> <span class="token string">'cake'</span><span class="token punctuation">,</span> <span class="token string">'apple'</span><span class="token punctuation">]</span>
+friend_foods <span class="token operator">=</span> my_foods
+my_foods<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token string">'banana'</span><span class="token punctuation">)</span>
+friend_foods<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token string">'ice cream'</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>my_foods<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>friend_foods<span class="token punctuation">)</span>
+</code></pre> 
+<h4><a id="442__406"></a>4.4.2 不共享内存的复制</h4> 
+<p>要想新建一个列表，不共享内存空间则需要以下代码：</p> 
+<pre><code class="prism language-python">my_foods <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'pizza'</span><span class="token punctuation">,</span> <span class="token string">'cake'</span><span class="token punctuation">,</span> <span class="token string">'apple'</span><span class="token punctuation">]</span>
+friend_foods <span class="token operator">=</span> my_foods<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">]</span>
+my_foods<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token string">'banana'</span><span class="token punctuation">)</span>
+friend_foods<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token string">'ice cream'</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>my_foods<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>friend_foods<span class="token punctuation">)</span>
+</code></pre> 
+<h3><a id="45__419"></a>4.5 元组</h3> 
+<p><strong>元组是不可变的列表。<strong>我们可以使用</strong>圆括号</strong>来定义元组。定义元组后，就可以使用索引来访问其元素，就像访问列表元素一样。</p> 
+<pre><code class="prism language-python">rectangle <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>rectangle<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>rectangle<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+</code></pre> 
+<p>虽然不能修改元组的元素，但可以给存储元组的变量赋值。因此，如果要修改前述矩阵的尺寸，可重新定义整个元组：</p> 
+<pre><code class="prism language-python">rectangle <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>rectangle<span class="token punctuation">)</span>
+
+rectangle <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token number">400</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>rectangle<span class="token punctuation">)</span>
+</code></pre> 
+<h3><a id="46__439"></a>4.6 代码规范</h3> 
+<p>随着你编写的程序越来越长，有必要了解一些代码格式规定，养成良好的习惯。遵循格式设置约定可以让你的代码易于阅读，同时也可以帮助别人更好的理解你的代码。</p> 
+<h4><a id="461__443"></a>4.6.1 缩进</h4> 
+<p>PEP 8（Python Enhancement Proposal）建议每级缩进使用4个空格。</p> 
+<p>最好不要空格和制表符混用，更推荐全部使用4个空格。</p> 
+<h4><a id="462__449"></a>4.6.2 行长</h4> 
+<p>很多Python程序员建议每行不超过80个字符。</p> 
+<p>PEP 8还建议注释的行长不超过72字符，因为有些工具为大型项目自动生成文档时，会在每行注释开头添加格式化字符。</p> 
+<h4><a id="463__455"></a>4.6.3 空行</h4> 
+<p>要将程序的不同部分分开，可以使用空行，但不能滥用。用一个空行来分隔开两个不同的部分是比较合适的。</p> 
+<p>关于PEP 8的更多内容可以访问：<a href="https://python.org/dev/peps/pep-0008/">https://python.org/dev/peps/pep-0008/</a></p>
+                </div>
+                

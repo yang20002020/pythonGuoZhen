@@ -1,0 +1,49 @@
+<head> <meta charset="utf-8" </head>
+                      <div id="content_views" class="markdown_views prism-atom-one-dark">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                        <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                    </svg>
+                    <h1><a id="autodecltype_0"></a>类型说明符auto和decltype</h1> 
+<p>auto和decltype都是C++11标准提出来的类型说明符，都可以通过编译器自动推断出表达式的类型，从而用这个类型定义新的变量，如：</p> 
+<pre><code class="prism language-c++">double v1 = 9.8, v2 = 1.3;
+auto v3 = v1 + v2;
+decltype(v1 + v2) v4;
+
+// 我们可以通过typeid().name()来查看变量的类型，需要加上头文件typeinfo
+// 可以看到v3和v4的类型都是d，即double类型
+cout &lt;&lt; typeid(v3).name() &lt;&lt; " " &lt;&lt; typeid(v4).name();	
+</code></pre> 
+<h2><a id="autodecltype_14"></a>auto和decltype的区别</h2> 
+<h3><a id="1__16"></a>1 初始值</h3> 
+<p>auto在定义变量时必须要有<strong>初始值</strong>，而decltype则不一定需要初始值，比如上面的代码所示，auto需要从用来初始化的表达式中推出断出新定义变量的类型，而decltype则是将表达式写在括号内，先推断出类型，再去定义变量。</p> 
+<h3><a id="2_const_20"></a>2 顶层const</h3> 
+<p>auto一般会忽略掉顶层const和引用，只保留底层const。而decltype会保留顶层const和引用。（如果你对顶层const和底层const有疑问，请点击这篇博客：https://blog.csdn.net/whatiscode/article/details/108723598）</p> 
+<pre><code class="prism language-c++">int i = 0;
+const int ci = i, &amp;cr = ci;
+auto a = ci;	//a是一个整数（ci的顶层const特性被忽略掉了）
+auto b = cr;	//b是一个整数（cr的引用特性被忽略掉了）
+auto c = &amp;i;	//c是一个整型指针
+auto d = &amp;ci;	//d是一个指整型常量的指针（底层const被保留）
+
+decltype(ci) x = 0;	//x的类型是const int（ci的顶层const特性被保留）
+decltype(cr) y = x;	//y的类型是const int&amp;，y绑定到x（cr的引用特性被保留）
+</code></pre> 
+<h3><a id="3__36"></a>3 括号</h3> 
+<p>对于decltyp所用的表达式来说，在变量名上加上一对括号得到的类型和不加括号时会有不同。如果decltype给变量加上了一层或者多层括号，那么编译器就会把它当成一个表达式，decltype得到的类型将会是引用。（变量是一种可以作为赋值语句左值的特殊表达式）</p> 
+<pre><code class="prism language-c++">int i = 0;
+decltype((i)) d;	//错误：d是int&amp;，必须初始化
+decltype(i) d;		//正确，d是int，未初始化
+</code></pre> 
+<h3><a id="4__46"></a>4 数组</h3> 
+<p>当表达式表示一个数组时，auto推断出的类型将会是一个指针，指向该数组的第一个元素的地址，而decltype推断出的类型将会是一个数组。</p> 
+<pre><code class="prism language-c++">int ia[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};						//ia是一个含有10个整数的数组
+auto ia2(ia);													//ia2是一个整型指针，指向ia的第一个元素
+decltype(ia) ia3 = {10, 11, 12, 13, 14, 15, 16, 17, 18, 19};	//ia3是一个含有10个整数的数组
+</code></pre> 
+<h2><a id="decltype_60"></a>decltype和解引用</h2> 
+<p>如果表达式的内容是解引用操作，则decltype将得到引用类型。</p> 
+<pre><code class="prism language-c++">int i =43, j = 12, *p = &amp;i;
+decltype(*p) c = j;	//c是int&amp;，引用类型，必须初始化
+</code></pre>
+                </div>
+                

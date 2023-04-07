@@ -1,0 +1,232 @@
+<head> <meta charset="utf-8" </head>
+                      <div id="content_views" class="markdown_views prism-atom-one-dark">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                        <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                    </svg>
+                    <h1><a id="_0"></a>字典</h1> 
+<h2><a id="1__2"></a>1. 可变类型与不可变类型</h2> 
+<ul><li>序列是以连续的整数为索引，与此不同的是，字典以"关键字"为索引，关键字可以是任意不可变类型，通常用字符串或数值。</li><li>字典是 Python 唯一的一个<strong>映射类型</strong>，字符串、元组、列表属于<strong>序列类型</strong>。</li></ul> 
+<p>那么如何快速判断一个数据类型 <code>X</code> 是不是可变类型的呢？两种方法：</p> 
+<ul><li>麻烦方法：用 <code>id(X)</code> 函数，对 X 进行某种操作，比较操作前后的 <code>id</code>，如果不一样，则 <code>X</code> 不可变，如果一样，则 <code>X</code> 可变。</li><li>便捷方法：用 <code>hash(X)</code>，只要不报错，证明 <code>X</code> 可被哈希，即不可变，反过来不可被哈希，即可变。</li></ul> 
+<pre><code class="prism language-python">i <span class="token operator">=</span> <span class="token number">1</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">id</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment"># 140732167000896</span>
+i <span class="token operator">=</span> i <span class="token operator">+</span> <span class="token number">2</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">id</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment"># 140732167000960</span>
+
+l <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">id</span><span class="token punctuation">(</span>l<span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment"># 4300825160</span>
+l<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token string">'Python'</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">id</span><span class="token punctuation">(</span>l<span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment"># 4300825160</span>
+</code></pre> 
+<ul><li>整数 <code>i</code> 在加 1 之后的 <code>id</code> 和之前不一样，因此加完之后的这个 <code>i</code> (虽然名字没变)，但不是加之前的那个 <code>i</code> 了，因此整数是不可变类型。</li><li>列表 <code>l</code> 在附加 <code>'Python'</code> 之后的 <code>id</code> 和之前一样，因此列表是可变类型。</li></ul> 
+<pre><code class="prism language-python"><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">hash</span><span class="token punctuation">(</span><span class="token string">'Name'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment"># -9215951442099718823</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">hash</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">'Python'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment"># 823362308207799471</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">hash</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">'Python'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment"># TypeError: unhashable type: 'list'</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">hash</span><span class="token punctuation">(</span><span class="token punctuation">{<!-- --></span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment"># TypeError: unhashable type: 'set'</span>
+</code></pre> 
+<ul><li>数值、字符和元组 都能被哈希，因此它们是不可变类型。</li><li>列表、集合、字典不能被哈希，因此它是可变类型。</li></ul> 
+<h2><a id="2__42"></a>2. 字典的定义</h2> 
+<p>字典 是无序的 键:值（<code>key:value</code>）对集合，键必须是互不相同的（在同一个字典之内）。</p> 
+<ul><li><code>dict</code> 内部存放的顺序和 <code>key</code> 放入的顺序是没有关系的。</li><li><code>dict</code> 查找和插入的速度极快，不会随着 <code>key</code> 的增加而增加，但是需要占用大量的内存。</li></ul> 
+<p>字典 定义语法为 <code>{元素1, 元素2, ..., 元素n}</code></p> 
+<ul><li>其中每一个元素是一个「键值对」-- 键:值 (<code>key:value</code>)</li><li>关键点是「大括号 {}」,「逗号 ,」和「冒号 :」</li><li>大括号 – 把所有元素绑在一起</li><li>逗号 – 将每个键值对分开</li><li>冒号 – 将键和值分开</li></ul> 
+<h2><a id="3__59"></a>3. 创建和访问字典</h2> 
+<pre><code class="prism language-python">brand <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'李宁'</span><span class="token punctuation">,</span> <span class="token string">'耐克'</span><span class="token punctuation">,</span> <span class="token string">'阿迪达斯'</span><span class="token punctuation">]</span>
+slogan <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'一切皆有可能'</span><span class="token punctuation">,</span> <span class="token string">'Just do it'</span><span class="token punctuation">,</span> <span class="token string">'Impossible is nothing'</span><span class="token punctuation">]</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'耐克的口号是:'</span><span class="token punctuation">,</span> slogan<span class="token punctuation">[</span>brand<span class="token punctuation">.</span>index<span class="token punctuation">(</span><span class="token string">'耐克'</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">)</span>  
+<span class="token comment"># 耐克的口号是: Just do it</span>
+
+dic <span class="token operator">=</span> <span class="token punctuation">{<!-- --></span><span class="token string">'李宁'</span><span class="token punctuation">:</span> <span class="token string">'一切皆有可能'</span><span class="token punctuation">,</span> <span class="token string">'耐克'</span><span class="token punctuation">:</span> <span class="token string">'Just do it'</span><span class="token punctuation">,</span> <span class="token string">'阿迪达斯'</span><span class="token punctuation">:</span> <span class="token string">'Impossible is nothing'</span><span class="token punctuation">}</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'耐克的口号是:'</span><span class="token punctuation">,</span> dic<span class="token punctuation">[</span><span class="token string">'耐克'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>  
+<span class="token comment"># 耐克的口号是: Just do it</span>
+</code></pre> 
+<p>【例子】通过字符串或数值作为<code>key</code>来创建字典。</p> 
+<pre><code class="prism language-python"><span class="token keyword">print</span><span class="token punctuation">(</span>dic1<span class="token punctuation">)</span>  <span class="token comment"># {1: 'one', 2: 'two', 3: 'three'}</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>dic1<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>  <span class="token comment"># one</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>dic1<span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">)</span>  <span class="token comment"># KeyError: 4</span>
+
+dic2 <span class="token operator">=</span> <span class="token punctuation">{<!-- --></span><span class="token string">'rice'</span><span class="token punctuation">:</span> <span class="token number">35</span><span class="token punctuation">,</span> <span class="token string">'wheat'</span><span class="token punctuation">:</span> <span class="token number">101</span><span class="token punctuation">,</span> <span class="token string">'corn'</span><span class="token punctuation">:</span> <span class="token number">67</span><span class="token punctuation">}</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>dic2<span class="token punctuation">)</span>  <span class="token comment"># {'wheat': 101, 'corn': 67, 'rice': 35}</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>dic2<span class="token punctuation">[</span><span class="token string">'rice'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>  <span class="token comment"># 35</span>
+</code></pre> 
+<p>注意：如果我们取的键在字典中不存在，会直接报错<code>KeyError</code>。</p> 
+<p>【例子】通过元组作为<code>key</code>来创建字典，但一般不这样使用。</p> 
+<pre><code class="prism language-python">dic <span class="token operator">=</span> <span class="token punctuation">{<!-- --></span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token string">"Tom"</span><span class="token punctuation">,</span> <span class="token string">"Age"</span><span class="token punctuation">:</span> <span class="token number">12</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">]</span><span class="token punctuation">}</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>dic<span class="token punctuation">)</span>  <span class="token comment"># {(1, 2, 3): 'Tom', 'Age': 12, 3: [3, 5, 7]}</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">type</span><span class="token punctuation">(</span>dic<span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment"># &lt;class 'dict'&gt;</span>
+</code></pre> 
+<p>通过构造函数<code>dict</code>来创建字典。</p> 
+<ul><li><code>dict()</code> 创建一个空的字典。</li></ul> 
+<p>【例子】通过<code>key</code>直接把数据放入字典中，但一个<code>key</code>只能对应一个<code>value</code>，多次对一个<code>key</code>放入 <code>value</code>，后面的值会把前面的值冲掉。</p> 
+<pre><code class="prism language-python">dic <span class="token operator">=</span> <span class="token builtin">dict</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+dic<span class="token punctuation">[</span><span class="token string">'a'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">1</span>
+dic<span class="token punctuation">[</span><span class="token string">'b'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">2</span>
+dic<span class="token punctuation">[</span><span class="token string">'c'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">3</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>dic<span class="token punctuation">)</span>
+<span class="token comment"># {'a': 1, 'b': 2, 'c': 3}</span>
+
+dic<span class="token punctuation">[</span><span class="token string">'a'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">11</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>dic<span class="token punctuation">)</span>
+<span class="token comment"># {'a': 11, 'b': 2, 'c': 3}</span>
+
+dic<span class="token punctuation">[</span><span class="token string">'d'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">4</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>dic<span class="token punctuation">)</span>
+<span class="token comment"># {'a': 11, 'b': 2, 'c': 3, 'd': 4}</span>
+</code></pre> 
+<ul><li><code>dict(mapping)</code> new dictionary initialized from a mapping object’s (key, value) pairs</li></ul> 
+<p>【例子】</p> 
+<pre><code class="prism language-python">dic1 <span class="token operator">=</span> <span class="token builtin">dict</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">(</span><span class="token string">'apple'</span><span class="token punctuation">,</span> <span class="token number">4139</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token string">'peach'</span><span class="token punctuation">,</span> <span class="token number">4127</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token string">'cherry'</span><span class="token punctuation">,</span> <span class="token number">4098</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>dic1<span class="token punctuation">)</span>  <span class="token comment"># {'cherry': 4098, 'apple': 4139, 'peach': 4127}</span>
+
+dic2 <span class="token operator">=</span> <span class="token builtin">dict</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token string">'apple'</span><span class="token punctuation">,</span> <span class="token number">4139</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token string">'peach'</span><span class="token punctuation">,</span> <span class="token number">4127</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token string">'cherry'</span><span class="token punctuation">,</span> <span class="token number">4098</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>dic2<span class="token punctuation">)</span>  <span class="token comment"># {'peach': 4127, 'cherry': 4098, 'apple': 4139}</span>
+</code></pre> 
+<ul><li><code>dict(**kwargs)</code> -&gt; new dictionary initialized with the name=value pairs in the keyword argument list. For example: dict(one=1, two=2)</li></ul> 
+<p>【例子】这种情况下，键只能为字符串类型，并且创建的时候字符串不能加引号，加上就会直接报语法错误。</p> 
+<pre><code class="prism language-python">dic <span class="token operator">=</span> <span class="token builtin">dict</span><span class="token punctuation">(</span>name<span class="token operator">=</span><span class="token string">'Tom'</span><span class="token punctuation">,</span> age<span class="token operator">=</span><span class="token number">10</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>dic<span class="token punctuation">)</span>  <span class="token comment"># {'name': 'Tom', 'age': 10}</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">type</span><span class="token punctuation">(</span>dic<span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment"># &lt;class 'dict'&gt;</span>
+</code></pre> 
+<h2><a id="4__142"></a>4. 字典的内置方法</h2> 
+<ul><li><code>dict.fromkeys(seq[, value])</code> 用于创建一个新字典，以序列 <code>seq</code> 中元素做字典的键，<code>value</code> 为字典所有键对应的初始值。</li></ul> 
+<pre><code class="prism language-python">seq <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token string">'name'</span><span class="token punctuation">,</span> <span class="token string">'age'</span><span class="token punctuation">,</span> <span class="token string">'sex'</span><span class="token punctuation">)</span>
+dic1 <span class="token operator">=</span> <span class="token builtin">dict</span><span class="token punctuation">.</span>fromkeys<span class="token punctuation">(</span>seq<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>dic1<span class="token punctuation">)</span>
+<span class="token comment"># {'name': None, 'age': None, 'sex': None}</span>
+
+dic2 <span class="token operator">=</span> <span class="token builtin">dict</span><span class="token punctuation">.</span>fromkeys<span class="token punctuation">(</span>seq<span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>dic2<span class="token punctuation">)</span>
+<span class="token comment"># {'name': 10, 'age': 10, 'sex': 10}</span>
+
+dic3 <span class="token operator">=</span> <span class="token builtin">dict</span><span class="token punctuation">.</span>fromkeys<span class="token punctuation">(</span>seq<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token string">'小马'</span><span class="token punctuation">,</span> <span class="token string">'8'</span><span class="token punctuation">,</span> <span class="token string">'男'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>dic3<span class="token punctuation">)</span>
+<span class="token comment"># {'name': ('小马', '8', '男'), 'age': ('小马', '8', '男'), 'sex': ('小马', '8', '男')}</span>
+</code></pre> 
+<ul><li><code>dict.keys()</code>返回一个可迭代对象，可以使用 <code>list()</code> 来转换为列表，列表为字典中的所有键。</li></ul> 
+<pre><code class="prism language-python">dic <span class="token operator">=</span> <span class="token punctuation">{<!-- --></span><span class="token string">'Name'</span><span class="token punctuation">:</span> <span class="token string">'lsgogroup'</span><span class="token punctuation">,</span> <span class="token string">'Age'</span><span class="token punctuation">:</span> <span class="token number">7</span><span class="token punctuation">}</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>dic<span class="token punctuation">.</span>keys<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment"># dict_keys(['Name', 'Age'])</span>
+lst <span class="token operator">=</span> <span class="token builtin">list</span><span class="token punctuation">(</span>dic<span class="token punctuation">.</span>keys<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment"># 转换为列表</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>lst<span class="token punctuation">)</span>  <span class="token comment"># ['Name', 'Age']</span>
+</code></pre> 
+<ul><li><code>dict.values()</code>返回一个迭代器，可以使用 <code>list()</code> 来转换为列表，列表为字典中的所有值。</li></ul> 
+<pre><code class="prism language-python">dic <span class="token operator">=</span> <span class="token punctuation">{<!-- --></span><span class="token string">'Sex'</span><span class="token punctuation">:</span> <span class="token string">'female'</span><span class="token punctuation">,</span> <span class="token string">'Age'</span><span class="token punctuation">:</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token string">'Name'</span><span class="token punctuation">:</span> <span class="token string">'Zara'</span><span class="token punctuation">}</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>dic<span class="token punctuation">.</span>values<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment"># dict_values(['female', 7, 'Zara'])</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">list</span><span class="token punctuation">(</span>dic<span class="token punctuation">.</span>values<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment"># [7, 'female', 'Zara']</span>
+</code></pre> 
+<ul><li><code>dict.items()</code>以列表返回可遍历的 (键, 值) 元组数组。</li></ul> 
+<pre><code class="prism language-python">dic <span class="token operator">=</span> <span class="token punctuation">{<!-- --></span><span class="token string">'Name'</span><span class="token punctuation">:</span> <span class="token string">'Lsgogroup'</span><span class="token punctuation">,</span> <span class="token string">'Age'</span><span class="token punctuation">:</span> <span class="token number">7</span><span class="token punctuation">}</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>dic<span class="token punctuation">.</span>items<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment"># dict_items([('Name', 'Lsgogroup'), ('Age', 7)])</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">tuple</span><span class="token punctuation">(</span>dic<span class="token punctuation">.</span>items<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment"># (('Name', 'Lsgogroup'), ('Age', 7))</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">list</span><span class="token punctuation">(</span>dic<span class="token punctuation">.</span>items<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment"># [('Name', 'Lsgogroup'), ('Age', 7)]</span>
+</code></pre> 
+<ul><li><code>dict.get(key, default=None)</code> 返回指定键的值，如果值不在字典中返回默认值。</li></ul> 
+<pre><code class="prism language-python">dic <span class="token operator">=</span> <span class="token punctuation">{<!-- --></span><span class="token string">'Name'</span><span class="token punctuation">:</span> <span class="token string">'Lsgogroup'</span><span class="token punctuation">,</span> <span class="token string">'Age'</span><span class="token punctuation">:</span> <span class="token number">27</span><span class="token punctuation">}</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Age 值为 : %s"</span> <span class="token operator">%</span> dic<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'Age'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment"># Age 值为 : 27</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Sex 值为 : %s"</span> <span class="token operator">%</span> dic<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'Sex'</span><span class="token punctuation">,</span> <span class="token string">"NA"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment"># Sex 值为 : NA</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>dic<span class="token punctuation">)</span>  <span class="token comment"># {'Name': 'Lsgogroup', 'Age': 27}</span>
+</code></pre> 
+<ul><li><code>dict.setdefault(key, default=None)</code>和<code>get()</code>方法 类似, 如果键不存在于字典中，将会添加键并将值设为默认值。</li></ul> 
+<pre><code class="prism language-python">dic <span class="token operator">=</span> <span class="token punctuation">{<!-- --></span><span class="token string">'Name'</span><span class="token punctuation">:</span> <span class="token string">'Lsgogroup'</span><span class="token punctuation">,</span> <span class="token string">'Age'</span><span class="token punctuation">:</span> <span class="token number">7</span><span class="token punctuation">}</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Age 键的值为 : %s"</span> <span class="token operator">%</span> dic<span class="token punctuation">.</span>setdefault<span class="token punctuation">(</span><span class="token string">'Age'</span><span class="token punctuation">,</span> <span class="token boolean">None</span><span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment"># Age 键的值为 : 7</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Sex 键的值为 : %s"</span> <span class="token operator">%</span> dic<span class="token punctuation">.</span>setdefault<span class="token punctuation">(</span><span class="token string">'Sex'</span><span class="token punctuation">,</span> <span class="token boolean">None</span><span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment"># Sex 键的值为 : None</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>dic<span class="token punctuation">)</span>  
+<span class="token comment"># {'Age': 7, 'Name': 'Lsgogroup', 'Sex': None}</span>
+</code></pre> 
+<ul><li><code>key in dict</code> <code>in</code> 操作符用于判断键是否存在于字典中，如果键在字典 dict 里返回<code>true</code>，否则返回<code>false</code>。而<code>not in</code>操作符刚好相反，如果键在字典 dict 里返回<code>false</code>，否则返回<code>true</code>。</li></ul> 
+<pre><code class="prism language-python">dic <span class="token operator">=</span> <span class="token punctuation">{<!-- --></span><span class="token string">'Name'</span><span class="token punctuation">:</span> <span class="token string">'Lsgogroup'</span><span class="token punctuation">,</span> <span class="token string">'Age'</span><span class="token punctuation">:</span> <span class="token number">7</span><span class="token punctuation">}</span>
+
+<span class="token comment"># in 检测键 Age 是否存在</span>
+<span class="token keyword">if</span> <span class="token string">'Age'</span> <span class="token keyword">in</span> dic<span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"键 Age 存在"</span><span class="token punctuation">)</span>
+<span class="token keyword">else</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"键 Age 不存在"</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 检测键 Sex 是否存在</span>
+<span class="token keyword">if</span> <span class="token string">'Sex'</span> <span class="token keyword">in</span> dic<span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"键 Sex 存在"</span><span class="token punctuation">)</span>
+<span class="token keyword">else</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"键 Sex 不存在"</span><span class="token punctuation">)</span>
+
+<span class="token comment"># not in 检测键 Age 是否存在</span>
+<span class="token keyword">if</span> <span class="token string">'Age'</span> <span class="token operator">not</span> <span class="token keyword">in</span> dic<span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"键 Age 不存在"</span><span class="token punctuation">)</span>
+<span class="token keyword">else</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"键 Age 存在"</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 键 Age 存在</span>
+<span class="token comment"># 键 Sex 不存在</span>
+<span class="token comment"># 键 Age 存在</span>
+</code></pre> 
+<ul><li><code>dict.pop(key[,default])</code>删除字典给定键 <code>key</code> 所对应的值，返回值为被删除的值。<code>key</code> 值必须给出。若<code>key</code>不存在，则返回 <code>default</code> 值。</li><li><code>del dict[key]</code> 删除字典给定键 <code>key</code> 所对应的值。</li></ul> 
+<pre><code class="prism language-python">dic1 <span class="token operator">=</span> <span class="token punctuation">{<!-- --></span><span class="token number">1</span><span class="token punctuation">:</span> <span class="token string">"a"</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">}</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>dic1<span class="token punctuation">.</span>pop<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span> dic1<span class="token punctuation">)</span>  <span class="token comment"># a {2: [1, 2]}</span>
+
+<span class="token comment"># 设置默认值，必须添加，否则报错</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>dic1<span class="token punctuation">.</span>pop<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token string">"nokey"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> dic1<span class="token punctuation">)</span>  <span class="token comment"># nokey {2: [1, 2]}</span>
+
+<span class="token keyword">del</span> dic1<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>dic1<span class="token punctuation">)</span>  <span class="token comment"># {}</span>
+</code></pre> 
+<ul><li><code>dict.popitem()</code>随机返回并删除字典中的一对键和值，如果字典已经为空，却调用了此方法，就报出KeyError异常。</li></ul> 
+<pre><code class="prism language-python">dic1 <span class="token operator">=</span> <span class="token punctuation">{<!-- --></span><span class="token number">1</span><span class="token punctuation">:</span> <span class="token string">"a"</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">}</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>dic1<span class="token punctuation">.</span>popitem<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment"># (1, 'a')</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>dic1<span class="token punctuation">)</span>  <span class="token comment"># {2: [1, 2]}</span>
+</code></pre> 
+<ul><li><code>dict.clear()</code>用于删除字典内所有元素。</li></ul> 
+<pre><code class="prism language-python">dic <span class="token operator">=</span> <span class="token punctuation">{<!-- --></span><span class="token string">'Name'</span><span class="token punctuation">:</span> <span class="token string">'Zara'</span><span class="token punctuation">,</span> <span class="token string">'Age'</span><span class="token punctuation">:</span> <span class="token number">7</span><span class="token punctuation">}</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"字典长度 : %d"</span> <span class="token operator">%</span> <span class="token builtin">len</span><span class="token punctuation">(</span>dic<span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment"># 字典长度 : 2</span>
+dic<span class="token punctuation">.</span>clear<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"字典删除后长度 : %d"</span> <span class="token operator">%</span> <span class="token builtin">len</span><span class="token punctuation">(</span>dic<span class="token punctuation">)</span><span class="token punctuation">)</span>  
+<span class="token comment"># 字典删除后长度 : 0</span>
+</code></pre> 
+<ul><li><code>dict.copy()</code>返回一个字典的浅复制。</li></ul> 
+<pre><code class="prism language-python">dic1 <span class="token operator">=</span> <span class="token punctuation">{<!-- --></span><span class="token string">'Name'</span><span class="token punctuation">:</span> <span class="token string">'Lsgogroup'</span><span class="token punctuation">,</span> <span class="token string">'Age'</span><span class="token punctuation">:</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token string">'Class'</span><span class="token punctuation">:</span> <span class="token string">'First'</span><span class="token punctuation">}</span>
+dic2 <span class="token operator">=</span> dic1<span class="token punctuation">.</span>copy<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"dic2"</span><span class="token punctuation">)</span>  
+<span class="token comment"># {'Age': 7, 'Name': 'Lsgogroup', 'Class': 'First'}</span>
+</code></pre> 
+<p>【例子】直接赋值和 copy 的区别</p> 
+<pre><code class="prism language-python">dic1 <span class="token operator">=</span> <span class="token punctuation">{<!-- --></span><span class="token string">'user'</span><span class="token punctuation">:</span> <span class="token string">'lsgogroup'</span><span class="token punctuation">,</span> <span class="token string">'num'</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">}</span>
+
+<span class="token comment"># 引用对象</span>
+dic2 <span class="token operator">=</span> dic1  
+<span class="token comment"># 浅拷贝父对象（一级目录），子对象（二级目录）不拷贝，还是引用</span>
+dic3 <span class="token operator">=</span> dic1<span class="token punctuation">.</span>copy<span class="token punctuation">(</span><span class="token punctuation">)</span>  
+
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">id</span><span class="token punctuation">(</span>dic1<span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment"># 148635574728</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">id</span><span class="token punctuation">(</span>dic2<span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment"># 148635574728</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">id</span><span class="token punctuation">(</span>dic3<span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment"># 148635574344</span>
+
+<span class="token comment"># 修改 data 数据</span>
+dic1<span class="token punctuation">[</span><span class="token string">'user'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">'root'</span>
+dic1<span class="token punctuation">[</span><span class="token string">'num'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>remove<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 输出结果</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>dic1<span class="token punctuation">)</span>  <span class="token comment"># {'user': 'root', 'num': [2, 3]}</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>dic2<span class="token punctuation">)</span>  <span class="token comment"># {'user': 'root', 'num': [2, 3]}</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>dic3<span class="token punctuation">)</span>  <span class="token comment"># {'user': 'runoob', 'num': [2, 3]}</span>
+</code></pre> 
+<ul><li><code>dict.update(dict2)</code>把字典参数 <code>dict2</code> 的 <code>key:value</code>对 更新到字典 <code>dict</code>里。</li></ul> 
+<p>【例子】</p> 
+<pre><code class="prism language-python">dic <span class="token operator">=</span> <span class="token punctuation">{<!-- --></span><span class="token string">'Name'</span><span class="token punctuation">:</span> <span class="token string">'Lsgogroup'</span><span class="token punctuation">,</span> <span class="token string">'Age'</span><span class="token punctuation">:</span> <span class="token number">7</span><span class="token punctuation">}</span>
+dic2 <span class="token operator">=</span> <span class="token punctuation">{<!-- --></span><span class="token string">'Sex'</span><span class="token punctuation">:</span> <span class="token string">'female'</span><span class="token punctuation">,</span> <span class="token string">'Age'</span><span class="token punctuation">:</span> <span class="token number">8</span><span class="token punctuation">}</span>
+dic<span class="token punctuation">.</span>update<span class="token punctuation">(</span>dic2<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>dic<span class="token punctuation">)</span>  
+<span class="token comment"># {'Sex': 'female', 'Age': 8, 'Name': 'Lsgogroup'}</span>
+</code></pre>
+                </div>
+                

@@ -1,0 +1,108 @@
+<head> <meta charset="utf-8" </head>
+                      <div id="content_views" class="markdown_views prism-atom-one-dark">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                        <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                    </svg>
+                    <h2><a id="1_GitHub_Page_2"></a>1 建立GitHub Page站点</h2> 
+<h3><a id="11_GitHub_4"></a>1.1 新建一个GitHub仓库</h3> 
+<p>首先，我们假设你已经注册好了GitHub账号。然后登陆，进入GitHub主页，点击左上角的 <code>New</code> ，新建一个仓库。</p> 
+<p><img src="https://img-blog.csdnimg.cn/20201011163856237.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doYXRpc2NvZGU=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p> 
+<p>新建一个仓库的时候需要我们输入仓库名字，默认格式是：<strong>用户名.github.io</strong> （用户名与前面Owner的名字要一致），输入名字后点击最下面的 <code>Create repository</code> 即可。</p> 
+<p><img src="https://img-blog.csdnimg.cn/20201011163922691.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doYXRpc2NvZGU=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p> 
+<p>然后我们新建好了一个自己的仓库，名字叫：WadeFrank.github.io，但是里面是空的什么都没有。接下来我们需要配置自己的电脑，使得我们能够用自己的电脑对仓库里面的内容进行修改。</p> 
+<h3><a id="12_SSH_Keys_20"></a>1.2 配置SSH Keys</h3> 
+<p>为了能连接上我们的仓库，我们需要将我们本机的SSH密钥加到GitHub账户中去。首先打开Mac终端，输入以下命令，进入到.ssh文件中</p> 
+<pre><code class="prism language-shell"><span class="token function">cd</span> ~/.ssh
+</code></pre> 
+<p>如果提示 <code>No such file or directory</code>说明你是第一次使用 <code>git</code>。</p> 
+<p>接下来创建新的SSH keys，输入以下命令:</p> 
+<pre><code class="prism language-shell">ssh-keygen -t rsa -C <span class="token string">"此处填写你的邮箱地址"</span>
+</code></pre> 
+<p>然后会依次出现以下信息：</p> 
+<pre><code class="prism language-shell">Generating public/private rsa key pair.
+Enter <span class="token function">file</span> <span class="token keyword">in</span> <span class="token function">which</span> to save the key <span class="token punctuation">(</span>/Users/your_user_directory/.ssh/id_rsa<span class="token punctuation">)</span>:<span class="token operator">&lt;</span>回车<span class="token operator">&gt;</span>
+Enter passphrase <span class="token punctuation">(</span>empty <span class="token keyword">for</span> no passphrase<span class="token punctuation">)</span>:<span class="token operator">&lt;</span>输入加密串<span class="token operator">&gt;</span><span class="token operator">&lt;</span>如不想设置密码可直接回车表示为空<span class="token operator">&gt;</span>
+Enter same passphrase again:<span class="token operator">&lt;</span>再次输入加密串<span class="token operator">&gt;</span><span class="token operator">&lt;</span>接着回车确认<span class="token operator">&gt;</span>
+Your identification has been saved <span class="token keyword">in</span> /Users/你的名字/.ssh/id_rsa<span class="token punctuation">)</span>.
+Your public key has been saved <span class="token keyword">in</span> /Users/你的名字/.ssh/id_rsa.pub.
+The key fingerprint is:
+43:c5:5b:5f:b1:f1:50:43:ad:20:a6:92:6a:1f:9a:3a <span class="token string">"你的邮箱地址"</span>
+</code></pre> 
+<p>最后出现一幅类似长方形的字符画即表示成功。成功后我们将.ssh/id_rsa.pub文件中的密钥拷贝出来：</p> 
+<pre><code class="prism language-shell"><span class="token function">cd</span> ~/.ssh
+vim id_rsa.pub
+</code></pre> 
+<p>然后进入github主页，点击右上角头像进入settings，选择SSH and GPG keys，再点击New SSH Key。将内容复制进key，title可以为空。最后Add SSH key。</p> 
+<p>最后可以通过在终端输入如下命令进行测试是否成功：</p> 
+<pre><code class="prism language-shell"><span class="token function">ssh</span> -T git@GitHub.com
+</code></pre> 
+<p>出现以下字符，则说明添加SSH key成功：</p> 
+<pre><code class="prism language-shell">Hi WadeFrank<span class="token operator">!</span> You've successfully authenticated, but GitHub does not provide shell access.
+</code></pre> 
+<h3><a id="13_READMEmd_74"></a>1.3 在仓库中添加README.md</h3> 
+<p>我们配置好SSH Keys之后，我们就可以来测试GitHub Pages有没有创建成功了。</p> 
+<p>首先在终端输入以下命令，在用户目录下新建一个文件夹：</p> 
+<pre><code class="prism language-shell"><span class="token function">cd</span>
+<span class="token function">mkdir</span> MyBlog
+<span class="token function">cd</span> MyBlog
+</code></pre> 
+<p>然后输入以下命令，注意把用户名替换成你的真实用户名：</p> 
+<pre><code class="prism language-shell"><span class="token keyword">echo</span> <span class="token string">"# 用户名.github.io"</span> <span class="token operator">&gt;&gt;</span> README.md
+<span class="token function">git</span> init
+<span class="token function">git</span> add README.md
+<span class="token function">git</span> commit -m <span class="token string">"first commit"</span>
+<span class="token function">git</span> branch -M main
+<span class="token function">git</span> remote add origin https://github.com/用户名/用户名.github.io.git
+<span class="token function">git</span> push -u origin main
+</code></pre> 
+<p>如果没有问题的话，你就会发现仓库中多了一个README.md文件，然后在浏览器中输入：<code>用户名.github.io</code>。如果出现了以下界面（没有报错404），那么就说明GitHub Pages配置成功了。</p> 
+<p><img src="https://img-blog.csdnimg.cn/20201011163958721.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doYXRpc2NvZGU=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p> 
+<h2><a id="2_Hexo_105"></a>2 安装Hexo</h2> 
+<h3><a id="21__Git_107"></a>2.1 安装 Git</h3> 
+<p>其实Mac一般都自带git，我们只需要输入<code>git --version</code>来检查一下。</p> 
+<pre><code class="prism language-shell"><span class="token function">git</span> --version
+<span class="token function">git</span> version 2.28.0
+</code></pre> 
+<h3><a id="22__Nodejs_116"></a>2.2 安装 Node.js</h3> 
+<p>第一步：先安装 <code>nvm</code> （node version manager）并确认是否成功，依次输入以下命令：</p> 
+<pre><code class="prism language-shell"><span class="token function">curl</span> -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh <span class="token operator">|</span> <span class="token function">bash</span>
+<span class="token function">command</span> -v nvm
+</code></pre> 
+<p>会出现nvm，如果没出现，则重启终端再次输入第二条命令。</p> 
+<p>第二步：用 <code>nvm</code> 安装 <code>node</code></p> 
+<pre><code class="prism language-shell">nvm <span class="token function">install</span> node <span class="token comment"># "node" is an alias for the latest version</span>
+</code></pre> 
+<h3><a id="23_Hexo_133"></a>2.3 安装Hexo</h3> 
+<p>使用npm一键安装Hexo博客程序：</p> 
+<pre><code class="prism language-shell"><span class="token function">npm</span> <span class="token function">install</span> -g hexo-cli
+</code></pre> 
+<p>初始化并安装部件：</p> 
+<pre><code class="prism language-shell">hexo init blog   <span class="token comment"># 初始化</span>
+<span class="token function">cd</span> blog
+<span class="token function">npm</span> <span class="token function">install</span>   	 <span class="token comment"># 安装组件</span>
+</code></pre> 
+<p>完成后依次输入下面命令，<strong>启动本地服务器进行预览</strong>：</p> 
+<pre><code class="prism language-shell">hexo g   <span class="token comment"># 生成页面</span>
+hexo s   <span class="token comment"># 启动预览</span>
+</code></pre> 
+<p><strong>访问</strong> <code>http://localhost:4000</code><strong>，出现 Hexo 默认页面，本地博客安装成功</strong></p> 
+<p>Hexo 博客文件夹目录结构如下：</p> 
+<p><img src="https://img-blog.csdnimg.cn/20201011164034931.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doYXRpc2NvZGU=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p> 
+<h2><a id="3__Hexo__GitHub_Pages_163"></a>3 部署 Hexo 到 GitHub Pages</h2> 
+<p>本地博客测试成功后，就是上传到 GitHub 进行部署，使其能够在网络上访问。</p> 
+<p>首先<strong>安装 hexo-deployer-git</strong>：</p> 
+<pre><code class="prism language-shell"><span class="token function">npm</span> <span class="token function">install</span> hexo-deployer-git --save
+</code></pre> 
+<p>然后<strong>修改 _config.yml</strong> 文件末尾的 Deployment 部分，修改成如下：</p> 
+<pre><code class="prism language-shell">deploy:
+  type: <span class="token function">git</span>
+  repository: git@github.com:用户名/用户名.github.io.git
+  branch: master
+</code></pre> 
+<p>完成后运行 <code>hexo d</code> 将网站上传部署到 GitHub Pages。</p> 
+<p>完成！这时访问我们的 GitHub 域名 <code>https://用户名.github.io</code> 就可以看到 Hexo 网站了。</p> 
+<p>参考：</p> 
+<p>https://blog.csdn.net/weixin_41160054/article/details/89531921</p> 
+<p>https://www.zhihu.com/search?type=content&amp;q=GitHub%E5%8A%A0hexo</p>
+                </div>
+                

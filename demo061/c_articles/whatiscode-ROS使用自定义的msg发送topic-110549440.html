@@ -1,0 +1,149 @@
+<head> <meta charset="utf-8" </head>
+                      <div id="content_views" class="markdown_views prism-atom-one-dark">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                        <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                    </svg>
+                    <h1><a id="1__0"></a>1 新建工作空间</h1> 
+<pre><code class="prism language-bash"><span class="token function">mkdir</span> -p ~/catkin_ws/src
+<span class="token function">cd</span> ~/catkin_ws/
+catkin_make
+</code></pre> 
+<h1><a id="2__8"></a>2 新建功能包</h1> 
+<pre><code class="prism language-bash"><span class="token function">cd</span> ~/catkin_ws/src
+<span class="token comment"># catkin_create_pkg 功能包名 [依赖功能包1] [依赖功能包2]...</span>
+catkin_create_pkg msgtest std_msgs roscpp
+</code></pre> 
+<h1><a id="3_msg_16"></a>3 新建msg文件</h1> 
+<pre><code class="prism language-cpp">cd <span class="token operator">~</span><span class="token operator">/</span>catkin_ws<span class="token operator">/</span>src<span class="token operator">/</span>msgtest<span class="token operator">/</span>
+mkdir msg
+cd msg<span class="token operator">/</span>
+vim msg1<span class="token punctuation">.</span>msg
+</code></pre> 
+<p>在msg1.msg中写入以下内容：</p> 
+<pre><code>int32 num
+string str
+</code></pre> 
+<h1><a id="4_pubcpp_32"></a>4 新建发布文件pub.cpp</h1> 
+<pre><code class="prism language-bash"><span class="token function">cd</span> ~/catkin_ws/src/msgtest/src
+vim pub.cpp
+</code></pre> 
+<p>写入以下内容：</p> 
+<pre><code class="prism language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"ros/ros.h"</span></span>
+<span class="token comment">// msgtest是功能包名，msg1是msg文件名，编译成功后会在devel/include自动生成一个头文件</span>
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"msgtest/msg1.h"</span></span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span><span class="token operator">*</span>argv<span class="token punctuation">)</span>
+<span class="token punctuation">{<!-- --></span>
+	ros<span class="token operator">::</span><span class="token function">init</span><span class="token punctuation">(</span>argc<span class="token punctuation">,</span> argv<span class="token punctuation">,</span> <span class="token string">"msgpub"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// msgpub为节点的名字</span>
+
+	<span class="token comment">// 创建一个句柄</span>
+  	ros<span class="token operator">::</span>NodeHandle n<span class="token punctuation">;</span>
+
+	 <span class="token comment">// 新建一个pub对象，&lt;&gt;中是自定义的msg文件，pub_msg为topic的名字</span>
+  	ros<span class="token operator">::</span>Publisher msg_pub <span class="token operator">=</span> n<span class="token punctuation">.</span>advertise<span class="token operator">&lt;</span>msgtest<span class="token operator">::</span>msg1<span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token string">"mymsg"</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	
+	<span class="token comment">// 发送频率</span>
+  	ros<span class="token operator">::</span>Rate <span class="token function">loop_rate</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  	<span class="token keyword">while</span> <span class="token punctuation">(</span>ros<span class="token operator">::</span><span class="token function">ok</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+  	<span class="token punctuation">{<!-- --></span>
+		<span class="token comment">// 自定义的msg类的一个新变量，并赋值</span>
+    	msgtest<span class="token operator">::</span>msg1 msg<span class="token punctuation">;</span>
+    	msg<span class="token punctuation">.</span>num <span class="token operator">=</span> <span class="token number">1024</span><span class="token punctuation">;</span>
+		msg<span class="token punctuation">.</span>str <span class="token operator">=</span> <span class="token string">"hello slam"</span><span class="token punctuation">;</span>
+		
+		<span class="token comment">// 发送msg</span>
+    	msg_pub<span class="token punctuation">.</span><span class="token function">publish</span><span class="token punctuation">(</span>msg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token comment">//ROS的printf</span>
+    	<span class="token function">ROS_INFO</span><span class="token punctuation">(</span><span class="token string">"Publish : number = %d string = %s"</span><span class="token punctuation">,</span> msg<span class="token punctuation">.</span>num<span class="token punctuation">,</span> msg<span class="token punctuation">.</span>str<span class="token punctuation">.</span><span class="token function">c_str</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token comment">//循环刷新</span>
+    	ros<span class="token operator">::</span><span class="token function">spinOnce</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    	loop_rate<span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre> 
+<h1><a id="5_subcpp_78"></a>5 新建订阅文件sub.cpp</h1> 
+<pre><code class="prism language-bash"><span class="token function">cd</span> ~/catkin_ws/src/msgtest/src
+vim sub.cpp
+</code></pre> 
+<p>写入以下内容：</p> 
+<pre><code class="prism language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"ros/ros.h"</span></span>
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"msgtest/msg1.h"</span></span>
+
+<span class="token comment">// 回调函数</span>
+<span class="token keyword">void</span> <span class="token function">chatterCallback</span><span class="token punctuation">(</span><span class="token keyword">const</span> msgtest<span class="token operator">::</span>msg1<span class="token operator">::</span>ConstPtr<span class="token operator">&amp;</span> msg<span class="token punctuation">)</span>
+<span class="token punctuation">{<!-- --></span>
+ 	<span class="token function">ROS_INFO</span><span class="token punctuation">(</span><span class="token string">"I heard: [num = %d, string = %s]"</span><span class="token punctuation">,</span> msg<span class="token operator">-</span><span class="token operator">&gt;</span>num<span class="token punctuation">,</span> msg<span class="token operator">-</span><span class="token operator">&gt;</span>str<span class="token punctuation">.</span><span class="token function">c_str</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span><span class="token operator">*</span>argv<span class="token punctuation">)</span>
+<span class="token punctuation">{<!-- --></span>
+ 	ros<span class="token operator">::</span><span class="token function">init</span><span class="token punctuation">(</span>argc<span class="token punctuation">,</span> argv<span class="token punctuation">,</span> <span class="token string">"msgsub"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ 	ros<span class="token operator">::</span>NodeHandle n<span class="token punctuation">;</span>
+
+	<span class="token comment">//新建一个sub，chatterCallback是回调函数名</span>
+ 	ros<span class="token operator">::</span>Subscriber sub <span class="token operator">=</span> n<span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span><span class="token string">"mymsg"</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">,</span> chatterCallback<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+ 	ros<span class="token operator">::</span><span class="token function">spin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ 	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre> 
+<h1><a id="6__110"></a>6 修改配置文件</h1> 
+<h2><a id="CMakeliststxt_112"></a>CMakelists.txt</h2> 
+<pre><code class="prism language-bash"><span class="token function">cd</span> ~/catkin_ws/src/msgtest/
+vim CMakeLists.txt
+</code></pre> 
+<p>在文件中第13行处添加上message_generation：</p> 
+<pre><code class="prism language-bash">find_package<span class="token punctuation">(</span>catkin REQUIRED COMPONENTS
+  std_msgs
+	roscpp
+  message_generation
+<span class="token punctuation">)</span>
+</code></pre> 
+<p>将50行处注释取消掉， 并且按照下面代码修改：</p> 
+<pre><code class="prism language-bash"> add_message_files<span class="token punctuation">(</span>
+   FILES
+   msg1.msg
+ <span class="token punctuation">)</span>
+</code></pre> 
+<p>将70行处注释取消掉，如下：</p> 
+<pre><code class="prism language-bash">generate_messages<span class="token punctuation">(</span>
+   DEPENDENCIES
+   std_msgs  
+ <span class="token punctuation">)</span>
+</code></pre> 
+<p>在文件最后添加如下代码：</p> 
+<pre><code class="prism language-bash"><span class="token comment"># msgpub是自定义节点名，pub.cpp是文件名</span>
+add_executable<span class="token punctuation">(</span>msgpub src/pub.cpp<span class="token punctuation">)</span>
+<span class="token comment"># msgpub是节点名</span>
+target_link_libraries<span class="token punctuation">(</span>msgpub <span class="token variable">${catkin_LIBRARIES}</span><span class="token punctuation">)</span>
+<span class="token comment"># msgsub是自定义节点名，sub.cpp是文件名</span>
+add_executable<span class="token punctuation">(</span>msgsub src/sub.cpp<span class="token punctuation">)</span>
+<span class="token comment"># msgsub是节点名</span>
+target_link_libraries<span class="token punctuation">(</span>msgsub <span class="token variable">${catkin_LIBRARIES}</span><span class="token punctuation">)</span>
+</code></pre> 
+<h2><a id="packagexml_160"></a>package.xml</h2> 
+<pre><code class="prism language-bash"><span class="token function">cd</span> ~/catkin_ws/src/msgtest/
+vim package.xml
+</code></pre> 
+<p>在58行之后加入：</p> 
+<pre><code class="prism language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>build_depend</span><span class="token punctuation">&gt;</span></span>message_generation<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>build_depend</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>exec_depend</span><span class="token punctuation">&gt;</span></span>message_runtime<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>exec_depend</span><span class="token punctuation">&gt;</span></span>
+</code></pre> 
+<h1><a id="7__174"></a>7 编译并运行</h1> 
+<pre><code class="prism language-bash"><span class="token function">cd</span> ~/catkin_ws/
+catkin_make
+roscore
+</code></pre> 
+<p>新建一个终端：</p> 
+<pre><code class="prism language-bash"><span class="token function">source</span> ~/catkin_ws/devel/setup.bash
+rosrun msgtest msgpub
+</code></pre> 
+<p>再新建一个终端：</p> 
+<pre><code class="prism language-bash"><span class="token function">source</span> ~/catkin_ws/devel/setup.bash
+rosrun msgtest msgsub
+</code></pre> 
+<p>大功告成：<br> <img src="https://img-blog.csdnimg.cn/20201203165635740.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doYXRpc2NvZGU=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+                </div>
+                

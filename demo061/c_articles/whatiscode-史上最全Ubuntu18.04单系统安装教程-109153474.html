@@ -1,0 +1,84 @@
+<head> <meta charset="utf-8" </head>
+                      <div id="content_views" class="markdown_views prism-atom-one-dark">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                        <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                    </svg>
+                    <h2><a id="1_Ubuntu_iso_0"></a>1 下载Ubuntu iso镜像</h2> 
+<p>下面是Ubuntu 18.04.5LTS桌面版64位的链接，点击链接即可下载，文件大概有2G，所以下载可能需要花一些时间。<br> <a href="http://releases.ubuntu.com/18.04.5/ubuntu-18.04.5-desktop-amd64.iso">http://releases.ubuntu.com/18.04.5/ubuntu-18.04.5-desktop-amd64.iso</a></p> 
+<h2><a id="2__5"></a>2 下载刻录软件并安装</h2> 
+<p>我们需要在Windows系统下面下载刻录软件并完成刻录，这里我用的是<strong>ultroiso</strong>。下载地址：<a href="https://cn.ultraiso.net/xiazai.html">https://cn.ultraiso.net/xiazai.html</a><br> 直接下载免费试用版本即可，全部默认下一步安装即可。</p> 
+<h2><a id="3__10"></a>3 开始刻录</h2> 
+<p>首先我们要准备好一个空的U盘，插入主机，里面不要放重要文件，否则就会被格式化掉。</p> 
+<p>然后打开UltraISO，点击右下角的“继续试用”：</p> 
+<p><img src="https://img-blog.csdnimg.cn/20201019020701119.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doYXRpc2NvZGU=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p> 
+<p>先在本地目录下面选择需要安装的Ubuntu镜像，点击之后就会出现如下图所示的界面：</p> 
+<p><img src="https://img-blog.csdnimg.cn/20201019020725933.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doYXRpc2NvZGU=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p> 
+<p>然后点击启动，选择“写入硬盘映像”：</p> 
+<p><img src="https://img-blog.csdnimg.cn/20201019020741217.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doYXRpc2NvZGU=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p> 
+<p>按照以下方式进行选择：</p> 
+<p>磁盘驱动器：选择要刻录的u盘（选择你需要刻录进去的U盘）<br> 映像文件：选择Ubuntu iso镜像（默认已经选好）<br> 写入方式：RAW（这里要手动切换）<br> 隐藏启动分区：无</p> 
+<p><img src="https://img-blog.csdnimg.cn/20201019020805736.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doYXRpc2NvZGU=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p> 
+<p>然后先点“格式化”，格式化U盘，然后点击“写入”，大概3~5分钟即可刻录完成。</p> 
+<h2><a id="4_Ubuntu_47"></a>4 安装Ubuntu</h2> 
+<blockquote> 
+ <p>本次安装使用的电脑是Dell的OptiPlex7070</p> 
+</blockquote> 
+<h3><a id="41__51"></a>4.1 准备工作</h3> 
+<p>先将刻录好Ubuntu系统的u盘插入主机，重启电脑，然后一直按F2，直到出现BIOS界面，</p> 
+<p>点击 System Configuration 左边的加号将其展开后，点击 SATA Operation 选为 ACHI 模式，修改后（如下图所示），按 <code>Esc </code>保存退出。（注意退出后要一直按F12，跳到下一步）</p> 
+<p><img src="https://img-blog.csdnimg.cn/20201019021226901.JPG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doYXRpc2NvZGU=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p> 
+<p>退出后上述界面后一直按F12，直到出现以下界面，选择之前刻录好的U盘的名字：UEFI:KingstonDataTraveler 3.0PMAP（u盘不一样可能名字不一样），回车</p> 
+<p><img src="https://img-blog.csdnimg.cn/20201019021348899.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doYXRpc2NvZGU=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p> 
+<p>按下方向键选择Install Ubuntu（不要按回车），按e，跳到下一步：</p> 
+<p><img src="https://img-blog.csdnimg.cn/20201019023451344.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doYXRpc2NvZGU=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p> 
+<p>把quiet splash后面的 - - - 改成nomodeset，然后按F10，即可进入Ubuntu安装界面：</p> 
+<p><img src="https://img-blog.csdnimg.cn/20201019021435142.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doYXRpc2NvZGU=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p> 
+<h3><a id="42_Ubuntu_78"></a>4.2 Ubuntu安装</h3> 
+<p>然后就进入了Ubuntu安装界面：</p> 
+<p>第一步：选择中文（简体），点继续</p> 
+<p><img src="https://img-blog.csdnimg.cn/20201019021624766.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doYXRpc2NvZGU=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p> 
+<p>第二步：默认选择汉语，点继续</p> 
+<p><img src="https://img-blog.csdnimg.cn/20201019021656160.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doYXRpc2NvZGU=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p> 
+<p>第三步：选择最小安装，默认勾选安装Ubuntu时下载更新，点继续</p> 
+<p><img src="https://img-blog.csdnimg.cn/20201019021723397.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doYXRpc2NvZGU=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p> 
+<p>第四步：选择其他选项（一定要选择这个选项，因为我们要安装单系统，所以要将Windows给覆盖掉），点继续</p> 
+<p><img src="https://img-blog.csdnimg.cn/20201019021743788.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doYXRpc2NvZGU=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p> 
+<p>第五步：将所有被占用的分区删除（选择分区，再点左下角的-号），最后如下（上面512G是固态硬盘，下面2TB是移动硬盘），哈哈实验室的电脑配置有点高。</p> 
+<p><img src="https://img-blog.csdnimg.cn/2020101902181927.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doYXRpc2NvZGU=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p> 
+<p>第六步：然后我们要进行分区和挂载了，Ubuntu Linux可以把分区作为挂载点，载入目录，其中最常用的硬盘大小（500G-1000G）分配目录推荐如下表所示：</p> 
+<table><thead><tr><th align="left">目录（挂载点）</th><th align="left">建议大小</th><th align="left">格式</th><th align="left">描述</th></tr></thead><tbody><tr><td align="left">启动器</td><td align="left">300M</td><td align="left">epi</td><td align="left">安装启动引导器的设备</td></tr><tr><td align="left">/boot</td><td align="left">1G左右</td><td align="left">ext4</td><td align="left">空间起始位置 分区格式为ext4 建议：应该大于400MB</td></tr><tr><td align="left">swap</td><td align="left">物理内存两倍</td><td align="left">swap</td><td align="left">交换空间：交换分区相当于Windows中的“虚拟内存”，如果内存低的话（1-4G），物理内存的两倍，高点的话（8-16G）要么等于物理内存，要么物理内存+2g左右。</td></tr><tr><td align="left">/</td><td align="left">150G-200G</td><td align="left">ext4</td><td align="left">根目录</td></tr><tr><td align="left">/home</td><td align="left">尽量大些</td><td align="left">ext4</td><td align="left">用户工作目录；个人配置文件，如个人环境变量等；所有账号分配一个工作目录。</td></tr></tbody></table>
+<p>然后我们开始一个一个建立分区吧：</p> 
+<p>首先建立EFI分区，用来安装启动引导器，建议大小是300MB，这里我分配了1G，主分区，空间起始位置，EFI系统分区，如图所示：</p> 
+<p><img src="https://img-blog.csdnimg.cn/20201019021847299.JPG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doYXRpc2NvZGU=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p> 
+<p>然后建立/boot分区，建议大小1G，这里我分配了5G，逻辑分区，空间起始位置，Ext4日志文件系统，挂载点/boot，如图所示：</p> 
+<p><img src="https://img-blog.csdnimg.cn/20201019021901810.JPG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doYXRpc2NvZGU=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p> 
+<p>然后是swap交换分区，建议大小8～16G，这里我分配了32G，逻辑分区，空间起始位置，交换空间，如图所示：</p> 
+<p><img src="https://img-blog.csdnimg.cn/20201019021917100.JPG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doYXRpc2NvZGU=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p> 
+<p>然后建立/（根目录），推荐大小150G-200G，这里我把固态硬盘剩下的460G左右的空间都给了根目录，主分区，空间起始位置，Ext4日志文件系统，挂载点/，如图所示</p> 
+<p><img src="https://img-blog.csdnimg.cn/20201019021932547.JPG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doYXRpc2NvZGU=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p> 
+<p>最后剩下的空间都分配给/home，这里我给了2T，逻辑分区，空间起始位置，Ext4日志文件系统，挂载点/home，如图所示：</p> 
+<p><img src="https://img-blog.csdnimg.cn/20201019021954889.JPG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doYXRpc2NvZGU=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p> 
+<p>这是我的最后的空间分配情况，注意最下面安装启动引导器的设备要选择刚刚分配好的efi分区，然后点击现在安装：</p> 
+<p><img src="https://img-blog.csdnimg.cn/20201019022014152.JPG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doYXRpc2NvZGU=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p> 
+<p>忽略警告，点继续：</p> 
+<p><img src="https://img-blog.csdnimg.cn/20201019022029323.JPG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doYXRpc2NvZGU=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p> 
+<p>第七步：选择时区，默认选择Shanghai，点继续</p> 
+<p><img src="https://img-blog.csdnimg.cn/20201019022049795.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doYXRpc2NvZGU=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p> 
+<p>第八步：输入姓名、计算机名、用户名和密码，点击继续，稍等一会后按提示重启就安装成功啦！！！</p> 
+<p><img src="https://img-blog.csdnimg.cn/20201019022110570.JPG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doYXRpc2NvZGU=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p> 
+<h3><a id="43__168"></a>4.3 后续问题解决</h3> 
+<p>如果你们重启之后没有问题的话就请忽略这一步吧。</p> 
+<p>也不知道是不是所有电脑都会出现以下情况，我用的是Dell的电脑，然后重启之后会出现卡屏，类似于下面这样子：</p> 
+<p><img src="https://img-blog.csdnimg.cn/20201019022124942.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doYXRpc2NvZGU=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p> 
+<h4><a id="_178"></a>解决办法</h4> 
+<p>重启电脑，一直按F12，直到出现以下界面：</p> 
+<p><img src="https://img-blog.csdnimg.cn/20201019022148669.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doYXRpc2NvZGU=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p> 
+<p>选择Ubuntu，按回车，然后马上按 esc ，直接按e，出现以下界面，然后在倒数第二行splash $vt_handoff 后加上 acpi_osi=linux nomodeset ，再按F10即可进入用户登陆界面，输入密码进入Ubuntu。</p> 
+<p><img src="https://img-blog.csdnimg.cn/20201019022208914.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doYXRpc2NvZGU=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p> 
+<p>最后一步：更换显卡驱动，进入“应用程序“（Application），点击“软件与更新”（Software&amp;Update），选择“附加驱动”（Additional Drives），选择Nvidia-drive-435(专有)，点击“应用更改”，更改完成后重启即可。</p> 
+<p><img src="https://img-blog.csdnimg.cn/20201019022732732.JPG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doYXRpc2NvZGU=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p> 
+<p>最后安装成功的界面，大功告成，哈哈！</p> 
+<p><img src="https://img-blog.csdnimg.cn/20201019022237624.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doYXRpc2NvZGU=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p> 
+<p>整个安装过程大概需要1个小时～2个小时吧（不包括下载软件的时间噢），所以可能需要抽出一个完整的下午或者晚上来安装。</p>
+                </div>
+                

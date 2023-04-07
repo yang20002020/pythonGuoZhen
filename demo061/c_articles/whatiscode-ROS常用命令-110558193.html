@@ -1,0 +1,164 @@
+<head> <meta charset="utf-8" </head>
+                      <div id="content_views" class="markdown_views prism-atom-one-dark">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                        <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                    </svg>
+                    <h1><a id="1_Environment_0"></a>1 Environment</h1> 
+<pre><code class="prism language-bash"><span class="token comment"># 打印当前终端下的ROS的环境变量</span>
+<span class="token comment"># 如果没有所需要的，则需要source一下setup.*sh</span>
+<span class="token function">printenv</span> <span class="token operator">|</span> <span class="token function">grep</span> ROS
+
+<span class="token comment"># 添加环境变量</span>
+<span class="token function">source</span> /opt/ros/melodic/setup.bash
+</code></pre> 
+<h1><a id="2_Workspace_11"></a>2 Workspace</h1> 
+<h2><a id="_13"></a>新建工作空间</h2> 
+<pre><code class="prism language-bash"><span class="token function">mkdir</span> -p ~/catkin_ws/src  <span class="token comment"># -p递归创建目录</span>
+<span class="token function">cd</span> ~/catkin_ws/
+catkin_make
+</code></pre> 
+<h2><a id="catkin_ws_21"></a>配置catkin_ws的环境</h2> 
+<pre><code class="prism language-bash"><span class="token function">source</span> ~/catkin_ws/devel/setup.bash
+<span class="token keyword">echo</span> <span class="token variable">$ROS_PACKAGE_PATH</span>
+</code></pre> 
+<h1><a id="3__28"></a>3 基本命令</h1> 
+<h2><a id="rospack_30"></a>rospack</h2> 
+<pre><code class="prism language-bash"><span class="token comment"># 查找某个pkg的地址</span>
+<span class="token comment"># rospack find package_name  </span>
+rospack <span class="token function">find</span> roscpp
+
+<span class="token comment"># 列出本地所有pkg</span>
+rospack list
+
+<span class="token comment"># 查看某个package的first-order依赖项</span>
+<span class="token comment"># rospack depends1 pkg_name</span>
+rospack depends1 beginner_tutorials
+
+<span class="token comment"># 查看某个package的所有依赖项（包括间接依赖）</span>
+rospack depends beginner_tutorials
+</code></pre> 
+<h2><a id="roscdcd_48"></a>roscd（cd）</h2> 
+<pre><code class="prism language-bash"><span class="token comment"># 跳转到某个pkg目录下</span>
+<span class="token comment"># roscd package_name</span>
+roscd roscpp
+
+<span class="token comment"># 查看ros日志</span>
+roscd log
+</code></pre> 
+<h2><a id="roslsls_59"></a>rosls（ls）</h2> 
+<pre><code class="prism language-bash"><span class="token comment"># 列举某个pkg下的文件信息</span>
+<span class="token comment"># rosls package_name</span>
+rosls roscpp
+</code></pre> 
+<h2><a id="catkin_create_pkg_67"></a>catkin_create_pkg</h2> 
+<pre><code class="prism language-bash"><span class="token comment"># 新建一个package</span>
+<span class="token comment"># catkin_create_pkg &lt;pkg_name&gt; [depend1] [depend2] [depend3]</span>
+catkin_create_pkg beginner_tutorials std_msgs rospy roscpp
+</code></pre> 
+<h1><a id="4_Packages_75"></a>4 Packages</h1> 
+<p>Requirements：</p> 
+<ul><li>a package.xml</li><li>a CMakeLists.txt</li><li>its own folder（放在src下面）</li></ul> 
+<p>结构：</p> 
+<pre><code>my_package/
+  CMakeLists.txt
+  package.xml
+</code></pre> 
+<h2><a id="Package_91"></a>新建一个Package</h2> 
+<pre><code class="prism language-bash"><span class="token function">cd</span> ~/catkin_ws/src
+<span class="token comment"># catkin_create_pkg 功能包名 [依赖功能包1] [依赖功能包2]...</span>
+catkin_create_pkg beginner_tutorials std_msgs rospy roscpp
+</code></pre> 
+<h2><a id="Building_Packages_99"></a>Building Packages</h2> 
+<pre><code class="prism language-bash"><span class="token function">cd</span> ~/catkin_ws/src
+catkin_make
+<span class="token function">source</span> ~/catkin_ws/devel/setup.bash
+</code></pre> 
+<h1><a id="5_Nodes_107"></a>5 Nodes</h1> 
+<p>使用ROS之前需要运行命令roscore。</p> 
+<pre><code class="prism language-bash"><span class="token comment"># 查看所有节点</span>
+rosnode list
+
+<span class="token comment"># 查看单个节点信息</span>
+rosnode info /rosout
+
+<span class="token comment"># 启动节点</span>
+<span class="token comment"># rosrun [package_name] [node_name]</span>
+rosrun turtlesim turtlesim_node
+rosrun turtlesim turtle_teleop_key
+
+<span class="token comment"># ping</span>
+rosnode <span class="token function">ping</span> my_turtle
+</code></pre> 
+<h1><a id="6_Topics_127"></a>6 Topics</h1> 
+<h2><a id="rqt_129"></a>rqt</h2> 
+<pre><code class="prism language-bash"><span class="token comment"># 启动rqt_graph，查看节点间的信息传递</span>
+rosrun rqt_graph rqt_graph
+
+<span class="token comment"># 启动rqt_plot</span>
+rosrun rqt_plot rqt_plot
+</code></pre> 
+<h2><a id="rostopic_139"></a>rostopic</h2> 
+<pre><code class="prism language-bash"><span class="token comment"># 查看rostopic的选项</span>
+rostopic -h
+
+<span class="token comment"># 查看一个topic输出的数据</span>
+<span class="token comment"># rostopic echo [topic]</span>
+rostopic <span class="token keyword">echo</span> /turtle1/cmd_vel
+
+<span class="token comment">#  查看rostopic list的选项</span>
+rostopic list -h
+
+<span class="token comment"># 列出每个topic的所有细节</span>
+rostopic list -v
+
+<span class="token comment"># 查看一个topic输出的message类型</span>
+<span class="token comment"># rostopic type [topic]</span>
+rostopic <span class="token function">type</span> /turtle1/cmd_vel
+
+<span class="token comment"># 查看message的细节</span>
+rosmsg show geometry_msgs/Twist
+
+<span class="token comment"># 在当前使用的topic输出data</span>
+<span class="token comment"># -1 表示只输出一次</span>
+rostopic pub -1 /turtle1/cmd_vel geometry_msgs/Twist -- <span class="token string">'[2.0, 0.0, 0.0]'</span> <span class="token string">'[0.0, 0.0, 1.8]'</span>
+<span class="token comment"># -r 1 表示已1Hz的频率持续输出</span>
+rostopic pub /turtle1/cmd_vel geometry_msgs/Twist -r 1 -- <span class="token string">'[2.0, 0.0, 0.0]'</span> <span class="token string">'[0.0, 0.0, -1.8]'</span>
+
+<span class="token comment"># 打出data被publish的频率</span>
+<span class="token comment"># rostopic hz [topic]</span>
+rostopic hz /turtle1/pose
+</code></pre> 
+<h1><a id="7_Services_173"></a>7 Services</h1> 
+<pre><code class="prism language-bash"><span class="token comment"># 列出正在运行的所有的service</span>
+rosservice list
+
+<span class="token comment"># 查看一个service的类型</span>
+<span class="token comment"># rosservice type [service]</span>
+rosservice <span class="token function">type</span> /clear
+
+<span class="token comment"># 调用一个service</span>
+<span class="token comment"># rosservice call [service] [args]</span>
+rosservice call /clear
+
+<span class="token comment"># find services by service type</span>
+rosservice <span class="token function">find</span>
+
+<span class="token comment"># print service ROSRPC uri        </span>
+rosservice uri
+</code></pre> 
+<h1><a id="8_rosparam_194"></a>8 rosparam</h1> 
+<pre><code class="prism language-bash"><span class="token comment"># set parameter</span>
+rosparam <span class="token keyword">set</span>
+<span class="token comment"># get parameter</span>
+rosparam get
+<span class="token comment"># load parameters from file</span>
+rosparam load
+<span class="token comment"># dump parameters to file</span>
+rosparam dump
+<span class="token comment"># delete parameter</span>
+rosparam delete
+<span class="token comment"># list parameter names</span>
+rosparam list
+</code></pre>
+                </div>
+                

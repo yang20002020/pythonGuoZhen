@@ -1,0 +1,191 @@
+<head> <meta charset="utf-8" </head>
+                      <div id="content_views" class="markdown_views prism-atom-one-dark">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                        <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                    </svg>
+                    <blockquote> 
+ <p>之前一个笔记中学习了PyTorch中的一些重要概念，如Tensor等，以及和神经网络的构建，接下来我们可以用所学到的知识来进行一个简单的实战。</p> 
+</blockquote> 
+<p>上一个笔记链接：<a href="https://blog.csdn.net/whatiscode/article/details/106473811">https://blog.csdn.net/whatiscode/article/details/106473811</a></p> 
+<h2><a id="CIFAR10_4"></a>小试牛刀：CIFAR-10分类</h2> 
+<p>下面我们来尝试实现对CIFAR-10数据集的分类，步骤如下:</p> 
+<ol><li>使用torchvision加载并预处理CIFAR-10数据集</li><li>定义网络</li><li>定义损失函数和优化器</li><li>训练网络并更新网络参数</li><li>测试网络</li></ol> 
+<h3><a id="1_CIFAR10_14"></a>1 CIFAR-10数据加载及预处理</h3> 
+<p>CIFAR-10是一个常用的彩色图片数据集，它有10个类别: ‘airplane’, ‘automobile’, ‘bird’, ‘cat’, ‘deer’, ‘dog’, ‘frog’, ‘horse’, ‘ship’, ‘truck’。每张图片都是3 X 32 X 32，也即3-通道彩色图片，分辨率为32 X 32</p> 
+<p>CIFAR-10数据集下载地址：<a href="http://www.cs.toronto.edu/~kriz/cifar.html">http://www.cs.toronto.edu/~kriz/cifar.html</a></p> 
+<pre><code class="prism language-python"><span class="token keyword">import</span> torch <span class="token keyword">as</span> t
+<span class="token keyword">import</span> torchvision <span class="token keyword">as</span> tv
+<span class="token keyword">import</span> torchvision<span class="token punctuation">.</span>transforms <span class="token keyword">as</span> transforms
+<span class="token keyword">from</span> torchvision<span class="token punctuation">.</span>transforms <span class="token keyword">import</span> ToPILImage
+show <span class="token operator">=</span> ToPILImage<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment"># 可以把Tensor转成Image，方便可视化</span>
+
+<span class="token comment"># 第一次运行程序torchvision会自动下载CIFAR-10数据集，</span>
+<span class="token comment"># 大约100M，需花费一定的时间，</span>
+<span class="token comment"># 如果已经下载有CIFAR-10，可通过root参数指定</span>
+
+<span class="token comment"># 定义对数据的预处理</span>
+transform <span class="token operator">=</span> transforms<span class="token punctuation">.</span>Compose<span class="token punctuation">(</span><span class="token punctuation">[</span>
+        transforms<span class="token punctuation">.</span>ToTensor<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment"># 转为Tensor</span>
+        transforms<span class="token punctuation">.</span>Normalize<span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token number">0.5</span><span class="token punctuation">,</span> <span class="token number">0.5</span><span class="token punctuation">,</span> <span class="token number">0.5</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">0.5</span><span class="token punctuation">,</span> <span class="token number">0.5</span><span class="token punctuation">,</span> <span class="token number">0.5</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment"># 归一化</span>
+                             <span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 训练集</span>
+trainset <span class="token operator">=</span> tv<span class="token punctuation">.</span>datasets<span class="token punctuation">.</span>CIFAR10<span class="token punctuation">(</span>
+                    root<span class="token operator">=</span><span class="token string">'data/'</span><span class="token punctuation">,</span> 
+                    train<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span> 
+                    download<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span>
+                    transform<span class="token operator">=</span>transform<span class="token punctuation">)</span>
+
+trainloader <span class="token operator">=</span> t<span class="token punctuation">.</span>utils<span class="token punctuation">.</span>data<span class="token punctuation">.</span>DataLoader<span class="token punctuation">(</span>
+                    trainset<span class="token punctuation">,</span> 
+                    batch_size<span class="token operator">=</span><span class="token number">4</span><span class="token punctuation">,</span>
+                    shuffle<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span> 	<span class="token comment"># shuffle 表示是否打乱顺序</span>
+                    num_workers<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 测试集</span>
+testset <span class="token operator">=</span> tv<span class="token punctuation">.</span>datasets<span class="token punctuation">.</span>CIFAR10<span class="token punctuation">(</span>
+                    <span class="token string">'data/'</span><span class="token punctuation">,</span>
+                    train<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">,</span> 
+                    download<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span> 
+                    transform<span class="token operator">=</span>transform<span class="token punctuation">)</span>
+
+testloader <span class="token operator">=</span> t<span class="token punctuation">.</span>utils<span class="token punctuation">.</span>data<span class="token punctuation">.</span>DataLoader<span class="token punctuation">(</span>
+                    testset<span class="token punctuation">,</span>
+                    batch_size<span class="token operator">=</span><span class="token number">4</span><span class="token punctuation">,</span> 
+                    shuffle<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">,</span>
+                    num_workers<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">)</span>
+
+classes <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token string">'plane'</span><span class="token punctuation">,</span> <span class="token string">'car'</span><span class="token punctuation">,</span> <span class="token string">'bird'</span><span class="token punctuation">,</span> <span class="token string">'cat'</span><span class="token punctuation">,</span>
+           <span class="token string">'deer'</span><span class="token punctuation">,</span> <span class="token string">'dog'</span><span class="token punctuation">,</span> <span class="token string">'frog'</span><span class="token punctuation">,</span> <span class="token string">'horse'</span><span class="token punctuation">,</span> <span class="token string">'ship'</span><span class="token punctuation">,</span> <span class="token string">'truck'</span><span class="token punctuation">)</span>
+</code></pre> 
+<p>Dataset对象是一个数据集，可以按下标访问，返回形如(data, label)的数据。</p> 
+<pre><code class="prism language-python"><span class="token punctuation">(</span>data<span class="token punctuation">,</span> label<span class="token punctuation">)</span> <span class="token operator">=</span> trainset<span class="token punctuation">[</span><span class="token number">100</span><span class="token punctuation">]</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>classes<span class="token punctuation">[</span>label<span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+<span class="token comment"># (data + 1) / 2是为了还原被归一化的数据</span>
+show<span class="token punctuation">(</span><span class="token punctuation">(</span>data <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">.</span>resize<span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre> 
+<p>Dataloader是一个可迭代的对象，它将dataset返回的每一条数据拼接成一个batch，并提供多线程加速优化和数据打乱等操作。当程序对dataset的所有数据遍历完一遍之后，相应的对Dataloader也完成了一次迭代。</p> 
+<pre><code class="prism language-python">dataiter <span class="token operator">=</span> <span class="token builtin">iter</span><span class="token punctuation">(</span>trainloader<span class="token punctuation">)</span>
+images<span class="token punctuation">,</span> labels <span class="token operator">=</span> dataiter<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment"># 返回4张图片及标签</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">' '</span><span class="token punctuation">.</span>join<span class="token punctuation">(</span><span class="token string">'%11s'</span><span class="token operator">%</span>classes<span class="token punctuation">[</span>labels<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token keyword">for</span> j <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+show<span class="token punctuation">(</span>tv<span class="token punctuation">.</span>utils<span class="token punctuation">.</span>make_grid<span class="token punctuation">(</span><span class="token punctuation">(</span>images<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>resize<span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token number">400</span><span class="token punctuation">,</span><span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre> 
+<p>关于Dataset和Dataloader更详细的解释可以见该博客第3点：https://blog.csdn.net/whatiscode/article/details/106301541</p> 
+<h3><a id="2__88"></a>2 定义网络</h3> 
+<p>使用上一个笔记中提到的LeNet网络，修改self.conv1第一个参数为3通道，因CIFAR-10是3通道彩图。</p> 
+<pre><code class="prism language-python"><span class="token keyword">import</span> torch<span class="token punctuation">.</span>nn <span class="token keyword">as</span> nn
+<span class="token keyword">import</span> torch<span class="token punctuation">.</span>nn<span class="token punctuation">.</span>functional <span class="token keyword">as</span> F
+
+<span class="token keyword">class</span> <span class="token class-name">Net</span><span class="token punctuation">(</span>nn<span class="token punctuation">.</span>Module<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token builtin">super</span><span class="token punctuation">(</span>Net<span class="token punctuation">,</span> self<span class="token punctuation">)</span><span class="token punctuation">.</span>__init__<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>conv1 <span class="token operator">=</span> nn<span class="token punctuation">.</span>Conv2d<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">)</span> 
+        self<span class="token punctuation">.</span>conv2 <span class="token operator">=</span> nn<span class="token punctuation">.</span>Conv2d<span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">16</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">)</span>  
+        self<span class="token punctuation">.</span>fc1   <span class="token operator">=</span> nn<span class="token punctuation">.</span>Linear<span class="token punctuation">(</span><span class="token number">16</span><span class="token operator">*</span><span class="token number">5</span><span class="token operator">*</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">120</span><span class="token punctuation">)</span>  
+        self<span class="token punctuation">.</span>fc2   <span class="token operator">=</span> nn<span class="token punctuation">.</span>Linear<span class="token punctuation">(</span><span class="token number">120</span><span class="token punctuation">,</span> <span class="token number">84</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>fc3   <span class="token operator">=</span> nn<span class="token punctuation">.</span>Linear<span class="token punctuation">(</span><span class="token number">84</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">forward</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> x<span class="token punctuation">)</span><span class="token punctuation">:</span> 
+        x <span class="token operator">=</span> F<span class="token punctuation">.</span>max_pool2d<span class="token punctuation">(</span>F<span class="token punctuation">.</span>relu<span class="token punctuation">(</span>self<span class="token punctuation">.</span>conv1<span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span> 
+        x <span class="token operator">=</span> F<span class="token punctuation">.</span>max_pool2d<span class="token punctuation">(</span>F<span class="token punctuation">.</span>relu<span class="token punctuation">(</span>self<span class="token punctuation">.</span>conv2<span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span> 
+        x <span class="token operator">=</span> x<span class="token punctuation">.</span>view<span class="token punctuation">(</span>x<span class="token punctuation">.</span>size<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> 
+        x <span class="token operator">=</span> F<span class="token punctuation">.</span>relu<span class="token punctuation">(</span>self<span class="token punctuation">.</span>fc1<span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        x <span class="token operator">=</span> F<span class="token punctuation">.</span>relu<span class="token punctuation">(</span>self<span class="token punctuation">.</span>fc2<span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        x <span class="token operator">=</span> self<span class="token punctuation">.</span>fc3<span class="token punctuation">(</span>x<span class="token punctuation">)</span>        
+        <span class="token keyword">return</span> x
+
+
+net <span class="token operator">=</span> Net<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>net<span class="token punctuation">)</span>
+</code></pre> 
+<h3><a id="3_lossoptimizer_119"></a>3 定义损失函数和优化器(loss和optimizer)</h3> 
+<pre><code class="prism language-python"><span class="token keyword">from</span> torch <span class="token keyword">import</span> optim
+criterion <span class="token operator">=</span> nn<span class="token punctuation">.</span>CrossEntropyLoss<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment"># 交叉熵损失函数</span>
+optimizer <span class="token operator">=</span> optim<span class="token punctuation">.</span>SGD<span class="token punctuation">(</span>net<span class="token punctuation">.</span>parameters<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> lr<span class="token operator">=</span><span class="token number">0.001</span><span class="token punctuation">,</span> momentum<span class="token operator">=</span><span class="token number">0.9</span><span class="token punctuation">)</span>
+</code></pre> 
+<h3><a id="4__127"></a>4 训练网络并更新网络参数</h3> 
+<p>所有网络的训练流程都是类似的，不断地执行如下流程：</p> 
+<ol><li> <p>输入数据</p> </li><li> <p>前向传播+反向传播</p> </li><li> <p>更新参数</p> </li></ol> 
+<pre><code class="prism language-python">t<span class="token punctuation">.</span>set_num_threads<span class="token punctuation">(</span><span class="token number">8</span><span class="token punctuation">)</span>
+<span class="token keyword">for</span> epoch <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">:</span>  
+    
+    running_loss <span class="token operator">=</span> <span class="token number">0.0</span>
+    <span class="token keyword">for</span> i<span class="token punctuation">,</span> data <span class="token keyword">in</span> <span class="token builtin">enumerate</span><span class="token punctuation">(</span>trainloader<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        
+        <span class="token comment"># 输入数据</span>
+        inputs<span class="token punctuation">,</span> labels <span class="token operator">=</span> data
+        
+        <span class="token comment"># 梯度清零</span>
+        optimizer<span class="token punctuation">.</span>zero_grad<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        
+        <span class="token comment"># forward + backward </span>
+        outputs <span class="token operator">=</span> net<span class="token punctuation">(</span>inputs<span class="token punctuation">)</span>
+        loss <span class="token operator">=</span> criterion<span class="token punctuation">(</span>outputs<span class="token punctuation">,</span> labels<span class="token punctuation">)</span>
+        loss<span class="token punctuation">.</span>backward<span class="token punctuation">(</span><span class="token punctuation">)</span>   
+        
+        <span class="token comment"># 更新参数 </span>
+        optimizer<span class="token punctuation">.</span>step<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        
+        <span class="token comment"># 打印log信息</span>
+        <span class="token comment"># loss 是一个scalar,需要使用loss.item()来获取数值，不能使用loss[0]</span>
+        running_loss <span class="token operator">+=</span> loss<span class="token punctuation">.</span>item<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">if</span> i <span class="token operator">%</span> <span class="token number">2000</span> <span class="token operator">==</span> <span class="token number">1999</span><span class="token punctuation">:</span> <span class="token comment"># 每2000个batch打印一下训练状态</span>
+            <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'[%d, %5d] loss: %.3f'</span> \
+                  <span class="token operator">%</span> <span class="token punctuation">(</span>epoch<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span> i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span> running_loss <span class="token operator">/</span> <span class="token number">2000</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            running_loss <span class="token operator">=</span> <span class="token number">0.0</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Finished Training'</span><span class="token punctuation">)</span>
+</code></pre> 
+<h4><a id="GPU_168"></a>在GPU训练</h4> 
+<p>就像之前把Tensor从CPU转到GPU一样，模型也可以类似地从CPU转到GPU。如果发现在GPU上并没有比CPU提速很多，实际上是因为网络比较小，GPU没有完全发挥自己的真正实力。</p> 
+<pre><code class="prism language-python">device <span class="token operator">=</span> t<span class="token punctuation">.</span>device<span class="token punctuation">(</span><span class="token string">"cuda:0"</span> <span class="token keyword">if</span> t<span class="token punctuation">.</span>cuda<span class="token punctuation">.</span>is_available<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">else</span> <span class="token string">"cpu"</span><span class="token punctuation">)</span>
+
+net<span class="token punctuation">.</span>to<span class="token punctuation">(</span>device<span class="token punctuation">)</span>
+images <span class="token operator">=</span> images<span class="token punctuation">.</span>to<span class="token punctuation">(</span>device<span class="token punctuation">)</span>
+labels <span class="token operator">=</span> labels<span class="token punctuation">.</span>to<span class="token punctuation">(</span>device<span class="token punctuation">)</span>
+output <span class="token operator">=</span> net<span class="token punctuation">(</span>images<span class="token punctuation">)</span>
+loss<span class="token operator">=</span> criterion<span class="token punctuation">(</span>output<span class="token punctuation">,</span>labels<span class="token punctuation">)</span>
+
+loss
+</code></pre> 
+<h3><a id="5__187"></a>5 测试网络</h3> 
+<p>上面仅训练了2个epoch（遍历完一遍数据集称为一个epoch），来看看网络有没有效果。将测试图片输入到网络中，计算它的label，然后与实际的label进行比较。</p> 
+<h4><a id="51__191"></a>5.1 测试部分测试样本</h4> 
+<pre><code class="prism language-python">dataiter <span class="token operator">=</span> <span class="token builtin">iter</span><span class="token punctuation">(</span>testloader<span class="token punctuation">)</span>
+images<span class="token punctuation">,</span> labels <span class="token operator">=</span> dataiter<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment"># 一个batch返回4张图片</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'实际的label: '</span><span class="token punctuation">,</span> <span class="token string">' '</span><span class="token punctuation">.</span>join<span class="token punctuation">(</span>\
+            <span class="token string">'%08s'</span><span class="token operator">%</span>classes<span class="token punctuation">[</span>labels<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token keyword">for</span> j <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+show<span class="token punctuation">(</span>tv<span class="token punctuation">.</span>utils<span class="token punctuation">.</span>make_grid<span class="token punctuation">(</span>images <span class="token operator">/</span> <span class="token number">2</span> <span class="token operator">-</span> <span class="token number">0.5</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>resize<span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token number">400</span><span class="token punctuation">,</span><span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre> 
+<p>接着计算网络预测的label：</p> 
+<pre><code class="prism language-python"><span class="token comment"># 计算图片在每个类别上的分数</span>
+outputs <span class="token operator">=</span> net<span class="token punctuation">(</span>images<span class="token punctuation">)</span>
+<span class="token comment"># 得分最高的那个类</span>
+_<span class="token punctuation">,</span> predicted <span class="token operator">=</span> t<span class="token punctuation">.</span><span class="token builtin">max</span><span class="token punctuation">(</span>outputs<span class="token punctuation">.</span>data<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'预测结果: '</span><span class="token punctuation">,</span> <span class="token string">' '</span><span class="token punctuation">.</span>join<span class="token punctuation">(</span><span class="token string">'%5s'</span>\
+            <span class="token operator">%</span> classes<span class="token punctuation">[</span>predicted<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token keyword">for</span> j <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre> 
+<p>已经可以看出效果，准确率50%，但这只是一部分的图片，再来看看在整个测试集上的效果。</p> 
+<h4><a id="52__215"></a>5.2 测试所有测试样本</h4> 
+<pre><code class="prism language-python">correct <span class="token operator">=</span> <span class="token number">0</span> <span class="token comment"># 预测正确的图片数</span>
+total <span class="token operator">=</span> <span class="token number">0</span> <span class="token comment"># 总共的图片数</span>
+
+
+<span class="token comment"># 由于测试的时候不需要求导，可以暂时关闭autograd，提高速度，节约内存</span>
+<span class="token keyword">with</span> t<span class="token punctuation">.</span>no_grad<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">for</span> data <span class="token keyword">in</span> testloader<span class="token punctuation">:</span>
+        images<span class="token punctuation">,</span> labels <span class="token operator">=</span> data
+        outputs <span class="token operator">=</span> net<span class="token punctuation">(</span>images<span class="token punctuation">)</span>
+        _<span class="token punctuation">,</span> predicted <span class="token operator">=</span> t<span class="token punctuation">.</span><span class="token builtin">max</span><span class="token punctuation">(</span>outputs<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span>
+        total <span class="token operator">+=</span> labels<span class="token punctuation">.</span>size<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
+        correct <span class="token operator">+=</span> <span class="token punctuation">(</span>predicted <span class="token operator">==</span> labels<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token builtin">sum</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'10000张测试集中的准确率为: %d %%'</span> <span class="token operator">%</span> <span class="token punctuation">(</span><span class="token number">100</span> <span class="token operator">*</span> correct <span class="token operator">/</span> total<span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre> 
+<p>2个epoch下，10000张测试集中的准确率为: 53%，训练的准确率远比随机猜测(准确率10%)好，证明网络确实学到了东西。</p> 
+<p>10个epoch下的准确率为: 61%，所以当没有发生过拟合时，epoch次数越多，准确率会越高。</p> 
+<h3><a id="6__238"></a>6 总结</h3> 
+<p>以上就完成了一个简单的小项目，是不是很简单呢？不过想要进一步提高模型的准确率，还需要学习很多调参技巧或者选择更加复杂的模型，所以我们需要继续往下学咯。</p>
+                </div>
+                

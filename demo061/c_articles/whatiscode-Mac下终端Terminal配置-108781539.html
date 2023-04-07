@@ -1,0 +1,29 @@
+<head> <meta charset="utf-8" </head>
+                      <div id="content_views" class="markdown_views prism-atom-one-dark">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                        <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                    </svg>
+                    <h1><a id="1_Mac_0"></a>1 解决Mac终端中文件夹名和文件名颜色一样的问题</h1> 
+<p>当我们在Mac终端中输入ls指令会发现，文件夹名和文件名都是一样的颜色，这和我们在Linux中有一点区别。那我们</p> 
+<p><strong>第一步</strong>：创建用vim打开.bash_profile文件。依次输入以下指令：</p> 
+<pre><code class="prism language-shell"><span class="token function">cd</span> ~
+<span class="token function">touch</span> .bash_profile
+vim .bash_profile
+</code></pre> 
+<p><strong>第二步</strong>：修改.bash_profile文件。按i进入插入模式，在文件末尾添加以下三行代码：</p> 
+<pre><code class="prism language-shell"><span class="token function">export</span> LS_OPTIONS<span class="token operator">=</span><span class="token string">'--color=auto'</span> <span class="token comment"># 如果没有指定，则自动选择颜色</span>
+<span class="token function">export</span> CLICOLOR<span class="token operator">=</span><span class="token string">'Yes'</span> <span class="token comment"># 是否输出颜色</span>
+<span class="token function">export</span> LSCOLORS<span class="token operator">=</span><span class="token string">'exfxcxdxbxegedabagGxGx'</span> <span class="token comment"># 指定颜色(蓝色)</span>
+</code></pre> 
+<p>修改好后按esc键退出插入模式，输入:wq保存退出。</p> 
+<p>其中，第三行代码中的LSCOLORS中的22个字母，每两个字母一组，分别指定一种类型的文件或者文件夹显示的<strong>字体颜色</strong>和<strong>背景颜色</strong>。从第1组到第11组分别指定的文件或文件类型为：</p> 
+<ol><li>directory（文件夹目录）</li><li>symbolic link</li><li>socket</li><li>pipe</li><li>executable</li><li>block special</li><li>character special</li><li>executable with setuid bit set</li><li>executable with setgid bit set</li><li>directory writable to others, with sticky bit</li><li>directory writable to others, without sticky bit</li></ol> 
+<p>下面是颜色的字母对照表：</p> 
+<table><thead><tr><th>字母</th><th>颜色</th></tr></thead><tbody><tr><td>a</td><td>黑色</td></tr><tr><td>b</td><td>红色</td></tr><tr><td>c</td><td>绿色</td></tr><tr><td>d</td><td>棕色</td></tr><tr><td>e</td><td>蓝色</td></tr><tr><td>f</td><td>洋红色</td></tr><tr><td>g</td><td>青色</td></tr><tr><td>h</td><td>浅灰色</td></tr><tr><td>A</td><td>黑色粗体</td></tr><tr><td>B</td><td>红色粗体</td></tr><tr><td>C</td><td>绿色粗体</td></tr><tr><td>D</td><td>棕色粗体</td></tr><tr><td>E</td><td>蓝色粗体</td></tr><tr><td>F</td><td>洋红色粗体</td></tr><tr><td>G</td><td>青色粗体</td></tr><tr><td>H</td><td>浅灰色粗体</td></tr><tr><td>x</td><td>系统默认色</td></tr></tbody></table>
+<p><strong>所以，如果你想把文件夹名字显示的颜色改成绿色，那么你就只需要把第三行代码LSCOLORS字母串<code>'exfxcxdxbxegedabagGxGx'</code>中的第一个字母e改成c即可。</strong></p> 
+<p><strong>第三步</strong>：输入下面代码使配置生效：</p> 
+<pre><code class="prism language-shell"><span class="token function">source</span> .bash_profile
+</code></pre> 
+<p>最后再输入ls就可以看到文件夹的颜色和普通文件到颜色不一样了，大功告成。</p>
+                </div>
+                

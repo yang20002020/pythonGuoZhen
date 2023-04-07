@@ -1,0 +1,157 @@
+<head> <meta charset="utf-8" </head>
+                      <div id="content_views" class="markdown_views prism-atom-one-dark">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                        <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                    </svg>
+                    <blockquote> 
+ <p>学习目标：学习CNN基础和原理；使用Pytorch框架构建CNN模型，并完成训练</p> 
+</blockquote> 
+<h2><a id="1_CNN_3"></a>1 卷积神经网络CNN</h2> 
+<h3><a id="11_CNN_5"></a>1.1 CNN简介</h3> 
+<p>卷积神经网络（简称CNN）是是一类特殊的人工神经网络，是深度学习中重要的一个分支。它专门用来处理具有类似网格结构的数据，比如说时间序列数据（可以认为是在时间轴上有规律地采样形成的一维网格）以及图像数据（二维像素网格）。</p> 
+<p>CNN在很多领域都表现优异，精度和速度比传统计算学习算法高很多。特别是在计算机视觉领域，CNN是解决图像分类、人脸识别、图像检索、物体检测和语义分割的主流模型。近年来卷积神经网络也广泛地应用到自然语言处理、推荐系统等领域。</p> 
+<h3><a id="12_CNN_13"></a>1.2 CNN主要原理</h3> 
+<h4><a id="121__15"></a>1.2.1 使用全链接前馈网络处理图像数据会遇到的问题</h4> 
+<p>卷积神经网络最早是用来处理图像信息，在用全连接前馈网络来处理图像时会存在以下两个问题：</p> 
+<ul><li> <p><strong>参数太多</strong></p> <p>如果输入的图像大小为100 x 100，那么在全连接情况下，输入层到第一层隐藏层需要训练的参数有(100 x 100) x (100 x 100) = 100000000个（假设隐藏层的神经个数和输入层个数相同），很明显参数的规模过于庞大，可能会导致整个神经网络的训练效率很低，而且很容易出现过拟合。</p> </li><li> <p><strong>局部不变性特征</strong></p> <p>自然图像中的物体都具有局部不变性特征，比如说尺寸缩放、平移、旋转等操作不影响其语义信息。而全连接前馈网络很难提取这些局部不变性特征，一般需要进行数据增强来提高性能。</p> </li></ul> 
+<h4><a id="122_CNN_29"></a>1.2.2 CNN的四个法宝</h4> 
+<p><strong>第一法宝：局部感知</strong></p> 
+<p>针对上面参数过多的问题，我们可以进行以下优化，将隐藏层中的每个神经元只与输入层的部分神经元相连接。同样，假设输入的图像大小为100 x 100，全连接情况下，输入层到第一层隐藏层需要训练的参数有(100 x 100) x (100 x 100) = 100000000个；而在局部感知的情况下，我们假设隐藏层中的每个神经元只与输入层的10 x 10个输入（即10 x 10个像素点）相连，则需要训练的参数为(100 x 100) x (10 x 10) = 1000000个，比原来降低了100倍。</p> 
+<p><strong>第二法宝：参数共享（以及卷积过程）</strong></p> 
+<p>其实上面的参数个数还是很多，我们需要进行进一步优化。我们可以假设输入层中每10 x 10个输入连接到一个隐藏层中的参数是一样的。那么我们需要训练的参数数量瞬间降低到了100，是一个可以轻易进行训练的数量级。</p> 
+<p>那么你可能会问，这样的假设合理么？</p> 
+<p>答案是：从理论和思想上来说，是合理的，从实践结果的证明来看，是非常好的。这个假设意味着什么呢？这100个参数（就是卷积操作）是一种特征提取，该方式<strong>与位置无关</strong>。这其中隐含的原理则是：图像的一部分的<strong>统计特性</strong>与其他部分是一样的。这也意味着我们在这一部分学习的特征也能用在另一部分上，所以对于这个图像上的所有位置，我们都能使用同样的学习特征。再说白一点儿，一张图片，左半边和右半边的特点，风格一般情况下是一样的，哪怕毕加索这种抽象派大师，喜欢画左右脸不一样的抽象人物，其左右脸的风格也是相同的，找一个毕加索的画作，让你看，你可能一眼就看出来作者十有八九是毕加索，遮住图片的左侧，你可能也比较确认是毕加索的画作，遮住右边也是一样的，这个说法不太严谨，这个“风格”其实就是图像中的各种统计特征（图像编程了数值，那么任何位置都会有一些统计指标，比如极值，均值等）。</p> 
+<p><strong>这个10 x 10的参数矩阵，就是所谓的卷积核</strong>！！！而卷积过程就如下图所示（卷积核为3x3）。</p> 
+<p><img src="https://img-blog.csdnimg.cn/20200526203715662.gif#pic_center" alt="在这里插入图片描述"></p> 
+<p><strong>第三法宝：多核卷积</strong></p> 
+<p>上面所述只有一个10 x 10的卷积核，有100个参数，显然，特征提取是不充分的，我们可以添加多个卷积核，比如32个卷积核，可以学习32种特征。这样，通过多个卷积核的操作，对图像的特征提取就更加充分了。</p> 
+<p><strong>第四法宝：池化</strong></p> 
+<p>有时图像太大，即使我们参数不太多，但图像的像素实在太多，导致卷积操作后，我们得到的结果仍然过大。我们需要减少训练参数的数量，它被要求在随后的卷积层之间周期性地引进池化层。<strong>池化的一个目的是减少图像的空间大小</strong>。池化在每一个纵深维度上独自完成，因此图像的纵深保持不变。池化的主要形式有最大池化和平均池化。</p> 
+<p>池化还有一个目的是保持<strong>平移不变性</strong>。卷积对输入有平移不变性，池化对特征有平移不变性。平移不变性是什么呢？因为卷积核是在输入图或者feature maps上滑动，或者说平移，每次平移时，因此假设使用max pooling，会过滤掉那些不明显、未被激活的特征。</p> 
+<p>下图是最大池化的一个例子。在这里，我们把步幅定为 2，池化尺寸也为 2。也就是对下图左侧4 x 4的矩阵，用一个2 x 2的窗口去以2为步长去遍历，再直观的说，我们按照横向和纵向两条中轴线将他切成4个2 x 2的矩阵，然后取每个矩阵的最大值，作为池化后的结果，就得到了下图右侧的池化结果。最大化执行也应用在每个卷机输出的深度尺寸中。正如你所看到的，最大池化操作后，4 x 4 卷积的输出变成了 2 x 2。<br> <img src="https://img-blog.csdnimg.cn/20200526203818920.png#pic_center" alt="在这里插入图片描述"></p> 
+<h2><a id="2_CNN_62"></a>2 经典的CNN网络</h2> 
+<h3><a id="1_LeNet_64"></a>1 LeNet</h3> 
+<p><img src="https://img-blog.csdnimg.cn/20200526203753123.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doYXRpc2NvZGU=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br> LeNet-5 一些性质：</p> 
+<ul><li>如果输入层不算神经网络的层数，那么 LeNet-5 是一个 7 层的网络。（有些地方也可能把 卷积和池化 当作一个 layer）（LeNet-5 名字中的“5”也可以理解为整个网络中含可训练参数的层数为 5。）</li><li>LeNet-5 大约有 60,000 个参数。</li><li>随着网络越来越深，图像的高度和宽度在缩小，与此同时，图像的 channel 数量一直在增加。</li><li>现在常用的 LeNet-5 结构和 <a href="http://yann.lecun.com/exdb/publis/pdf/lecun-01a.pdf">Yann LeCun 教授在 1998 年论文</a>中提出的结构在某些地方有区别，比如激活函数的使用，现在一般使用 ReLU 作为激活函数，输出层一般选择 softmax。</li></ul> 
+<h3><a id="2_AlexNet_74"></a>2 AlexNet</h3> 
+<p><img src="https://img-blog.csdnimg.cn/20200526203847583.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doYXRpc2NvZGU=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p> 
+<p>AlexNet 一些性质：</p> 
+<ul><li>大约 60million 个参数；</li><li>使用 ReLU 作为激活函数。</li></ul> 
+<h3><a id="3_VGG16_83"></a>3 VGG-16</h3> 
+<p><img src="https://img-blog.csdnimg.cn/20200526203909106.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doYXRpc2NvZGU=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p> 
+<p>VGG-16 一些性质：</p> 
+<ul><li>VGG-16 中的 16 表示整个网络中有 trainable 参数的层数为 16 层。（trainable 参数指的是可以通过 back-propagation 更新的参数）</li><li>VGG-16 大约有 138million 个参数。</li><li>VGG-16 中所有卷积层 filter 宽和高都是 3，步长为 1，padding 都使用 same convolution；所有池化层的 filter 宽和高都是 2，步长都是 2。</li></ul> 
+<h3><a id="4_ResNet_92"></a>4 ResNet</h3> 
+<p><img src="https://img-blog.csdnimg.cn/20200526203940710.png#pic_center" alt="在这里插入图片描述"></p> 
+<h3><a id="5_Inception_95"></a>5 Inception</h3> 
+<p><img src="https://img-blog.csdnimg.cn/20200526204002728.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doYXRpc2NvZGU=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p> 
+<h2><a id="3_PytorchCNN_99"></a>3 Pytorch构建CNN模型</h2> 
+<p>在Pytorch中构建CNN模型非常简单，只需要定义好模型的参数和正向传播即可，Pytorch会根据正向传播自动计算反向传播。</p> 
+<p>下面的代码中构建了一个非常简单的CNN模型，并进行了训练。这个CNN模型包括两个卷积层，最后并联6个全连接层进行分类。</p> 
+<pre><code class="prism language-python"><span class="token keyword">import</span> torch
+torch<span class="token punctuation">.</span>manual_seed<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
+torch<span class="token punctuation">.</span>backends<span class="token punctuation">.</span>cudnn<span class="token punctuation">.</span>deterministic <span class="token operator">=</span> <span class="token boolean">False</span>
+torch<span class="token punctuation">.</span>backends<span class="token punctuation">.</span>cudnn<span class="token punctuation">.</span>benchmark <span class="token operator">=</span> <span class="token boolean">True</span>
+
+<span class="token keyword">import</span> torchvision<span class="token punctuation">.</span>models <span class="token keyword">as</span> models
+<span class="token keyword">import</span> torchvision<span class="token punctuation">.</span>transforms <span class="token keyword">as</span> transforms
+<span class="token keyword">import</span> torchvision<span class="token punctuation">.</span>datasets <span class="token keyword">as</span> datasets
+<span class="token keyword">import</span> torch<span class="token punctuation">.</span>nn <span class="token keyword">as</span> nn
+<span class="token keyword">import</span> torch<span class="token punctuation">.</span>nn<span class="token punctuation">.</span>functional <span class="token keyword">as</span> F
+<span class="token keyword">import</span> torch<span class="token punctuation">.</span>optim <span class="token keyword">as</span> optim
+<span class="token keyword">from</span> torch<span class="token punctuation">.</span>autograd <span class="token keyword">import</span> Variable
+<span class="token keyword">from</span> torch<span class="token punctuation">.</span>utils<span class="token punctuation">.</span>data<span class="token punctuation">.</span>dataset <span class="token keyword">import</span> Dataset
+
+<span class="token comment"># 定义模型</span>
+<span class="token keyword">class</span> <span class="token class-name">SVHN_Model1</span><span class="token punctuation">(</span>nn<span class="token punctuation">.</span>Module<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token builtin">super</span><span class="token punctuation">(</span>SVHN_Model1<span class="token punctuation">,</span> self<span class="token punctuation">)</span><span class="token punctuation">.</span>__init__<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token comment"># CNN提取特征模块</span>
+        self<span class="token punctuation">.</span>cnn <span class="token operator">=</span> nn<span class="token punctuation">.</span>Sequential<span class="token punctuation">(</span>
+            nn<span class="token punctuation">.</span>Conv2d<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">16</span><span class="token punctuation">,</span> kernel_size<span class="token operator">=</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">,</span> stride<span class="token operator">=</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            nn<span class="token punctuation">.</span>ReLU<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>  
+            nn<span class="token punctuation">.</span>MaxPool2d<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            nn<span class="token punctuation">.</span>Conv2d<span class="token punctuation">(</span><span class="token number">16</span><span class="token punctuation">,</span> <span class="token number">32</span><span class="token punctuation">,</span> kernel_size<span class="token operator">=</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">,</span> stride<span class="token operator">=</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            nn<span class="token punctuation">.</span>ReLU<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> 
+            nn<span class="token punctuation">.</span>MaxPool2d<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token punctuation">)</span>
+        <span class="token comment"># </span>
+        self<span class="token punctuation">.</span>fc1 <span class="token operator">=</span> nn<span class="token punctuation">.</span>Linear<span class="token punctuation">(</span><span class="token number">32</span><span class="token operator">*</span><span class="token number">3</span><span class="token operator">*</span><span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">11</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>fc2 <span class="token operator">=</span> nn<span class="token punctuation">.</span>Linear<span class="token punctuation">(</span><span class="token number">32</span><span class="token operator">*</span><span class="token number">3</span><span class="token operator">*</span><span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">11</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>fc3 <span class="token operator">=</span> nn<span class="token punctuation">.</span>Linear<span class="token punctuation">(</span><span class="token number">32</span><span class="token operator">*</span><span class="token number">3</span><span class="token operator">*</span><span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">11</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>fc4 <span class="token operator">=</span> nn<span class="token punctuation">.</span>Linear<span class="token punctuation">(</span><span class="token number">32</span><span class="token operator">*</span><span class="token number">3</span><span class="token operator">*</span><span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">11</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>fc5 <span class="token operator">=</span> nn<span class="token punctuation">.</span>Linear<span class="token punctuation">(</span><span class="token number">32</span><span class="token operator">*</span><span class="token number">3</span><span class="token operator">*</span><span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">11</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>fc6 <span class="token operator">=</span> nn<span class="token punctuation">.</span>Linear<span class="token punctuation">(</span><span class="token number">32</span><span class="token operator">*</span><span class="token number">3</span><span class="token operator">*</span><span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">11</span><span class="token punctuation">)</span>
+    
+    <span class="token keyword">def</span> <span class="token function">forward</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> img<span class="token punctuation">)</span><span class="token punctuation">:</span>        
+        feat <span class="token operator">=</span> self<span class="token punctuation">.</span>cnn<span class="token punctuation">(</span>img<span class="token punctuation">)</span>
+        feat <span class="token operator">=</span> feat<span class="token punctuation">.</span>view<span class="token punctuation">(</span>feat<span class="token punctuation">.</span>shape<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span>
+        c1 <span class="token operator">=</span> self<span class="token punctuation">.</span>fc1<span class="token punctuation">(</span>feat<span class="token punctuation">)</span>
+        c2 <span class="token operator">=</span> self<span class="token punctuation">.</span>fc2<span class="token punctuation">(</span>feat<span class="token punctuation">)</span>
+        c3 <span class="token operator">=</span> self<span class="token punctuation">.</span>fc3<span class="token punctuation">(</span>feat<span class="token punctuation">)</span>
+        c4 <span class="token operator">=</span> self<span class="token punctuation">.</span>fc4<span class="token punctuation">(</span>feat<span class="token punctuation">)</span>
+        c5 <span class="token operator">=</span> self<span class="token punctuation">.</span>fc5<span class="token punctuation">(</span>feat<span class="token punctuation">)</span>
+        c6 <span class="token operator">=</span> self<span class="token punctuation">.</span>fc6<span class="token punctuation">(</span>feat<span class="token punctuation">)</span>
+        <span class="token keyword">return</span> c1<span class="token punctuation">,</span> c2<span class="token punctuation">,</span> c3<span class="token punctuation">,</span> c4<span class="token punctuation">,</span> c5<span class="token punctuation">,</span> c6
+    
+model <span class="token operator">=</span> SVHN_Model1<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre> 
+<p>下面是训练代码：</p> 
+<pre><code class="prism language-python"><span class="token comment"># 损失函数</span>
+criterion <span class="token operator">=</span> nn<span class="token punctuation">.</span>CrossEntropyLoss<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment"># 优化器</span>
+optimizer <span class="token operator">=</span> torch<span class="token punctuation">.</span>optim<span class="token punctuation">.</span>Adam<span class="token punctuation">(</span>model<span class="token punctuation">.</span>parameters<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">0.005</span><span class="token punctuation">)</span>
+
+loss_plot<span class="token punctuation">,</span> c0_plot <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+<span class="token comment"># 迭代10个Epoch</span>
+<span class="token keyword">for</span> epoch <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">for</span> data <span class="token keyword">in</span> train_loader<span class="token punctuation">:</span>
+        c0<span class="token punctuation">,</span> c1<span class="token punctuation">,</span> c2<span class="token punctuation">,</span> c3<span class="token punctuation">,</span> c4<span class="token punctuation">,</span> c5 <span class="token operator">=</span> model<span class="token punctuation">(</span>data<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+        loss <span class="token operator">=</span> criterion<span class="token punctuation">(</span>c0<span class="token punctuation">,</span> data<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">+</span> \
+                criterion<span class="token punctuation">(</span>c1<span class="token punctuation">,</span> data<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">+</span> \
+                criterion<span class="token punctuation">(</span>c2<span class="token punctuation">,</span> data<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">+</span> \
+                criterion<span class="token punctuation">(</span>c3<span class="token punctuation">,</span> data<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">+</span> \
+                criterion<span class="token punctuation">(</span>c4<span class="token punctuation">,</span> data<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">+</span> \
+                criterion<span class="token punctuation">(</span>c5<span class="token punctuation">,</span> data<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+        loss <span class="token operator">/=</span> <span class="token number">6</span>
+        optimizer<span class="token punctuation">.</span>zero_grad<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        loss<span class="token punctuation">.</span>backward<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        optimizer<span class="token punctuation">.</span>step<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        
+        loss_plot<span class="token punctuation">.</span>append<span class="token punctuation">(</span>loss<span class="token punctuation">.</span>item<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        c0_plot<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token punctuation">(</span>c0<span class="token punctuation">.</span>argmax<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">==</span> data<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token builtin">sum</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>item<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">*</span><span class="token number">1.0</span> <span class="token operator">/</span> c0<span class="token punctuation">.</span>shape<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+        
+    <span class="token keyword">print</span><span class="token punctuation">(</span>epoch<span class="token punctuation">)</span>
+</code></pre> 
+<p>当然为了追求精度，也可以使用在ImageNet数据集上的预训练模型，具体方法如下：</p> 
+<pre><code class="prism language-python"><span class="token keyword">class</span> <span class="token class-name">SVHN_Model2</span><span class="token punctuation">(</span>nn<span class="token punctuation">.</span>Module<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token builtin">super</span><span class="token punctuation">(</span>SVHN_Model1<span class="token punctuation">,</span> self<span class="token punctuation">)</span><span class="token punctuation">.</span>__init__<span class="token punctuation">(</span><span class="token punctuation">)</span>
+                
+        model_conv <span class="token operator">=</span> models<span class="token punctuation">.</span>resnet18<span class="token punctuation">(</span>pretrained<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+        model_conv<span class="token punctuation">.</span>avgpool <span class="token operator">=</span> nn<span class="token punctuation">.</span>AdaptiveAvgPool2d<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+        model_conv <span class="token operator">=</span> nn<span class="token punctuation">.</span>Sequential<span class="token punctuation">(</span><span class="token operator">*</span><span class="token builtin">list</span><span class="token punctuation">(</span>model_conv<span class="token punctuation">.</span>children<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>cnn <span class="token operator">=</span> model_conv
+        
+        self<span class="token punctuation">.</span>fc1 <span class="token operator">=</span> nn<span class="token punctuation">.</span>Linear<span class="token punctuation">(</span><span class="token number">512</span><span class="token punctuation">,</span> <span class="token number">11</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>fc2 <span class="token operator">=</span> nn<span class="token punctuation">.</span>Linear<span class="token punctuation">(</span><span class="token number">512</span><span class="token punctuation">,</span> <span class="token number">11</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>fc3 <span class="token operator">=</span> nn<span class="token punctuation">.</span>Linear<span class="token punctuation">(</span><span class="token number">512</span><span class="token punctuation">,</span> <span class="token number">11</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>fc4 <span class="token operator">=</span> nn<span class="token punctuation">.</span>Linear<span class="token punctuation">(</span><span class="token number">512</span><span class="token punctuation">,</span> <span class="token number">11</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>fc5 <span class="token operator">=</span> nn<span class="token punctuation">.</span>Linear<span class="token punctuation">(</span><span class="token number">512</span><span class="token punctuation">,</span> <span class="token number">11</span><span class="token punctuation">)</span>
+    
+    <span class="token keyword">def</span> <span class="token function">forward</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> img<span class="token punctuation">)</span><span class="token punctuation">:</span>        
+        feat <span class="token operator">=</span> self<span class="token punctuation">.</span>cnn<span class="token punctuation">(</span>img<span class="token punctuation">)</span>
+        <span class="token comment"># print(feat.shape)</span>
+        feat <span class="token operator">=</span> feat<span class="token punctuation">.</span>view<span class="token punctuation">(</span>feat<span class="token punctuation">.</span>shape<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span>
+        c1 <span class="token operator">=</span> self<span class="token punctuation">.</span>fc1<span class="token punctuation">(</span>feat<span class="token punctuation">)</span>
+        c2 <span class="token operator">=</span> self<span class="token punctuation">.</span>fc2<span class="token punctuation">(</span>feat<span class="token punctuation">)</span>
+        c3 <span class="token operator">=</span> self<span class="token punctuation">.</span>fc3<span class="token punctuation">(</span>feat<span class="token punctuation">)</span>
+        c4 <span class="token operator">=</span> self<span class="token punctuation">.</span>fc4<span class="token punctuation">(</span>feat<span class="token punctuation">)</span>
+        c5 <span class="token operator">=</span> self<span class="token punctuation">.</span>fc5<span class="token punctuation">(</span>feat<span class="token punctuation">)</span>
+        <span class="token keyword">return</span> c1<span class="token punctuation">,</span> c2<span class="token punctuation">,</span> c3<span class="token punctuation">,</span> c4<span class="token punctuation">,</span> c5
+</code></pre> 
+<h2><a id="4__217"></a>4 小结</h2> 
+<p>通过该任务的学习，基本了解了CNN相关的基础知识和原理，以及几个比较经典的CNN网络。并学会了使用PyTorch框架构建CNN模型和训练，然后PyTorch里面还有很多预训练模型，我们可以通过迁移学习来直接使用这些预训练模型。</p> 
+<p>虽然理论知识的学习很重要，但是我们也要重视实践。怎么样选择最合适的模型，怎么样进行训练，怎么样解决过拟合，以及怎么样进一步优化模型，提高准确率，这都是我们在实际应用中将会遇到的问题。只有真正经历了这些问题，并且逐一解决，我们才能得到成长。</p>
+                </div>
+                
