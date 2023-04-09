@@ -25,3 +25,13 @@ print(result)  # 输出['abb', 'abbb']
 pattern = r".o{2}"
 result = re.findall(pattern, "book great advertise tree wood")
 print(result)  # ['boo', 'woo']
+print('---------------')
+pattern = r"h.*"  # (.*) 贪婪匹配,代表尽可能多的匹配字符因此它将h和l之间所有的字符都匹配了出来
+result = re.findall(pattern, "hello school html hlight hl")
+print(result)  # ['hello school html hlight hl']
+pattern = r"h.*?l"
+result = re.findall(pattern, "hello school html hlight hl")
+print(result)  # ['hel', 'hool', 'html', 'hl', 'ht hl']
+pattern = r"h(.*?)l"  # (.*?) 懒惰匹配尽可能匹配少的字符但是要匹配出所有的字符
+result = re.findall(pattern, "hello school html hlight hl")
+print(result)  # ['e', 'oo', 'tm', '', 't h']
